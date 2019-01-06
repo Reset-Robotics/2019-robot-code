@@ -4,7 +4,7 @@ import edu.wpi.first.gradlerio.frc.RoboRIO
 
 plugins {
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.2.1"
+    id "org.jetbrains.kotlin.jvm" version "1.2.50"
     id "edu.wpi.first.GradleRIO" version "2019.1.1"
 }
 
