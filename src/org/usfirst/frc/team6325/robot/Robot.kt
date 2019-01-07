@@ -17,8 +17,8 @@ class Robot : Robot()
     // auto command/chooser initilization goes here later?
 
     // OI Initialization
-    //public var oi: OI = OI()    commented bc OI doesnt exist yet
-
+    public var oi: OI = OI()
+    
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
