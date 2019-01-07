@@ -28,7 +28,7 @@ dependencies {
 
     compile "org.sert2521.sertain:core:$sertainVersion"
 
-    //compile fileTree(include: ['*.jar'], dir: 'jars')
+    compile fileTree(include: ['*.jar'], dir: 'jars')
 
     ktlint "com.github.shyiko:ktlint:$ktlintVersion"
 }
