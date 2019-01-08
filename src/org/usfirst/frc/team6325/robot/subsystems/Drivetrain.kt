@@ -107,7 +107,78 @@ class Drivetrain : Subsystem()
 
     fun cartesianDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
-        arrayOf()
+        val wheels: IntArray = intArrayOf(((-yVal - xVal + spinVal) * throttleVal), ((-yVal + xVal + spinVal) * throttleVal), (-((-yVal - xVal - spinVal) * throttleVal)), (-((-yVal + xVal - spinVal) * throttleVal)))
+        val max: Double = 0
+        for(v: Double ?: wheels)
+            if(Math.abs(v) > max) max = Math.abs(v)
+
+        if(max > 1.0)
+        {
+            for(v: Double ?: wheels)
+            v = v / max
+        }
+
+        driveFrontLeft.set(wheels[0])
+        driveFrontRight.set(wheels[1])
+        driveBackLeft.set(wheels[2])
+        driveBackRight.set(wheels[3])
+    }
+
+    fun fieldOrientedDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
+    {
+        val angle: Double = navx.getAngle() * Math.PI / 180
+		
+		val rotatedYVal: Double = yVal * Math.cos(angle) + left * Math.sin(angle)
+		val rotatedXVal: Double = -yVal * Math.sin(angle) + left * Math.cos(angle)
+		
+        cartesianDrive(rotatedYVal, rotatedXVal, spinVal, throttleVal)
+    }
+
+    fun driveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
+    {
+        if(!turnController.isEnabled())
+			turnController.enable()
+		
+		if(turnController.getSetpoint() != angle)
+			turnController.setSetpoint(angle)
+		
+		val spin: Double = -getAngle() * 0.02
+		
+        cartesianDrive(yVal, xVal, spin, throttleVal)
+    }
+
+    fun fieldOrientedDriveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
+    {
+		val gyroAngle: Double = navx.getAngle() * Math.PI / 180 //convert degrees to radians
+		
+		//rotate the coordinates by the gyro angle
+		val rotatedYVal: Double = yVal * Math.cos(gyroAngle) + left * Math.sin(gyroAngle)
+		val rotatedXVal: Double = -yVal * Math.sin(gyroAngle) + left * Math.cos(gyroAngle)
+		
+		driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
+    }
+
+    fun turnToAngle(angle: Double, throttleVal: Double)
+    {
+	    killMotors()
+	
+	    lockAngle(angle)
+	
+	    while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+		    drive(0.0, 0.0, 0, throttleVal);
+		
+	    killMotors()
+    }
+
+	fun polarDrive(angle: Double, spin: Double, speed: Double)
+    {
+		angle += 90
+		angle = angle * Math.PI / 180
+		
+		val yVal: Double = Math.cos(angle) * speed
+		val xVal: Double = Math.sin(angle) * speed
+		
+		cartesianDrive(yVal, xVal, spin, 1.0)
     }
 
     fun killMotors()
@@ -118,10 +189,21 @@ class Drivetrain : Subsystem()
         driveBackRight.set(0)
     }
 
+    fun getFieldOriented(): Boolean = return isFieldOriented
+    fun setFieldOriented(use: Boolean){ isFieldOriented = use }
+
     fun resetGyro()
     {
         navx.reset()
         navx.zeroYaw()
+    }
+
+    fun resetMotorPositions()
+    {
+        driveFrontLeft.set(0)
+        driveFrontRight.set(0)
+        driveBackLeft.set(0)
+        driveBackRight.set(0)
     }
 
     fun resetEncoders()
@@ -132,6 +214,20 @@ class Drivetrain : Subsystem()
         this.driveBackRight.setSelectedSensorPosition(0, 0, 0)
     }
 
+    fun lockAngle(newAngle: Double)
+    {
+        driveAngle = newAngle
+        turnController.enable()
+        turnController.setSetpoint(driveAngle)
+        isAngleLocked = true
+    }
+
+    fun unlockAngle()
+    {
+        turnController.disable()
+        isAngleLocked = false
+    }
+
     fun getAngle(): Float = return navx.getYaw();
 
     fun getEncoderRawFrontLeft(): Double = return driveFrontLeft.getSelectedSensorPosition(0)
@@ -139,6 +235,12 @@ class Drivetrain : Subsystem()
     fun getEncoderRawBackLeft(): Double = return driveBackLeft.getSelectedSensorPosition(0)
     fun getEncoderRawBackRight(): Double = return driveBackRight.getSelectedSensorPosition(0)
 
+    fun getSpeedFrontLeft(): Double = return driveFrontLeft.get()
+    fun getSpeedFrontRight(): Double = return driveFrontRight.get()
+    fun getSpeedBackLeft(): Double = return driveBackLeft.get()
+    fun getSpeedBackRight(): Double = return driveBackRight.get()
+
+    override fun pidWrite(output: Double){ turnRate = output }
 
     override fun initDefaultCommand() = setDefaultCommand = ArcadeJoystickDrive()
 }

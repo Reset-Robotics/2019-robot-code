@@ -24,6 +24,9 @@ public class ArcadeJoystickDrive : Command()
         if (Math.abs(spin) < Robot.drivetrain.deadzone)
             spin = 0
 
-        drivetrain.dr
+        Robot.drivetrain.cartesianDrive(xDirection, yDirection, spin, throttle)
     }
+
+    override fun isCanceled() = Polybius.drivetrain.killMotors()
+    override fun onDestroy() = Polybius.drivetrain.killMotors()
 }
