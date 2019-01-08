@@ -4,12 +4,15 @@ import org.sertain.command.Command
 import org.usfirst.frc.team6325.robot.Robot
 
 
-public class SetFieldOriented : Command()
+public class SetAngleLock : Command()
 {
-
-    public fun SetFieldOriented(boolParam: Boolean) = var bool: Boolean = f
-
-    override fun execute() =  Robot.drivetrain.setFieldOriented(bool);
+    public fun SetAngleLock(bool: Boolean): Boolean
+    {
+        if (bool)
+            Robot.drivetrain.lockAngle()
+        if (!bool)
+            Robot.drivetrain.unlockAngle()
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     override fun isCompleted(): Boolean = return true
