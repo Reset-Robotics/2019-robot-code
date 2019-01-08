@@ -18,10 +18,11 @@ class Robot : Robot()
 
     // OI Initialization
     public var oi: OI = OI()
-    
+
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
+        drivetrain.onCreate()
         // put any data to dashboard here
     }
 
@@ -29,12 +30,15 @@ class Robot : Robot()
     override fun executeDisabled()
     {
         Scheduler.getInstance().run()
+        drivetrain.unlockAngle()
+        drivetrain.setFieldOriented(true)
         // any dashboard data population here too
     }
 
     // Runs on autonomous(sandstorm) initialization; WPILib autonomousInit() equivalent
     override fun onAutoStart()
     {
+        drivetrain.onCreate()
         /* auto code goes here later. for now, have a banana
         
          _
