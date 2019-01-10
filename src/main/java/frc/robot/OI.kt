@@ -1,21 +1,20 @@
-package org.usfirst.frc.team6325.robot
+package frc.robot
 
 // Library Imports
 import org.sertain.command.*
-import edu.wpi.first.wpilibj.command.*
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.buttons.*
 import edu.wpi.first.wpilibj.GenericHID
 
 // Robot Imports
-import org.usfirst.frc.team6325.robot.IDs
-import org.usfirst.frc.team6325.robot.commands.Drive.*
+import frc.robot.IDs
+import frc.robot.commands.Drive.*
 
 
-public class OI
+public class OI 
 {
-    val ids: IDs()
+    val ids: IDs = IDs()
     // Joysticks/Controllers
     val joystickLeft: Joystick = Joystick((ids.joystickLeftIDs.get("USB-ID"))!!)
 	val joystickRight: Joystick = Joystick((ids.joystickRightIDs.get("USB-ID"))!!)
@@ -24,11 +23,11 @@ public class OI
 	val xboxJoystickRight: Joystick = Joystick((ids.xboxIDs.get("Right-Joystick-Y-Axis"))!!)
 
     // Buttons
-    var toggleDriveMode: Button = JoystickButton(joystickLeft, ids.joystickLeftIDs.get("Trigger"))
+    var toggleDriveMode: Button = JoystickButton(joystickLeft, (ids.joystickLeftIDs.get("Trigger"))!!)
 
 
-    public fun OI()
+    fun OI()
     {
-        toggleDriveMode.whenPressed(ToggleFieldOriented())
+        //toggleDriveMode.whenPressed(ToggleFieldOriented())
     }
 }

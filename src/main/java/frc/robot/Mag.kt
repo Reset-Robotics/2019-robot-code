@@ -1,15 +1,15 @@
 // Rename to <robotname>.kt once we pick a robot name
-package org.usfirst.frc.team6325.robot
+package frc.robot
 
 import org.sertain.*
 import org.sertain.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 
 // import commands
-import org.usfirst.frc.team6325.robot.subsystems.*
+import frc.robot.subsystems.Drivetrain
 
 
-class Robot : Robot()
+public class Mag : Robot()
 {
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain()
@@ -79,7 +79,7 @@ class Robot : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
-        Scheduler.getInstance.run()
+        Scheduler.getInstance().run()
         // put dashboard data here
     }
 

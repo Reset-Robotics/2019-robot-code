@@ -1,7 +1,7 @@
-package org.usfirst.frc.team6325.robot.commands.Drive
+package frc.robot.commands.Drive
 
 import org.sertain.command.Command
-import org.usfirst.frc.team6325.robot.Robot
+import frc.robot.Mag
 
 
 public class SetAngleLock : Command()
@@ -9,9 +9,9 @@ public class SetAngleLock : Command()
     public fun SetAngleLock(bool: Boolean): Boolean
     {
         if (bool)
-            Robot.drivetrain.lockAngle()
+            Mag.drivetrain.lockAngle()
         if (!bool)
-            Robot.drivetrain.unlockAngle()
+            Mag.drivetrain.unlockAngle()
     }
 
     // Make this return true when this Command no longer needs to run execute()

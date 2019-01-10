@@ -1,17 +1,17 @@
-package org.usfirst.frc.team6325.robot.commands.Drive
+package frc.robot.commands.Drive
 
 import org.sertain.command.Command
-import org.usfirst.frc.team6325.robot.Robot
+import frc.robot.Mag
 
 
 public class ToggleAngleLock : Command()
 {
     override fun execute()
     {
-        if (!Robot.drivetrain.isAngleLocked)
-            Robot.drivetrain.unlockAngle()
+        if (!Mag.drivetrain.isAngleLocked)
+            Mag.drivetrain.unlockAngle()
         else
-            Robot.drivetrain.lockAngle()
+            Mag.drivetrain.lockAngle()
     }
 
     // Make this return true when this Command no longer needs to run execute()

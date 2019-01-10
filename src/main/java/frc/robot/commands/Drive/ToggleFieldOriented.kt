@@ -1,12 +1,12 @@
-package org.usfirst.frc.team6325.robot.commands.Drive
+package frc.robot.commands.Drive
 
 import org.sertain.command.Command
-import org.usfirst.frc.team6325.robot.Robot
+import frc.robot.Mag
 
 
 public class ToggleFieldOriented : Command()
 {
-    override fun execute() = Robot.drivetrain.setFieldOriented(!Robot.drivetrain.getFieldOriented())
+    override fun execute() = Mag.drivetrain.setFieldOriented(!Mag.drivetrain.getFieldOriented())
 
     // Make this return true when this Command no longer needs to run execute()
     override fun isCompleted(): Boolean = return true
