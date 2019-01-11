@@ -35,12 +35,10 @@ configurations {
 // Also defines JUnit 4.
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-
     compile "org.sert2521.sertain:core:$sertainVersion"
-
-    //compile fileTree(include: ['*.jar'], dir: 'jars')
-
     ktlint "com.github.shyiko:ktlint:$ktlintVersion"
+
+    compile fileTree(include: ['*.jar'], dir: 'jars')
 
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
