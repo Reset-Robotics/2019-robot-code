@@ -1,42 +1,38 @@
 package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
-import frc.robot.Mag
-import frc.robot.IDs
-//import org.usfirst.frc.team6325.robot.commands.Drive.ArcadeJoystickDrive
-import com.ctre.phoenix.motorcontrol.* // possibly deprecated
-import com.kanuailabs.navx.frc.AHRS
+import com.ctre.phoenix.motorcontrol.can.*
+import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.PIDController
 import edu.wpi.first.wpilibj.PIDOutput
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 
+import frc.robot.Mag
+import frc.robot.IDs
+import frc.robot.commands.Drive.ArcadeJoystickDrive
+
 
 public class Drivetrain : Subsystem()
 {
     // constants (move local constants to IDS later)
-    //val ids: IDs = IDs()
     val wheelCircumference: Double = 18.8495559215
     val deadzone: Double = 0.1
 
     // drive motors
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorsIDs.get("Front-Left"))!!)
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorsIDs.get("Front-Right"))!!)
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorsIDs.get("Back-Left"))!!)
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorsIDs.get("Back-Right"))!!)
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Front-Left"))!!)
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Front-Right"))!!)
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Back-Left"))!!)
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Back-Right"))!!)
 
-    // PID values for turning to angles
-    val turnP: Double = 0.006
-    val turnI: Double = 0.0
-    val turnD: Double = 0.0
-    val turnF: Double = 0.0
+    // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
-    val turnRate: Double = 0.0
-    val driveAngle: Double = 0.0
+    var turnRate: Double = 0.0
+    var driveAngle: Double = 0.0
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    val turnController: PIDController = PIDController(turnP, turnI, turnD, turnF, navx, this)
+    val turnController: PIDController = PIDController((IDs().pidValues.get("P")), (IDs().pidValues.get("I")), (IDs().pidValues.get("D")), (IDs().pidValues.get("F")), navx!!, this)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     
@@ -62,8 +58,10 @@ public class Drivetrain : Subsystem()
     fun Drivetrain()
     {
         // Set Talon Mode
-        this.driveLeftMaster.setNeutralMode(NeutralMode.Brake)
-        this.driveRightMaster.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontLeft.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontRight.setNeutralMode(NeutralMode.Brake)
+        this.driveBackLeft.setNeutralMode(NeutralMode.Brake)
+        this.driveBackRight.setNeutralMode(NeutralMode.Brake)
 		
         // Current Limiting
 		this.driveFrontLeft.configContinuousCurrentLimit(40,0) // desired current after limit
@@ -89,32 +87,36 @@ public class Drivetrain : Subsystem()
 
     fun drive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
+        var localYVal: Double = yVal
+        var localXVal: Double = xVal
+        var localSpinVal: Double = spinVal
+
         if(isFieldOriented)
         {
             var angle: Double = navx.getAngle() * Math.PI / 180
             var rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
             var rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
 
-            yVal = rotatedYVal
-            xVal = rotatedXVal
+            localYVal = rotatedYVal
+            localXVal = rotatedXVal
         }
 
         if(isAngleLocked)
-            spinVal = turnRate
+            localSpinVal = turnRate
 
-        cartesianDrive(yVal, xVal, spinVal, throttleVal)
+        cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
 
     fun cartesianDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
-        val wheels: IntArray = intArrayOf(((-yVal - xVal + spinVal) * throttleVal), ((-yVal + xVal + spinVal) * throttleVal), (-((-yVal - xVal - spinVal) * throttleVal)), (-((-yVal + xVal - spinVal) * throttleVal)))
-        val max: Double = 0
-        for(v: Double ?: wheels)
+        val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), ((-yVal + xVal + spinVal) * throttleVal), (-((-yVal - xVal - spinVal) * throttleVal)), (-((-yVal + xVal - spinVal) * throttleVal)))
+        var max: Double = 0.0
+        for(v: Double in wheels)
             if(Math.abs(v) > max) max = Math.abs(v)
 
         if(max > 1.0)
         {
-            for(v: Double ?: wheels)
+            for(v: Double in wheels)
             v = v / max
         }
 
@@ -128,8 +130,8 @@ public class Drivetrain : Subsystem()
     {
         val angle: Double = navx.getAngle() * Math.PI / 180
 		
-		val rotatedYVal: Double = yVal * Math.cos(angle) + left * Math.sin(angle)
-		val rotatedXVal: Double = -yVal * Math.sin(angle) + left * Math.cos(angle)
+		val rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
+		val rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
 		
         cartesianDrive(rotatedYVal, rotatedXVal, spinVal, throttleVal)
     }
@@ -152,8 +154,8 @@ public class Drivetrain : Subsystem()
 		val gyroAngle: Double = navx.getAngle() * Math.PI / 180 //convert degrees to radians
 		
 		//rotate the coordinates by the gyro angle
-		val rotatedYVal: Double = yVal * Math.cos(gyroAngle) + left * Math.sin(gyroAngle)
-		val rotatedXVal: Double = -yVal * Math.sin(gyroAngle) + left * Math.cos(gyroAngle)
+		val rotatedYVal: Double = yVal * Math.cos(gyroAngle) + xVal * Math.sin(gyroAngle)
+		val rotatedXVal: Double = -yVal * Math.sin(gyroAngle) + xVal * Math.cos(gyroAngle)
 		
 		driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
     }
@@ -165,18 +167,18 @@ public class Drivetrain : Subsystem()
 	    lockAngle(angle)
 	
 	    while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
-		    drive(0.0, 0.0, 0, throttleVal);
+		    drive(0.0, 0.0, 0.0, throttleVal);
 		
 	    killMotors()
     }
 
 	fun polarDrive(angle: Double, spin: Double, speed: Double)
     {
-		angle += 90
-		angle = angle * Math.PI / 180
+		var localAngle: Double = angle + 90
+		localAngle = localAngle * Math.PI / 180
 		
-		val yVal: Double = Math.cos(angle) * speed
-		val xVal: Double = Math.sin(angle) * speed
+		val yVal: Double = Math.cos(localAngle) * speed
+		val xVal: Double = Math.sin(localAngle) * speed
 		
 		cartesianDrive(yVal, xVal, spin, 1.0)
     }
@@ -189,7 +191,10 @@ public class Drivetrain : Subsystem()
         driveBackRight.set(0)
     }
 
-    fun getFieldOriented(): Boolean = return isFieldOriented
+    fun getFieldOriented(): Boolean
+    {
+        return isFieldOriented;
+    }
     fun setFieldOriented(use: Boolean){ isFieldOriented = use }
 
     fun resetGyro()
@@ -228,19 +233,19 @@ public class Drivetrain : Subsystem()
         isAngleLocked = false
     }
 
-    fun getAngle(): Float = return navx.getYaw();
+    fun getAngle(): Float{ return navx.getYaw(); }
 
-    fun getEncoderRawFrontLeft(): Double = return driveFrontLeft.getSelectedSensorPosition(0)
-    fun getEncoderRawFrontRight(): Double = return driveFrontRight.getSelectedSensorPosition(0)
-    fun getEncoderRawBackLeft(): Double = return driveBackLeft.getSelectedSensorPosition(0)
-    fun getEncoderRawBackRight(): Double = return driveBackRight.getSelectedSensorPosition(0)
+    fun getEncoderRawFrontLeft(): Double { return driveFrontLeft.getSelectedSensorPosition(0); }
+    fun getEncoderRawFrontRight(): Double { return driveFrontRight.getSelectedSensorPosition(0); }
+    fun getEncoderRawBackLeft(): Double { return driveBackLeft.getSelectedSensorPosition(0); }
+    fun getEncoderRawBackRight(): Double { return driveBackRight.getSelectedSensorPosition(0); }
 
-    fun getSpeedFrontLeft(): Double = return driveFrontLeft.get()
-    fun getSpeedFrontRight(): Double = return driveFrontRight.get()
-    fun getSpeedBackLeft(): Double = return driveBackLeft.get()
-    fun getSpeedBackRight(): Double = return driveBackRight.get()
+    fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
+    fun getSpeedFrontRight(): Double { return driveFrontRight.get(); }
+    fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
+    fun getSpeedBackRight(): Double { return driveBackRight.get(); }
 
     override fun pidWrite(output: Double){ turnRate = output }
 
-    override fun initDefaultCommand() = setDefaultCommand = ArcadeJoystickDrive()
+    override fun initDefaultCommand() = setDefaultCommand(ArcadeJoystickDrive())
 }

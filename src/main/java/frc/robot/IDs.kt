@@ -8,6 +8,7 @@ public class IDs()
     public var xboxIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the xbox controller
     public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our talon ids for drive motors
     public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our PWM ids 
+    public var pidValues: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
 
     public fun IDs()
     {
@@ -53,5 +54,11 @@ public class IDs()
         driveMotorIDs.put("Front-Right", 2)
         driveMotorIDs.put("Back-Left", 4)
         driveMotorIDs.put("Back-Right", 3)
+
+        // pid tuning
+        pidValues.put("P", 0.006)
+        pidValues.put("I", 0.0)
+        pidValues.put("D", 0.0)
+        pidValues.put("F", 0.0)
     } 
 }
