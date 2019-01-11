@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
+import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.PIDController
@@ -16,6 +17,10 @@ import frc.robot.commands.Drive.ArcadeJoystickDrive
 public class Drivetrain : Subsystem()
 {
     // constants (move local constants to IDS later)
+    val pidValP: Double = IDs().pidValues.get("P")!!
+    val pidValI: Double = IDs().pidValues.get("I")!!
+    val pidValD: Double = IDs().pidValues.get("D")!!
+    val pidValF: Double = IDs().pidValues.get("F")!!
     val wheelCircumference: Double = 18.8495559215
     val deadzone: Double = 0.1
 
@@ -32,7 +37,7 @@ public class Drivetrain : Subsystem()
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    val turnController: PIDController = PIDController((IDs().pidValues.get("P")), (IDs().pidValues.get("I")), (IDs().pidValues.get("D")), (IDs().pidValues.get("F")), navx!!, this)
+    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     
@@ -46,7 +51,7 @@ public class Drivetrain : Subsystem()
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // configure PID loop
-        turnController.setInputRange(-180.0f, 180.0f)
+        turnController.setInputRange(-180.0, 180.0)
         turnController.setOutputRange(-1.0, 1.0)
         turnController.setAbsoluteTolerance(turnThreshold)
         turnController.setContinuous(true)
@@ -115,9 +120,11 @@ public class Drivetrain : Subsystem()
             if(Math.abs(v) > max) max = Math.abs(v)
 
         if(max > 1.0)
-        {
-            for(v: Double in wheels)
-            v = v / max
+        {   
+            wheels[0] = wheels[0] / max
+            wheels[1] = wheels[1] / max
+            wheels[2] = wheels[2] / max
+            wheels[3] = wheels[3] / max
         }
 
         driveFrontLeft.set(wheels[0])
@@ -185,10 +192,10 @@ public class Drivetrain : Subsystem()
 
     fun killMotors()
     {
-        driveFrontLeft.set(0)
-        driveFrontRight.set(0)
-        driveBackLeft.set(0)
-        driveBackRight.set(0)
+        driveFrontLeft.set(0.0)
+        driveFrontRight.set(0.0)
+        driveBackLeft.set(0.0)
+        driveBackRight.set(0.0)
     }
 
     fun getFieldOriented(): Boolean
@@ -205,10 +212,10 @@ public class Drivetrain : Subsystem()
 
     fun resetMotorPositions()
     {
-        driveFrontLeft.set(0)
-        driveFrontRight.set(0)
-        driveBackLeft.set(0)
-        driveBackRight.set(0)
+        driveFrontLeft.set(0.0)
+        driveFrontRight.set(0.0)
+        driveBackLeft.set(0.0)
+        driveBackRight.set(0.0)
     }
 
     fun resetEncoders()
@@ -235,10 +242,10 @@ public class Drivetrain : Subsystem()
 
     fun getAngle(): Float{ return navx.getYaw(); }
 
-    fun getEncoderRawFrontLeft(): Double { return driveFrontLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawFrontRight(): Double { return driveFrontRight.getSelectedSensorPosition(0); }
-    fun getEncoderRawBackLeft(): Double { return driveBackLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawBackRight(): Double { return driveBackRight.getSelectedSensorPosition(0); }
+    fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
+    fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
+    fun getEncoderRawBackLeft(): Int { return driveBackLeft.getSelectedSensorPosition(0); }
+    fun getEncoderRawBackRight(): Int { return driveBackRight.getSelectedSensorPosition(0); }
 
     fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
     fun getSpeedFrontRight(): Double { return driveFrontRight.get(); }
