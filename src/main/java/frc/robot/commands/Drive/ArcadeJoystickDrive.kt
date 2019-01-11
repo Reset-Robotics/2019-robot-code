@@ -1,18 +1,19 @@
 package frc.robot.commands.Drive
 
 import org.sertain.command.Command
-import frc.robot.Mag
 import frc.robot.subsystems.Drivetrain
 import frc.robot.OI
 
 
 public class ArcadeJoystickDrive : Command()
 {
+    // make sure we require any necessary objects/classes
     init
     {
         requires(Drivetrain())
     }
 
+    // run all our code here
     override fun execute(): Boolean
     {
         // implement throttle slider
@@ -34,6 +35,6 @@ public class ArcadeJoystickDrive : Command()
         return false;
     }
 
-    override fun isCanceled() = Drivetrain().killMotors()
+    // safely stop motors if the command is interrupted or destroyed
     override fun onDestroy() = Drivetrain().killMotors()
 }
