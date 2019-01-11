@@ -2,15 +2,17 @@ package frc.robot.commands.Drive
 
 import org.sertain.command.Command
 import frc.robot.Mag
+import frc.robot.subsystems.Drivetrain
 
 
 public class ResetGyro : Command()
 {
-	public fun ResetGyro() = requires(Mag.drivetrain)
+	public fun ResetGyro() = requires(Drivetrain())
 
 	// Called just before this Command runs the first time
-	override fun execute() = Mag.drivetrain.resetGyro()
-
-	// Make this return true when this Command no longer needs to run execute()
-	override fun isCompleted(): Boolean = return true
+	override fun execute(): Boolean
+	{
+		Drivetrain().resetGyro()
+		return false;
+	}
 }
