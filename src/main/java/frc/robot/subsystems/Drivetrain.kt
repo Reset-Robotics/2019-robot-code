@@ -37,7 +37,8 @@ public class Drivetrain : Subsystem()
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this)
+    lateinit var pidOutput: PIDOutput
+    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, pidOutput, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     
@@ -202,7 +203,11 @@ public class Drivetrain : Subsystem()
     {
         return isFieldOriented;
     }
-    fun setFieldOriented(use: Boolean){ isFieldOriented = use }
+    fun setFieldOriented(use: Boolean): Boolean
+    { 
+        isFieldOriented = use
+        return isFieldOriented;
+    }
 
     fun resetGyro()
     {
@@ -252,7 +257,7 @@ public class Drivetrain : Subsystem()
     fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
     fun getSpeedBackRight(): Double { return driveBackRight.get(); }
 
-    override fun pidWrite(output: Double){ turnRate = output }
+    fun pidWrite(output: Double){ turnRate = output }
 
-    override fun initDefaultCommand() = setDefaultCommand(ArcadeJoystickDrive())
+    override val defaultCommand = ArcadeJoystickDrive()
 }
