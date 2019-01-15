@@ -8,7 +8,7 @@ public class ToggleFieldOriented : Command()
 {
     override fun execute(): Boolean
     {
-        Drivetrain().setFieldOriented(!Drivetrain().getFieldOriented())
+        Drivetrain.setFieldOriented(!Drivetrain.getFieldOriented())
 
         return false;
     }

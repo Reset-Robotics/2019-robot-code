@@ -6,13 +6,19 @@ import org.sertain.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 
 // import commands
+import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
 
 
 public class Mag : Robot()
 {
+    public fun main(args: String)
+    {
+
+    }
+
     // Initialize subsystem instance objects for this script
-    public val drivetrain: Drivetrain = Drivetrain()
+    public val drivetrain: Drivetrain = Drivetrain
 
     // auto command/chooser initilization goes here later?
 
@@ -29,7 +35,6 @@ public class Mag : Robot()
     // Runs periodically when the robot is disabled; WPILib disabledPeriodic() equivalent
     override fun executeDisabled()
     {
-        Scheduler.getInstance().run()
         drivetrain.unlockAngle()
         drivetrain.setFieldOriented(true)
         // any dashboard data population here too
@@ -61,7 +66,6 @@ public class Mag : Robot()
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
     override fun executeAuto()
     {
-        Scheduler.getInstance().run()
         // put any dashboard data
         // something to allow for interruption and transition to 'teleop' either at the end of the sandstorm or as soon as the driver takes control
     }
@@ -79,8 +83,6 @@ public class Mag : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
-        Scheduler.getInstance().run()
         // put dashboard data here
     }
-
 }

@@ -8,7 +8,7 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2019.1.1"
 }
 
-def ROBOT_MAIN_CLASS = "frc.robot.Mag"
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
 ext.kotlinVersion = "1.3.11"
 ext.sertainVersion = "a2c505171b318836e0619b3c25dabae3a7857bf5"

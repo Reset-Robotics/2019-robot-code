@@ -14,21 +14,27 @@ import frc.robot.IDs
 import frc.robot.commands.Drive.ArcadeJoystickDrive
 
 
-public class Drivetrain : Subsystem()
+public object Drivetrain : Subsystem(), PIDOutput
 {
     // constants (move local constants to IDS later)
-    val pidValP: Double = IDs().pidValues.get("P")!!
-    val pidValI: Double = IDs().pidValues.get("I")!!
-    val pidValD: Double = IDs().pidValues.get("D")!!
-    val pidValF: Double = IDs().pidValues.get("F")!!
+    val ids: IDs = IDs()
+
+    val pidValP: Double = ids.pidValues.get("P") ?: 0.006 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"P\")")
+    val pidValI: Double = ids.pidValues.get("I") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"I\")!!")
+    val pidValD: Double = ids.pidValues.get("D") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"D\")!!")
+    val pidValF: Double = ids.pidValues.get("F") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"F\")!!")
+    /*val pidValP: Double = 0.006
+    val pidValI: Double = 0.0
+    val pidValD: Double = 0.0
+    val pidValF: Double = 0.0*/
     val wheelCircumference: Double = 18.8495559215
     val deadzone: Double = 0.1
 
     // drive motors
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Front-Left"))!!)
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Front-Right"))!!)
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Back-Left"))!!)
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((IDs().driveMotorIDs.get("Back-Right"))!!)
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 1)
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 2)
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 4)
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 3)
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
@@ -37,8 +43,7 @@ public class Drivetrain : Subsystem()
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    lateinit var pidOutput: PIDOutput
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, pidOutput, 0.05)
+    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     
@@ -52,10 +57,10 @@ public class Drivetrain : Subsystem()
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // configure PID loop
-        turnController.setInputRange(-180.0, 180.0)
-        turnController.setOutputRange(-1.0, 1.0)
-        turnController.setAbsoluteTolerance(turnThreshold)
-        turnController.setContinuous(true)
+        //turnController.setInputRange(-180.0, 180.0)
+        //turnController.setOutputRange(-1.0, 1.0)
+        //turnController.setAbsoluteTolerance(turnThreshold)
+        //turnController.setContinuous(true)
 
         // zero gyro yaw
         resetGyro()
@@ -146,11 +151,11 @@ public class Drivetrain : Subsystem()
 
     fun driveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
     {
-        if(!turnController.isEnabled())
-			turnController.enable()
+        //if(!turnController.isEnabled())
+		//	turnController.enable()
 		
-		if(turnController.getSetpoint() != angle)
-			turnController.setSetpoint(angle)
+		//if(turnController.getSetpoint() != angle)
+		//	turnController.setSetpoint(angle)
 		
 		val spin: Double = -getAngle() * 0.02
 		
@@ -174,8 +179,8 @@ public class Drivetrain : Subsystem()
 	
 	    lockAngle(angle)
 	
-	    while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
-		    drive(0.0, 0.0, 0.0, throttleVal);
+	    //while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+		//    drive(0.0, 0.0, 0.0, throttleVal);
 		
 	    killMotors()
     }
@@ -234,14 +239,14 @@ public class Drivetrain : Subsystem()
     fun lockAngle(newAngle: Double)
     {
         driveAngle = newAngle
-        turnController.enable()
-        turnController.setSetpoint(driveAngle)
+        //turnController.enable()
+        //turnController.setSetpoint(driveAngle)
         isAngleLocked = true
     }
 
     fun unlockAngle()
     {
-        turnController.disable()
+        //turnController.disable()
         isAngleLocked = false
     }
 
@@ -257,7 +262,7 @@ public class Drivetrain : Subsystem()
     fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
     fun getSpeedBackRight(): Double { return driveBackRight.get(); }
 
-    fun pidWrite(output: Double){ turnRate = output }
+    override fun pidWrite(output: Double){ turnRate = output }
 
     override val defaultCommand = ArcadeJoystickDrive()
 }

@@ -1,7 +1,7 @@
 package frc.robot
 
 
-public class IDs()
+public class IDs
 {
     public var joystickLeftIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the left driver joystick
     public var joystickRightIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the right driver joystick
