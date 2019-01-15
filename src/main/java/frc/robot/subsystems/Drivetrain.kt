@@ -31,10 +31,11 @@ public object Drivetrain : Subsystem(), PIDOutput
     val deadzone: Double = 0.1
 
     // drive motors
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 1)
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 2)
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 4)
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 3)
+    // motor 0 is the climber
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 3) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 4) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 2) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 1) // 1
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
@@ -120,7 +121,10 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     fun cartesianDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
-        val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), ((-yVal + xVal + spinVal) * throttleVal), (-((-yVal - xVal - spinVal) * throttleVal)), (-((-yVal + xVal - spinVal) * throttleVal)))
+        val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), 
+        ((-yVal + xVal + spinVal) * throttleVal), 
+        (-((-yVal - xVal - spinVal) * throttleVal)), 
+        (-((-yVal + xVal - spinVal) * throttleVal)))
         var max: Double = 0.0
         for(v: Double in wheels)
             if(Math.abs(v) > max) max = Math.abs(v)
@@ -134,9 +138,9 @@ public object Drivetrain : Subsystem(), PIDOutput
         }
 
         driveFrontLeft.set(wheels[0])
-        driveFrontRight.set(wheels[1])
-        driveBackLeft.set(wheels[2])
-        driveBackRight.set(wheels[3])
+        driveFrontRight.set(wheels[3])
+        driveBackLeft.set(wheels[1])
+        driveBackRight.set(wheels[2])
     }
 
     fun fieldOrientedDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)

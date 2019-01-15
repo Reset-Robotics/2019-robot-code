@@ -13,7 +13,7 @@ public class IDs
     public fun IDs()
     {
         // Driver Controls/OI
-        joystickLeftIDs.put("USB-ID", 0)
+        joystickLeftIDs.put("USB-ID", 1)
         joystickLeftIDs.put("X-Axis", 0)
         joystickLeftIDs.put("Y-Axis", 1)
         joystickLeftIDs.put("Z-Axis", 2)
@@ -25,7 +25,7 @@ public class IDs
         joystickLeftIDs.put("Top-Button-Top-Right", 6)
         joystickLeftIDs.put("SliderAxis", 3)
 
-        joystickRightIDs.put("USB-ID", 1)
+        joystickRightIDs.put("USB-ID", 0)
         joystickRightIDs.put("X-Axis", 0)
         joystickRightIDs.put("Y-Axis", 1)
         joystickRightIDs.put("Z-Axis", 2)

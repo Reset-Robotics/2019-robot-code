@@ -18,7 +18,7 @@ public class ArcadeJoystickDrive : Command()
     {
         // implement throttle slider
                 
-        var yDirection: Double = -OI().joystickLeft.getY()
+        var yDirection: Double = OI().joystickLeft.getY()
         var xDirection: Double = -OI().joystickLeft.getX()
         var spin: Double = OI().joystickLeft.getTwist() * .75
         var throttle: Double = 1.0 // replace with slider throttle later
@@ -30,7 +30,7 @@ public class ArcadeJoystickDrive : Command()
         if (Math.abs(spin) < Drivetrain.deadzone)
             spin = 0.0
 
-        Drivetrain.cartesianDrive(xDirection, yDirection, spin, throttle)
+        Drivetrain.cartesianDrive(yDirection, xDirection, spin, throttle)
 
         return false;
     }
