@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID
 // Robot Imports
 import frc.robot.IDs
 import frc.robot.commands.Drive.*
+import frc.robot.commands.RBrake.*
 
 
 public class OI 
@@ -24,10 +25,13 @@ public class OI
 
     // Buttons
     var toggleDriveMode: Button = JoystickButton(joystickLeft, (ids.joystickLeftIDs.get("Trigger")) ?: 1)
+    var deployPistons: Button = JoystickButton(joystickRight, (ids.joystickRightIDs.get("Trigger")) ?: 1)
 
 
     fun OI()
     {
         //toggleDriveMode.whenPressed(ToggleFieldOriented())
+        if (joystickRight.getRawButton(1))
+            Deploy()   
     }
 }

@@ -9,11 +9,13 @@ public class Deploy: Command()
 	fun Deploy() 
     {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.RBrake)
+		requires(RBrake)
 	}
 
-	override fun execute() 
+	override fun execute(): Boolean
     {
-		Robot.RBrake.deploy()
+		RBrake.deploy()
+
+		return false;
 	}
 }
