@@ -9,6 +9,7 @@ public class IDs
     public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our talon ids for drive motors
     public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our PWM ids 
     public var pidValues: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
+    public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
 
     public fun IDs()
     {
