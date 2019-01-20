@@ -3,11 +3,13 @@ package frc.robot
 
 import org.sertain.*
 import org.sertain.command.Command
+import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 
 // import commands
 import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
+import frc.robot.subsystems.RBrake
 
 
 public class Mag : Robot()
@@ -17,8 +19,12 @@ public class Mag : Robot()
 
     }
 
+    // miscellaneous objects/variables
+    public var compressor: Compressor = Compressor(0);
+
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
+    public val rbrake: RBrake = RBrake
 
     // auto command/chooser initilization goes here later?
 
@@ -37,6 +43,7 @@ public class Mag : Robot()
     {
         drivetrain.unlockAngle()
         drivetrain.setFieldOriented(true)
+        compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
 
@@ -73,6 +80,7 @@ public class Mag : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
+        compressor.setClosedLoopControl(true)
         // zero navx yaw
         // reset drivetrain encoders
         // reset elevator encoders

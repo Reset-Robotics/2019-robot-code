@@ -4,17 +4,21 @@ import org.sertain.command.Command
 import frc.robot.subsystems.RBrake
 
 
-public class Deploy: Command()
+class Deploy : Command()
 {
-	fun Deploy() 
-    {
-		// Use requires() here to declare subsystem dependencies
+	var rbrake: RBrake =  RBrake
+	init {
 		requires(RBrake)
 	}
+	//fun Deploy() 
+    //{
+		// Use requires() here to declare subsystem dependencies
+	//	requires(RBrake)
+	//}
 
 	override fun execute(): Boolean
     {
-		RBrake.deploy()
+		rbrake.deploy()
 
 		return false;
 	}
