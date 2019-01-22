@@ -10,16 +10,20 @@ class Deploy : Command()
 	init {
 		requires(RBrake)
 	}
-	//fun Deploy() 
-    //{
+	fun Deploy() 
+    {
 		// Use requires() here to declare subsystem dependencies
-	//	requires(RBrake)
+		//execute()
+	}
+	//override fun isCompleted(): Boolean 
+	//{
+	//	return true;
 	//}
 
 	override fun execute(): Boolean
     {
 		rbrake.deploy()
 
-		return false;
+		return true; 
 	}
 }

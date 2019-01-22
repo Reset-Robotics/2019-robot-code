@@ -16,6 +16,6 @@ public class DeployOut: Command()
     {
 		RBrake.deployOut()
 
-		return false;
+		return true;
 	}
 }

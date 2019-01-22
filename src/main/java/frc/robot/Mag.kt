@@ -42,7 +42,7 @@ public class Mag : Robot()
     override fun executeDisabled()
     {
         drivetrain.unlockAngle()
-        drivetrain.setFieldOriented(true)
+        //drivetrain.setFieldOriented(true)
         compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
@@ -91,6 +91,8 @@ public class Mag : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
+        oi.OI()
+
         // put dashboard data here
     }
 }

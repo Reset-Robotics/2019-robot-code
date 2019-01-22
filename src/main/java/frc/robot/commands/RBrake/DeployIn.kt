@@ -16,6 +16,6 @@ public class DeployIn: Command()
     {
 		RBrake.deployIn()
 
-		return false;
+		return true;
 	}
 }

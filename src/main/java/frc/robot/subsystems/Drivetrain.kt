@@ -102,8 +102,9 @@ public object Drivetrain : Subsystem(), PIDOutput
         var localYVal: Double = yVal
         var localXVal: Double = xVal
         var localSpinVal: Double = spinVal
+        var localFieldOriented: Boolean = getFieldOriented()
 
-        if(isFieldOriented)
+        if(localFieldOriented)
         {
             var angle: Double = navx.getAngle() * Math.PI / 180
             var rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)

@@ -12,12 +12,16 @@ import edu.wpi.first.wpilibj.Timer
 import frc.robot.Mag
 import frc.robot.IDs
 import frc.robot.commands.RBrake.RBrakeSlave
+import frc.robot.OI
 
 
 public object RBrake : Subsystem()
 {
     // constants (move local constants to IDS later)
     val ids: IDs = IDs()
+    
+    // import oi reference
+    val oi: OI = OI()
 
     // variables/objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
@@ -40,6 +44,7 @@ public object RBrake : Subsystem()
         resetEncoders()
     }
 
+    
     fun deployIn()
     {
         deploySolenoid.set(Value.kForward)
