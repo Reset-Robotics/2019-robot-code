@@ -8,7 +8,7 @@ public class IDs
     public var xboxIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the xbox controller
     public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our talon ids for drive motors
     public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our PWM ids 
-    //public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
+    public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
     public var pidValues: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
     public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
 

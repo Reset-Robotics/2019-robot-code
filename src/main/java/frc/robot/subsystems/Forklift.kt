@@ -28,7 +28,7 @@ public object Forklift : Subsystem()
     var acceleration: Double = 6000.0   //temp
     var height: Double = 6000.0  //temp
 
-    //configuring PID Loop for motion magic
+    //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
     var kTimeoutMs: Int = 0
     var kSlotIdx: Int = 0
@@ -37,6 +37,7 @@ public object Forklift : Subsystem()
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0
 
+    // I think we still need to add gains to this
 
 
     var forkliftState: Boolean = true //forklift starts in down position
@@ -89,8 +90,14 @@ public object Forklift : Subsystem()
 		this.forkliftLeft.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
 		this.forkliftLeft.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
 
+        ResetEnconder()
     }
 
+    fun ResetEnconder()
+    {
+        forkliftLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
+        forkliftRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
+    }
     fun Forklift()
     {
         /* 
