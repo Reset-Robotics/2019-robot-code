@@ -1,4 +1,4 @@
-package frc.robot.commands.Drive
+package frc.robot.commands.Forklift
 
 import org.sertain.command.Command
 import frc.robot.OI
@@ -17,7 +17,8 @@ public class ForkliftJoystick : Command ()
        // var forkliftToggle: Double = OI().
         if (Math.abs(joystickInput) < Forklift.deadzone)
             joystickInput = 0.0
-        
+            
         Forklift.lift(joystickInput)
+        return false; 
     }
 }

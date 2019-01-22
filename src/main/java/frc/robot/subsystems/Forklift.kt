@@ -3,8 +3,8 @@ package frc.robot.subsystems
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
-import com.ctre.phoenix.motorcontrol.FeedbackDevice*.
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
 import frc.robot.commands.Forklift.ForkliftJoystick
 
@@ -21,13 +21,24 @@ public object Forklift : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    override val defautCommand = ForkliftJoystick()
+   val defautCommand = ForkliftJoystick()
 
     //configuring motion magic
-    var cruiseVelocity: Double = 15000 //temp
-    var acceleration: Double = 6000   //temp
-    var height: Double = 6000  //temp
-    
+    var cruiseVelocity: Double = 1500.0  //temp
+    var acceleration: Double = 6000.0   //temp
+    var height: Double = 6000.0  //temp
+
+    //configuring PID Loop for motion magic
+    var kPIDLoopIdx: Int = 0
+    var kTimeoutMs: Int = 0
+    var kSlotIdx: Int = 0
+    var kGainskF: Double = 0.0
+    var kGainskP: Double = 0.0
+    var kGainskI: Double = 0.0
+    var kGainskD: Double = 0.0
+
+
+
     var forkliftState: Boolean = true //forklift starts in down position
 
     override fun onCreate()
@@ -37,11 +48,11 @@ public object Forklift : Subsystem()
         this.forkliftRight.configFactoryDefault()
         //Set up for encoders
         this.forkliftLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											Constants.kPIDLoopIdx, 
-											Constants.kTimeoutMs);
+											kPIDLoopIdx, 
+											kTimeoutMs);
         this.forkliftRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											Constants.kPIDLoopIdx, 
-											Constants.kTimeoutMs);
+											kPIDLoopIdx, 
+											kTimeoutMs);
 
         /**
 		 * Configure Talon SRX Output and Sesnor direction accordingly
@@ -53,30 +64,30 @@ public object Forklift : Subsystem()
         this.forkliftLeft.setInverted(false)
         this.forkliftRight.setInverted(false)
         /* Set relevant frame periods to be at least as fast as periodic rate */
-		this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-	    this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-		this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-	    this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+		this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
+	    this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
+	    this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
         /* Set the peak and nominal outputs */
-		this.forkliftRight.configNominalOutputForward(0, Constants.kTimeoutMs);
-		this.forkliftRight.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		this.forkliftRight.configPeakOutputForward(1, Constants.kTimeoutMs);
-		this.forkliftRight.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-		this.forkliftLeft.configNominalOutputForward(0, Constants.kTimeoutMs);
-		this.forkliftLeft.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		this.forkliftLeft.configPeakOutputForward(1, Constants.kTimeoutMs);
-		this.forkliftLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+		this.forkliftRight.configNominalOutputForward(0.0, kTimeoutMs);
+		this.forkliftRight.configNominalOutputReverse(0.0, kTimeoutMs);
+		this.forkliftRight.configPeakOutputForward(1.0, kTimeoutMs);
+		this.forkliftRight.configPeakOutputReverse(-1.0, kTimeoutMs);
+		this.forkliftLeft.configNominalOutputForward(0.0, kTimeoutMs);
+		this.forkliftLeft.configNominalOutputReverse(0.0, kTimeoutMs);
+		this.forkliftLeft.configPeakOutputForward(1.0, kTimeoutMs);
+		this.forkliftLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
         /* Set Motion Magic gains in slot0 - see documentation */
-		this.forkliftRight.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		this.forkliftRight.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		this.forkliftRight.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		this.forkliftRight.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-		this.forkliftRight.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-		this.forkliftLeft.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		this.forkliftLeft.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		this.forkliftLeft.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		this.forkliftLeft.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-		this.forkliftLeft.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+		this.forkliftRight.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
+		this.forkliftRight.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
+		this.forkliftRight.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
+		this.forkliftRight.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
+		this.forkliftRight.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
+		this.forkliftLeft.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
+		this.forkliftLeft.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
+		this.forkliftLeft.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
+		this.forkliftLeft.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
+		this.forkliftLeft.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
 
     }
 

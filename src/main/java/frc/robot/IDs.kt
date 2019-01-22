@@ -58,8 +58,8 @@ public class IDs
         driveMotorIDs.put("Back-Right", 3)
 
         // temp
-        //forkliftMotorIDs.put("Left", 5) 
-        //forkliftMotorIDs.put("Right", 6)
+        forkliftMotorIDs.put("Left", 5) 
+        forkliftMotorIDs.put("Right", 6)
 
         // pid tuning drive train
         pidValues.put("P", 0.006)
