@@ -13,6 +13,7 @@ import frc.robot.IDs
 import frc.robot.commands.Drive.*
 import frc.robot.commands.RBrake.Deploy
 import frc.robot.commands.Drive.ToggleFieldOriented 
+import frc.robot.commands.Forklift.*
 //import frc.robot.subsystems.RBrake
 
 public class OI 
@@ -30,5 +31,6 @@ public class OI
    {
         joystickRight.whenActive(ids.joystickRightIDs.get("Trigger") ?: 1, ToggleFieldOriented())
         joystickLeft.whenActive(ids.joystickLeftIDs.get("Trigger") ?: 1, Deploy())
+        joystickLeft.whenActive(ids.joystickLeftIDs.get("Side-Thumb") ?:1, ToggleForklift())
    }
 }

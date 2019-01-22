@@ -129,6 +129,10 @@ public object Forklift : Subsystem()
         lift(inputValue)
     }
 
+    fun whatIsForkliftState ():Boolean
+    {
+        return forkliftState
+    }
     fun forkliftMM (state: Boolean)
     {
         forkliftState = state
