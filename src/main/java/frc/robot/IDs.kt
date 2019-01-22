@@ -61,7 +61,7 @@ public class IDs
         //forkliftMotorIDs.put("Left", 5) 
         //forkliftMotorIDs.put("Right", 6)
 
-        // pid tuning
+        // pid tuning drive train
         pidValues.put("P", 0.006)
         pidValues.put("I", 0.0)
         pidValues.put("D", 0.0)
