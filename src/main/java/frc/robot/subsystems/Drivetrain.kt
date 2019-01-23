@@ -213,9 +213,9 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         return isFieldOriented;
     }
-    fun setFieldOriented(use: Boolean): Boolean
+    fun toggleFieldOriented(): Boolean
     { 
-        isFieldOriented = use
+        isFieldOriented = !isFieldOriented
         return isFieldOriented;
     }
 
