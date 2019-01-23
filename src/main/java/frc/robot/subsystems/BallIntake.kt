@@ -14,8 +14,11 @@ public object BallIntake: Subsystem()
     val encoderPort = ids.encoderPorts.get("Ball-Intake")//setting the encoder port
     public val deadzone: Double = 0.1 //trigger deadzone
     val kTimeoutMs: Int = 30//encoder timeout
-    val minimumSpeed: Int = 10
-    var autoStopEnabled: Boolean = true
+   
+
+    //autobrake constants
+    val minimumSpeed: Int = 10//speed below which the autobrake will engage
+    var autoStopEnabled: Boolean = true //sets whether the autostop will enage 
     var talonVoltage: Double = 0.0 // initializing the variable for the voltage of the talon
     var minimumMotorOutputPercent: Double = 50.0 // the value for the voltage above which the autostop will initialize
     var brake: Boolean = false //sets wether the motor is stopped by the autostop
@@ -33,14 +36,14 @@ public object BallIntake: Subsystem()
     {
         var localSpin: Double = 0.0 //setting local spin value to default 0.0 so the motor wont spin
 
-        //left trigger
+        //right trigger
         if(input > 0)
         {
             localSpin = 1.0
             brake = false
         }
 
-        //right trigger
+        //left trigger
         if(input < 0)
         {
             localSpin = -1.0
@@ -49,12 +52,12 @@ public object BallIntake: Subsystem()
         //testing to see if the motor should autostop
         if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && ballIntakeMotor.getMotorOutputPercent() > minimumMotorOutputPercent)
             brake = true
+            ballIntakeMotor.setNeutralMode(NeutralMode.Brake)
         
-        //setting the motor speed
+        //setting the motor speed or disabling the motor
         if(!brake)
             ballIntakeMotor.set(localSpin)
 
-        return true
     }
     fun isAutoStopEnabled():Boolean
     {
