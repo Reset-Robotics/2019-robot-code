@@ -26,7 +26,7 @@ public class SpinIntake(leftInput: Double, rightInput: Double): Command()
             shoot()
         if(leftTriggerAxis == 0.0 && rightTriggerAxis == 0.0)
             killMotor()
-        if(leftTriggerAxis > 0 && rightTriggerAxis >0)
+        if(leftTriggerAxis > 0 && rightTriggerAxis > 0)
             killMotor()
         return true
     }

@@ -41,13 +41,13 @@ public class OI
         //toggle field oriented
         joystickRight.whenActive(ids.joystickRightIDs.get("Trigger") ?: 1, ToggleFieldOriented())
 
-        // toggle R-Brake
+        //toggle R-Brake
         joystickLeft.whenActive(ids.joystickLeftIDs.get("Trigger") ?: 1, Deploy())
 
         //Toggling Forklift Posistion
         joystickLeft.whenActive(ids.joystickLeftIDs.get("Side-Thumb") ?:1, ToggleForklift())
 
-        //Intake Controls
+        //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
         rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
 
@@ -57,6 +57,8 @@ public class OI
             rightTrigger = 0.0
         SpinIntake(leftTrigger, rightTrigger)
         
+        if(xboxController.getAButtonPressed())
+            ToggleAutoStop()
 
    }
 }

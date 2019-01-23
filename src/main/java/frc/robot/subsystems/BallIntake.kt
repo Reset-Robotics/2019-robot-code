@@ -17,7 +17,7 @@ public object BallIntake: Subsystem()
     val minimumSpeed: Int = 10
     var autoStopEnabled: Boolean = true
     var talonVoltage: Double = 0.0 // initializing the variable for the voltage of the talon
-    var minimumVoltage: Double = 0.0 // the value for the voltage above which the autostop will initialize
+    var minimumMotorOutputPercent: Double = 50.0 // the value for the voltage above which the autostop will initialize
     var brake: Boolean = false //sets wether the motor is stopped by the autostop
    
 
@@ -45,15 +45,14 @@ public object BallIntake: Subsystem()
         {
             localSpin = -1.0
         }
-
-        //getting motor velocity
-        if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && ballIntakeMotor.getOutputVoltage() > minimumVoltage)
+        ballIntakeMotor
+        //testing to see if the motor should autostop
+        if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && ballIntakeMotor.getMotorOutputPercent() > minimumMotorOutputPercent)
             brake = true
         
-         //setting the motor speed
-        
+        //setting the motor speed
         if(!brake)
-        ballIntakeMotor.set(localSpin)
+            ballIntakeMotor.set(localSpin)
 
         return true
     }
