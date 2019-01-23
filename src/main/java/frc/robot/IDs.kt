@@ -9,7 +9,10 @@ public class IDs
     public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our talon ids for drive motors
     public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our PWM ids 
     public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
-    public var pidValues: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
+    public var elevatorMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
+    public var ballIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
+    public var pidValuesDT: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
+    public var pidValuesEL: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
     public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
 
     public fun IDs()
@@ -48,6 +51,7 @@ public class IDs
         xboxIDs.put("Back-Button", 7)
         xboxIDs.put("Left-Joystick-Button", 8)
         xboxIDs.put("Right-Joystick-Button", 9) 
+        xboxIDs.put("Trigger-Axis", 3)       // (-1,0)--> right trigger, (0,1)--> left trigger
         xboxIDs.put("Left-Joystick-Y-Axis", 1)
         xboxIDs.put("Right-Joystick-Y-Axis", 5)
 
@@ -57,14 +61,28 @@ public class IDs
         driveMotorIDs.put("Back-Left", 4)
         driveMotorIDs.put("Back-Right", 3)
 
-        // temp
+        // temp forklift motor IDS
         forkliftMotorIDs.put("Left", 5) 
         forkliftMotorIDs.put("Right", 6)
 
+
+        // temp elevator motors
+        elevatorMotorIDs.put("Right",7)
+        elevatorMotorIDs.put("Left",8)
+
+        //temp ball intake motor ids
+        ballIntakeMotorIDs.put("Main",9)
+
         // pid tuning drive train
-        pidValues.put("P", 0.006)
-        pidValues.put("I", 0.0)
-        pidValues.put("D", 0.0)
-        pidValues.put("F", 0.0)
+        pidValuesDT.put("P", 0.006)
+        pidValuesDT.put("I", 0.0)
+        pidValuesDT.put("D", 0.0)
+        pidValuesDT.put("F", 0.0)
+
+        // pid tuning elevator
+        pidValuesEL.put("P", 0.006)
+        pidValuesEL.put("I", 0.0)
+        pidValuesEL.put("D", 0.0)
+        pidValuesEL.put("F", 0.0)
     } 
 }

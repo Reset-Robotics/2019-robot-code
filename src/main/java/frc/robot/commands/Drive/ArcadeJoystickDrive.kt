@@ -4,11 +4,15 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Drivetrain
 import frc.robot.OI
 
+/* this is the main commmand that is looping on the Drivetrain Subsytem and is
+responsible for handling joystick inputs to the drive train.
+*/
 
 public class ArcadeJoystickDrive : Command()
 {
     // make sure we require any necessary objects/classes
-    init {
+    init 
+    {
         requires(Drivetrain)
     }
 

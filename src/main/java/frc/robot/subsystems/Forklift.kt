@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-import com.kauailabs.navx.frc.AHRS
+//import com.kauailabs.navx.frc.AHRS
 import frc.robot.commands.Forklift.ForkliftJoystick
 
 import frc.robot.IDs
@@ -24,8 +24,8 @@ public object Forklift : Subsystem()
    val defautCommand = ForkliftJoystick()
 
     //configuring motion magic
-    var cruiseVelocity: Double = 1500.0  //temp
-    var acceleration: Double = 6000.0   //temp
+    var cruiseVelocity: Int = 1500 //temp
+    var acceleration: Int = 6000  //temp
     var height: Double = 6000.0  //temp
 
     //configuring PID Loop for motion magic to do- move to IDS
@@ -36,8 +36,6 @@ public object Forklift : Subsystem()
     var kGainskP: Double = 0.0
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0
-
-    // I think we still need to add gains to this
 
 
     var forkliftState: Boolean = true //forklift starts in down position
@@ -78,7 +76,7 @@ public object Forklift : Subsystem()
 		this.forkliftLeft.configNominalOutputReverse(0.0, kTimeoutMs);
 		this.forkliftLeft.configPeakOutputForward(1.0, kTimeoutMs);
 		this.forkliftLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
-        /* Set Motion Magic gains in slot0 - see documentation */
+        /* Set Motion Magic gains in slot kSlotIdx */
 		this.forkliftRight.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
 		this.forkliftRight.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
 		this.forkliftRight.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
@@ -89,7 +87,11 @@ public object Forklift : Subsystem()
 		this.forkliftLeft.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
 		this.forkliftLeft.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
 		this.forkliftLeft.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
-
+        /* Set acceleration and vcruise velocity - see documentation */
+		this.forkliftLeft.configMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
+		this.forkliftLeft.configMotionAcceleration(acceleration, kTimeoutMs);
+		this.forkliftRight.configMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
+		this.forkliftRight.configMotionAcceleration(acceleration, kTimeoutMs);
         ResetEnconder()
     }
 
@@ -101,7 +103,7 @@ public object Forklift : Subsystem()
     fun Forklift()
     {
         /* 
-        //current limiting
+        //current limiting 
         this.forkliftLeft.configContinuousCurrentLimit(40,0) // desired current after limit
         this.forkliftLeft.configPeakCurrentLimit(35,0)//max current
         this.forkliftLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
@@ -119,7 +121,7 @@ public object Forklift : Subsystem()
 
     }
     
-    fun lift(speed: Double)
+    fun lift(speed: Double) 
     {
         forkliftLeft.set(ControlMode.PercentOutput, speed)
         forkliftRight.set(ControlMode.PercentOutput, speed)
@@ -143,8 +145,8 @@ public object Forklift : Subsystem()
         }
         if (forkliftState == true)
         {
-            forkliftLeft.set(ControlMode.MotionMagic, -height)
-            forkliftRight.set(ControlMode.MotionMagic, -height)
+            forkliftLeft.set(ControlMode.MotionMagic, 0.0)
+            forkliftRight.set(ControlMode.MotionMagic, 0.0)
         }
     }
 

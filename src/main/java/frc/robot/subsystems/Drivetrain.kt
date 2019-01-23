@@ -19,10 +19,10 @@ public object Drivetrain : Subsystem(), PIDOutput
     // constants (move local constants to IDS later)
     val ids: IDs = IDs()
 
-    val pidValP: Double = ids.pidValues.get("P") ?: 0.006 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"P\")")
-    val pidValI: Double = ids.pidValues.get("I") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"I\")!!")
-    val pidValD: Double = ids.pidValues.get("D") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"D\")!!")
-    val pidValF: Double = ids.pidValues.get("F") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"F\")!!")
+    val pidValP: Double = ids.pidValuesDT.get("P") ?: 0.006 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValuesDT.get(\"P\")")
+    val pidValI: Double = ids.pidValuesDT.get("I") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValuesDT.get(\"I\")!!")
+    val pidValD: Double = ids.pidValuesDT.get("D") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValuesDT.get(\"D\")!!")
+    val pidValF: Double = ids.pidValuesDT.get("F") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValuesDT.get(\"F\")!!")
     /*val pidValP: Double = 0.006
     val pidValI: Double = 0.0
     val pidValD: Double = 0.0

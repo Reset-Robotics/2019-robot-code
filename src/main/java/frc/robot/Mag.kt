@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
+import frc.robot.commands.Forklift.ResetForkliftSensor
 
 
 public class Mag : Robot()
@@ -81,6 +82,7 @@ public class Mag : Robot()
     override fun onStart()
     {
         compressor.setClosedLoopControl(true)
+        ResetForkliftSensor()
         // zero navx yaw
         // reset drivetrain encoders
         // reset elevator encoders
