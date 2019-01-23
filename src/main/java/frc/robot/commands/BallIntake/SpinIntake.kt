@@ -2,6 +2,8 @@ package frc.robot.commands.BallIntake
 
 import org.sertain.command.Command
 import frc.robot.subsystems.BallIntake
+import frc.robot.OI
+
 
 import frc.robot.IDs
 
@@ -17,13 +19,14 @@ public class SpinIntake(leftInput: Double, rightInput: Double): Command()
     //needs to be moved to OI
     override fun execute(): Boolean
     {
-       //rightTriggerAxis = rightInput
-       //leftTriggerAxis = leftInput
+       
         if(rightTriggerAxis > 0.0)
             intake()
-        if(leftTriggerAxis < 0.0)
+        if(leftTriggerAxis > 0.0)
             shoot()
         if(leftTriggerAxis == 0.0 && rightTriggerAxis == 0.0)
+            killMotor()
+        if(leftTriggerAxis > 0 && rightTriggerAxis >0)
             killMotor()
         return true
     }

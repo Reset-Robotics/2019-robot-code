@@ -31,7 +31,8 @@ public object Elevator : Subsystem()
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
     var kTimeoutMs: Int = 0
-    var kSlotIdx: Int = 0
+    var rightKSlotIdx: Int = 0
+    var leftKSlotIdx: Int = 0
     var kGainskF: Double = 0.0
     var kGainskP: Double = 0.0
     var kGainskI: Double = 0.0
@@ -69,7 +70,7 @@ public object Elevator : Subsystem()
 	    this.elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
 		this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
 	    this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
-        /* Set the peak and nominal outputs */
+        /* Set the peak and nominal voltage outputs */
 		this.elevatorRight.configNominalOutputForward(0.0, kTimeoutMs);
 		this.elevatorRight.configNominalOutputReverse(0.0, kTimeoutMs);
 		this.elevatorRight.configPeakOutputForward(1.0, kTimeoutMs);
@@ -79,16 +80,16 @@ public object Elevator : Subsystem()
 		this.elevatorLeft.configPeakOutputForward(1.0, kTimeoutMs);
 		this.elevatorLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
         /* Set Motion Magic gains in slot kSlotIdx */
-		this.elevatorRight.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
-		this.elevatorRight.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
-		this.elevatorRight.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
-		this.elevatorRight.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
-		this.elevatorRight.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
-		this.elevatorLeft.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
-		this.elevatorLeft.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
-		this.elevatorLeft.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
-		this.elevatorLeft.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
-		this.elevatorLeft.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
+		this.elevatorRight.selectProfileSlot(rightKSlotIdx, kPIDLoopIdx);
+		this.elevatorRight.config_kF(rightKSlotIdx, kGainskF, kTimeoutMs);
+		this.elevatorRight.config_kP(rightKSlotIdx, kGainskP, kTimeoutMs);
+		this.elevatorRight.config_kI(rightKSlotIdx, kGainskI, kTimeoutMs);
+		this.elevatorRight.config_kD(rightKSlotIdx, kGainskD, kTimeoutMs);
+		this.elevatorLeft.selectProfileSlot(leftKSlotIdx, kPIDLoopIdx);
+		this.elevatorLeft.config_kF(leftKSlotIdx, kGainskF, kTimeoutMs);
+		this.elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
+		this.elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
+		this.elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
 
         ResetEnconder()
     }

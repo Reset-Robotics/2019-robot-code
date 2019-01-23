@@ -13,7 +13,9 @@ public class IDs
     public var ballIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
     public var pidValuesDT: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
     public var pidValuesEL: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
+    public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // holds all our encoder port values
     public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
+
 
     public fun IDs()
     {
@@ -84,5 +86,8 @@ public class IDs
         pidValuesEL.put("I", 0.0)
         pidValuesEL.put("D", 0.0)
         pidValuesEL.put("F", 0.0)
+
+        //setting the motor encoder ports for all the motors
+        encoderPorts.put("Ball-Intake", 9)
     } 
 }
