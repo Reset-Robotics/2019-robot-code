@@ -16,6 +16,11 @@ public object BallIntake: Subsystem()
     val kTimeoutMs: Int = 30//encoder timeout
     val minimumSpeed: Int = 10
     var autoStopEnabled: Boolean = true
+    var talonVoltage: Double = 0.0 // initializing the variable for the voltage of the talon
+    var minimumVoltage: Double = 0.0 // the value for the voltage above which the autostop will initialize
+    var brake: Boolean = false //sets wether the motor is stopped by the autostop
+   
+
     override fun onCreate()
     {
         ballIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
@@ -32,6 +37,7 @@ public object BallIntake: Subsystem()
         if(input > 0)
         {
             localSpin = 1.0
+            brake = false
         }
 
         //right trigger
@@ -41,12 +47,15 @@ public object BallIntake: Subsystem()
         }
 
         //getting motor velocity
-        if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled)
-            localSpin=0.0
+        if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && ballIntakeMotor.getOutputVoltage() > minimumVoltage)
+            brake = true
         
          //setting the motor speed
+        
+        if(!brake)
         ballIntakeMotor.set(localSpin)
 
+        return true
     }
     fun isAutoStopEnabled():Boolean
     {
