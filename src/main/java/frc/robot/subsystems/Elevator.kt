@@ -9,9 +9,11 @@ import com.kauailabs.navx.frc.AHRS
 import frc.robot.commands.Elevator.ElevatorJoystick
 
 import frc.robot.IDs
+import frc.robot.commands.Elevator.Elevator
 
 public object Elevator : Subsystem()
  {
+    
     //importing ids
     val ids: IDs = IDs()
     val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Left"))?: 5) //temp    
@@ -21,7 +23,7 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    val defautCommand = ElevatorJoystick()
+    override val defautCommand = ElevatorJoystick()
 
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
@@ -40,11 +42,11 @@ public object Elevator : Subsystem()
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0
 
-
-
-
     //var elevatorState: Boolean = true //elevator starts in down position
     var elevatorState: String = "Bottom"
+
+    //setting allowable leveling limit on the elevator
+    var allowableLevelError: Double = 20
     override fun onCreate()
     {
         //setting up talons to ensure no unexpected behavior
@@ -128,19 +130,29 @@ public object Elevator : Subsystem()
         elevatorLeft.set(ControlMode.PercentOutput, speedLeft)
         elevatorRight.set(ControlMode.PercentOutput, speedRight)
     }
-
-    fun manualLift(inputValue: Double)
+    //joystick input function
+    /*  fun manualLift(inputValue: Double)
     {
         lift(inputValue,inputValue)
     }
+    */
     //returning the state the elevator is in or was in last
     fun whatIsElevatorState ():String
     {
         return elevatorState
     }
+    // finding the error in the elevator leveling pos->left is too high neg->right is to high
+
+    fun getElevatorError():Double
+    {
+        return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()
+    }
     //checking to see if the elevator is even or not- not yet implemented
     fun isElevatorLevel():Boolean
     {
+        if (getElevatorError()>allowableLevelError){
+            return false
+        }
         return true
     }
     // checking to see if elevator is moving due to Motion Magic-not implemented yet

@@ -10,16 +10,37 @@ public class ElevatorJoystick: Command ()
     {
         requires(Elevator)
     }
-
+    var isElevatorLevel: Boolean = true
+    var leftCorrection: Double = 1.0
+    var rightCorrection: Double = 1.0
     override fun execute(): Boolean
     {
-        var joystickInput: Double = OI().joystickLeft.getY()
-        //var ElevatorToggle: Double = OI().
+       
+        //joystick input
+         var joystickInput: Double = OI().joystickLeft.getY()
         if (Math.abs(joystickInput) < Elevator.deadzone)
             joystickInput = 0.0
-            
-            
-        Elevator.lift(joystickInput)
+
+        //auto leveling when using the joystick
+        if (!Elevator.isElevatorLevel()){
+            var error = Elevator.getElevatorError
+            if(error>0.0){//left side is too hgh
+                leftCorrection = 0.8
+            }
+            if (error<0.0){//right side is too high
+                rightCorrection = 0.8
+            }
+            isElevatorLevel = false
+        }
+        else{
+            isElevatorLevel = true
+            leftCorrection = 1.0
+            rightCorrection = 1.0
+        }
+
+       
+        Elevator.Lift(leftCorrection*joystickInput,rightCorrection*joystickInput)
+        
         return false; 
     }
 }
