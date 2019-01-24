@@ -6,7 +6,6 @@ import frc.robot.subsystems.RBrake
 
 class Deploy(param: String = "Null"): Command()
 {
-	var rbrake: RBrake =  RBrake
 	var localParam = param
 	init {
 		requires(RBrake)

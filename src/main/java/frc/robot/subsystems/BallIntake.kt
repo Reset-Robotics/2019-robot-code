@@ -26,12 +26,16 @@ public object BallIntake: Subsystem()
 
     override fun onCreate()
     {
-        ballIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+        this.ballIntakeMotor.configContinuousCurrentLimit(40,0) // desired current after limit
+		this.ballIntakeMotor.configPeakCurrentLimit(35, 0) // max current
+		this.ballIntakeMotor.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+		this.ballIntakeMotor.enableCurrentLimit(true)
+        this.ballIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 											0, 
 											kTimeoutMs);
-        ballIntakeMotor.setSensorPhase(true)
-        ballIntakeMotor.setInverted(false)
-        ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
+        this.ballIntakeMotor.setSensorPhase(true)
+        this.ballIntakeMotor.setInverted(false)
+        this.ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
     }
     fun spin(input: Double) 
     {
@@ -48,17 +52,16 @@ public object BallIntake: Subsystem()
         if(input < 0)
         {
             localSpin = -1.0
-            ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
+            this.ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
         }
-        ballIntakeMotor
         //testing to see if the motor should autostop
-        if(ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && ballIntakeMotor.getMotorOutputPercent() > minimumMotorOutputPercent)
+        if(this.ballIntakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && this.ballIntakeMotor.getMotorOutputPercent() > minimumMotorOutputPercent)
             brake = true
-            ballIntakeMotor.setNeutralMode(NeutralMode.Brake)
+            this.ballIntakeMotor.setNeutralMode(NeutralMode.Brake)
         
         //setting the motor speed or disabling the motor
         if(!brake)
-            ballIntakeMotor.set(localSpin)
+            this.ballIntakeMotor.set(localSpin)
 
     }
     fun isAutoStopEnabled():Boolean
