@@ -6,10 +6,10 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
-import frc.robot.commands.Elevator.ElevatorJoystick
+
 
 import frc.robot.IDs
-import frc.robot.commands.Elevator.Elevator
+import frc.robot.commands.Elevator.ElevatorJoystick
 
 public object Elevator : Subsystem()
  {
@@ -23,7 +23,7 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    override val defautCommand = ElevatorJoystick()
+    val defautCommand = ElevatorJoystick()
 
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
@@ -46,7 +46,7 @@ public object Elevator : Subsystem()
     var elevatorState: String = "Bottom"
 
     //setting allowable leveling limit on the elevator
-    var allowableLevelError: Double = 20
+    var allowableLevelError: Double = 20.0
     override fun onCreate()
     {
         //setting up talons to ensure no unexpected behavior
@@ -108,7 +108,6 @@ public object Elevator : Subsystem()
     }
     fun elevator()
     {
-        
         //current limiting
         this.elevatorLeft.configContinuousCurrentLimit(40,0) // desired current after limit
         this.elevatorLeft.configPeakCurrentLimit(35,0)//max current
@@ -117,14 +116,9 @@ public object Elevator : Subsystem()
         this.elevatorRight.configContinuousCurrentLimit(40,0) // desired current after limit
         this.elevatorRight.configPeakCurrentLimit(35,0)//max current
         this.elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
-        this.elevatorRight.enableCurrentLimit(true) 
-
-    
-    
-        
-
+        this.elevatorRight.enableCurrentLimit(true)  
     }
-    //running the two motors in concurrence
+    //lifting the elevator as a single entity
     fun lift(speedLeft: Double = 1.0, speedRight: Double = 1.0) 
     {
         elevatorLeft.set(ControlMode.PercentOutput, speedLeft)
@@ -136,30 +130,13 @@ public object Elevator : Subsystem()
         lift(inputValue,inputValue)
     }
     */
-    //returning the state the elevator is in or was in last
-    fun whatIsElevatorState ():String
-    {
-        return elevatorState
-    }
-    // finding the error in the elevator leveling pos->left is too high neg->right is to high
-
-    fun getElevatorError():Double
-    {
-        return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()
-    }
     //checking to see if the elevator is even or not- not yet implemented
-    fun isElevatorLevel():Boolean
-    {
-        if (getElevatorError()>allowableLevelError){
-            return false
-        }
-        return true
-    }
-    // checking to see if elevator is moving due to Motion Magic-not implemented yet
+    /* // checking to see if elevator is moving due to Motion Magic-not implemented yet
     fun isElevatorInMM ():Boolean 
     {
         return false
     }
+    */
     //elevator Motion Magic
     fun elevatorMM (newElevatorState: String = "Null")
     {
@@ -197,11 +174,18 @@ public object Elevator : Subsystem()
         */
         
     }
-
+    fun isElevatorLevel():Boolean
+    {
+        if (getElevatorError()>allowableLevelError){
+            return false
+        }
+        return true
+    }
+     //returning the state the elevator is in or was in last 
+    fun whatIsElevatorState ():String{return elevatorState}
+    // finding the error in the elevator leveling pos->left is too high neg->right is to high
+    fun getElevatorError():Int{return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()}
     //functions for getting encoder values
     fun getEncoderRawLeftelevator(): Int { return elevatorLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawRightelevator(): Int { return elevatorRight.getSelectedSensorPosition(0); }
-
-
-
 }

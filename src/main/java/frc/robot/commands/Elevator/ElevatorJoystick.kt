@@ -23,7 +23,7 @@ public class ElevatorJoystick: Command ()
 
         //auto leveling when using the joystick
         if (!Elevator.isElevatorLevel()){
-            var error = Elevator.getElevatorError
+            var error = Elevator.getElevatorError()
             if(error>0.0){//left side is too hgh
                 leftCorrection = 0.8
             }
@@ -39,7 +39,7 @@ public class ElevatorJoystick: Command ()
         }
 
        
-        Elevator.Lift(leftCorrection*joystickInput,rightCorrection*joystickInput)
+        Elevator.lift(leftCorrection*joystickInput,rightCorrection*joystickInput)
         
         return false; 
     }

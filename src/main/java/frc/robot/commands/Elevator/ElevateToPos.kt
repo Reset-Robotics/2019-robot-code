@@ -14,7 +14,6 @@ public class ElevateToPos(targetPos: String = "Null"): Command ()
     override fun execute(): Boolean
     {
         Elevator.elevatorMM(localTargetPos)
-
         return true; 
     }
 }
