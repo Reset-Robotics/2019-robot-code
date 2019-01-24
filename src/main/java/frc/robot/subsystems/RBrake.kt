@@ -26,13 +26,18 @@ public object RBrake : Subsystem()
     // variables/objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
     var secondarySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[3], ids.rBrakeSolenoid[2])
+    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
     var isDeployed: Boolean = false 
     val deadzone: Double = 0.1
     
 
     override fun onCreate()
     {
-
+        rBrakeMotor.configFactoryDefault()
+        rBrakeMotor.configContinuousCurrentLimit(40,0) // desired current after limit
+		rBrakeMotor.configPeakCurrentLimit(35, 0) // max current
+		rBrakeMotor.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+		rBrakeMotor.enableCurrentLimit(true)
     }
 
     fun rBrake()
@@ -44,6 +49,10 @@ public object RBrake : Subsystem()
         resetEncoders()
     }
 
+    fun driveRBrake(pow: Double)
+    {
+        rBrakeMotor.set(pow)
+    }
     
     fun deployIn()
     {
@@ -95,6 +104,9 @@ public object RBrake : Subsystem()
 
     //  example for getting speed on drive motor
     //fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
-
+    fun getRBrakeStatus(): Boolean
+    {
+        return isDeployed
+    }
     override val defaultCommand = RBrakeSlave()
 }

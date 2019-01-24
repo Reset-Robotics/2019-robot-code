@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj.GenericHID
 import frc.robot.IDs
 import frc.robot.commands.Drive.*
 import frc.robot.commands.RBrake.Deploy
+import frc.robot.commands.RBrake.RBrakeSlave
 import frc.robot.commands.Drive.ToggleFieldOriented 
 import frc.robot.commands.Forklift.*
 import frc.robot.commands.BallIntake.*
 import frc.robot.subsystems.BallIntake
+import frc.robot.subsystems.RBrake
 //import frc.robot.subsystems.RBrake
 
 public class OI 
@@ -59,6 +61,10 @@ public class OI
         
         if(xboxController.getAButtonPressed())
             ToggleAutoStop()
+        
+        //RBrake slavery
+        RBrakeSlave()
+            
 
    }
 }

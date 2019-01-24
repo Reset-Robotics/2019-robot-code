@@ -6,15 +6,11 @@ import frc.robot.subsystems.Drivetrain
 
 public class ToggleFieldOriented : Command()
 {
-    init 
-    {
-        requires(Drivetrain)
-    }
-    val isFieldOriented: Boolean = !Drivetrain.getFieldOriented()
+   
     override fun execute(): Boolean
     {
-        Drivetrain.setFieldOriented(isFieldOriented)
-        System.err.println(Drivetrain.getFieldOriented())
+        Drivetrain.toggleFieldOriented()
+        
 
         return true;
     }

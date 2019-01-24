@@ -18,6 +18,7 @@ public class ElevatorJoystick: Command ()
         if (Math.abs(joystickInput) < Elevator.deadzone)
             joystickInput = 0.0
             
+            
         Elevator.lift(joystickInput)
         return false; 
     }

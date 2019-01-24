@@ -31,22 +31,24 @@ public object BallIntake: Subsystem()
 											kTimeoutMs);
         ballIntakeMotor.setSensorPhase(true)
         ballIntakeMotor.setInverted(false)
+        ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
     }
     fun spin(input: Double) 
     {
         var localSpin: Double = 0.0 //setting local spin value to default 0.0 so the motor wont spin
 
-        //right trigger
+        //right trigger spinning in
         if(input > 0)
         {
             localSpin = 1.0
             brake = false
         }
 
-        //left trigger
+        //left trigger spinning out
         if(input < 0)
         {
             localSpin = -1.0
+            ballIntakeMotor.setNeutralMode(NeutralMode.Coast)
         }
         ballIntakeMotor
         //testing to see if the motor should autostop

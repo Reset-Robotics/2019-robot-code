@@ -69,8 +69,8 @@ public class IDs
 
 
         // temp elevator motors
-        elevatorMotorIDs.put("Right",7)
-        elevatorMotorIDs.put("Left",8)
+        elevatorMotorIDs.put("Right", 7)
+        elevatorMotorIDs.put("Left", 8)
 
         //temp ball intake motor ids
         ballIntakeMotorIDs.put("Main",9)

@@ -16,16 +16,13 @@ public class SpinIntake(leftInput: Double, rightInput: Double): Command()
     var ids: IDs = IDs()
     public val deadzone: Double = 0.1
 
-    //needs to be moved to OI
     override fun execute(): Boolean
     {
        
         if(rightTriggerAxis > 0.0)
             intake()
-            spin=1.0
         if(leftTriggerAxis > 0.0)
             shoot()
-            spin=-1.0
         if(leftTriggerAxis == 0.0 && rightTriggerAxis == 0.0)
             killMotor()
         if(leftTriggerAxis > 0 && rightTriggerAxis > 0)
@@ -43,7 +40,7 @@ public class SpinIntake(leftInput: Double, rightInput: Double): Command()
     //function being called when ball is being scored
     fun shoot(): Boolean
     {
-        BallIntake.spin(spin)
+        BallIntake.spin(-spin)
         return false
     }
     fun killMotor()

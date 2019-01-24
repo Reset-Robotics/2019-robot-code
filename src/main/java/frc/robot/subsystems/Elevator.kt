@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
-//import frc.robot.commands.elevator.elevatorJoystick
+import frc.robot.commands.Elevator.ElevatorJoystick
 
 import frc.robot.IDs
 
@@ -21,12 +21,12 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    //val defautCommand = elevatorJoystick()
+    val defautCommand = ElevatorJoystick()
 
     //configuring motion magic
-    var cruiseVelocity: Double = 1500.0  //temp
-    var acceleration: Double = 6000.0   //temp
-    var height: Double = 6000.0  //temp
+    var cruiseVelocity: Double = 19000.0  //temp
+    var acceleration: Double = 11000.0  //temp
+    var height: Double = 72000.0 //temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -56,6 +56,9 @@ public object Elevator : Subsystem()
 											kPIDLoopIdx, 
 											kTimeoutMs);
 
+        //sets Talons to hold posistion when pow = 0
+        this.elevatorLeft.setNeutralMode(NeutralMode.Brake)
+        this.elevatorRight.setNeutralMode(NeutralMode.Brake)
         /**
 		 * Configure Talon SRX Output and Sesnor direction accordingly
 		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
@@ -70,7 +73,7 @@ public object Elevator : Subsystem()
 	    this.elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
 		this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
 	    this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
-        /* Set the peak and nominal voltage outputs */
+        // Set the peak and nominal voltage outputs- requires adjustment
 		this.elevatorRight.configNominalOutputForward(0.0, kTimeoutMs);
 		this.elevatorRight.configNominalOutputReverse(0.0, kTimeoutMs);
 		this.elevatorRight.configPeakOutputForward(1.0, kTimeoutMs);
@@ -101,7 +104,7 @@ public object Elevator : Subsystem()
     }
     fun elevator()
     {
-        /* 
+        
         //current limiting
         this.elevatorLeft.configContinuousCurrentLimit(40,0) // desired current after limit
         this.elevatorLeft.configPeakCurrentLimit(35,0)//max current
@@ -112,10 +115,8 @@ public object Elevator : Subsystem()
         this.elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
         this.elevatorRight.enableCurrentLimit(true) 
 
-        //set Talon Mode
-        this.elevatorLeft.setNeutralMode(NuetralMode.Brake)
-        this.elevatorRight.setNeutralMode(NuetralMode.Brake)
-          */
+    
+    
         
 
     }

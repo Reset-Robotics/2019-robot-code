@@ -20,10 +20,9 @@ public class RBrakeSlave : Command()
                 
         var yDirection: Double = OI().joystickLeft.getY()
         var throttle: Double = 1.0 // replace with slider throttle later
-
-        if (Math.abs(yDirection) < RBrake.deadzone) 
-            yDirection = 0.0
-
+       // if (Math.abs(yDirection) < RBrake.deadzone) 
+        //    yDirection = 0.0
+        RBrake.driveRBrake(yDirection)
         return false;
     }
 
