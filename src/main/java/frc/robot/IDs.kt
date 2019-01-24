@@ -53,7 +53,6 @@ public class IDs
         xboxIDs.put("Back-Button", 7)
         xboxIDs.put("Left-Joystick-Button", 8)
         xboxIDs.put("Right-Joystick-Button", 9) 
-        xboxIDs.put("Trigger-Axis", 3)       // (-1,0)--> right trigger, (0,1)--> left trigger
         xboxIDs.put("Left-Joystick-Y-Axis", 1)
         xboxIDs.put("Right-Joystick-Y-Axis", 5)
 
