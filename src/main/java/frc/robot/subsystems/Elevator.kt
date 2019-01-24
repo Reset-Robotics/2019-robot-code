@@ -26,7 +26,9 @@ public object Elevator : Subsystem()
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
     var acceleration: Double = 11000.0  //temp
-    var height: Double = 72000.0 //temp
+    var topHeight: Double = 72000.0 //temp
+    var middleHeight: Double = 35000.0//temp
+    var bottomHeight: Double = 0.0//temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -41,8 +43,8 @@ public object Elevator : Subsystem()
 
 
 
-    var elevatorState: Boolean = true //elevator starts in down position
-
+    //var elevatorState: Boolean = true //elevator starts in down position
+    var elevatorState: String = "Bottom"
     override fun onCreate()
     {
         //setting up talons to ensure no unexpected behavior
@@ -120,24 +122,56 @@ public object Elevator : Subsystem()
         
 
     }
-    
-    fun lift(speed: Double) 
+    //running the two motors in concurrence
+    fun lift(speedLeft: Double = 1.0, speedRight: Double = 1.0) 
     {
-        elevatorLeft.set(ControlMode.PercentOutput, speed)
-        elevatorRight.set(ControlMode.PercentOutput, speed)
-    }
-    fun manualLift(inputValue: Double)
-    {
-        lift(inputValue)
+        elevatorLeft.set(ControlMode.PercentOutput, speedLeft)
+        elevatorRight.set(ControlMode.PercentOutput, speedRight)
     }
 
-    fun whatIsElevatorState ():Boolean
+    fun manualLift(inputValue: Double)
+    {
+        lift(inputValue,inputValue)
+    }
+    //returning the state the elevator is in or was in last
+    fun whatIsElevatorState ():String
     {
         return elevatorState
     }
-    fun elevatorMM (state: Boolean)
+    //checking to see if the elevator is even or not- not yet implemented
+    fun isElevatorLevel():Boolean
     {
-        elevatorState = state
+        return true
+    }
+    // checking to see if elevator is moving due to Motion Magic-not implemented yet
+    fun isElevatorInMM ():Boolean 
+    {
+        return false
+    }
+    //elevator Motion Magic
+    fun elevatorMM (newElevatorState: String = "Null")
+    {
+        var targetPos = newElevatorState
+        if(targetPos=="Bottom" && targetPos != elevatorState )
+        {
+            elevatorLeft.set(ControlMode.MotionMagic, bottomHeight)
+            elevatorRight.set(ControlMode.MotionMagic, bottomHeight)
+            elevatorState="Bottom"
+        }
+        if(targetPos=="Middle" && targetPos !=elevatorState)
+        {
+            elevatorLeft.set(ControlMode.MotionMagic, middleHeight)
+            elevatorRight.set(ControlMode.MotionMagic, middleHeight)
+            elevatorState="Middle"
+        }
+        if(targetPos=="Top" && targetPos != elevatorState)
+        {
+            elevatorLeft.set(ControlMode.MotionMagic, topHeight)
+            elevatorRight.set(ControlMode.MotionMagic, topHeight)
+            elevatorState="Bottom"
+        }
+
+        /* elevatorState = state
         if (elevatorState == false)
         {
             elevatorLeft.set(ControlMode.MotionMagic, height)
@@ -148,6 +182,8 @@ public object Elevator : Subsystem()
             elevatorLeft.set(ControlMode.MotionMagic, 0.0)
             elevatorRight.set(ControlMode.MotionMagic, 0.0)
         }
+        */
+        
     }
 
     //functions for getting encoder values

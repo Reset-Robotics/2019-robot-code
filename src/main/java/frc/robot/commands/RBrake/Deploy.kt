@@ -4,12 +4,10 @@ import org.sertain.command.Command
 import frc.robot.subsystems.RBrake
 
 
-class Deploy(deployIn: Boolean=false,
-			 deployOut: Boolean=false): Command()
+class Deploy(param: String = "Null"): Command()
 {
 	var rbrake: RBrake =  RBrake
-	var localDeployIn = deployIn
-	var localDeployOut = deployOut
+	var localParam = param
 	init {
 		requires(RBrake)
 	}
@@ -25,12 +23,12 @@ class Deploy(deployIn: Boolean=false,
 
 	override fun execute(): Boolean
     {
-		if(!localDeployIn && !localDeployOut)
+		if(localParam == "Null")
 			RBrake.deploy()
-		if(localDeployIn)
-			RBrake.deployIn()
-		else(localDeployOut)
+		if(localParam == "Out")
 			RBrake.deployOut()
+		else
+			RBrake.deployIn()
 		return true; 
 	}
 }

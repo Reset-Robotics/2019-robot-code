@@ -4,16 +4,17 @@ import org.sertain.command.Command
 //import frc.robot.OI
 import frc.robot.subsystems.Elevator
 
-public class ElevateToPos(): Command ()
+public class ElevateToPos(targetPos: String = "Null"): Command ()
 {
      init 
     {
         requires(Elevator)
     }
+    var localTargetPos= targetPos
     override fun execute(): Boolean
     {
-        var currentstate: Boolean = Elevator.whatIsElevatorState()
-        Elevator.elevatorMM(!currentstate) 
+        Elevator.elevatorMM(localTargetPos)
+
         return true; 
     }
 }
