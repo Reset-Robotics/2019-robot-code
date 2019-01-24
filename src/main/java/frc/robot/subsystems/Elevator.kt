@@ -140,7 +140,6 @@ public object Elevator : Subsystem()
     //elevator Motion Magic
     fun elevatorMM (newElevatorState: String = "Null")
     {
-        var targetPos = newElevatorState
         if(targetPos=="Bottom" && targetPos != elevatorState )
         {
             elevatorLeft.set(ControlMode.MotionMagic, bottomHeight)
