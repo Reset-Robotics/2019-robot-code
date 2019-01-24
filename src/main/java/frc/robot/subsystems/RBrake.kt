@@ -67,20 +67,20 @@ public object RBrake : Subsystem()
         secondarySolenoid.set(Value.kReverse)
     }
 
-    fun deploy() 
+    fun deploy()
     {
 		//if(deploySolenoid.get() == Value.kForward) 
-        if (isDeployed == true)
+        if (isDeployed)
         {
 			deploySolenoid.set(Value.kReverse)
             secondarySolenoid.set(Value.kReverse)
-			isDeployed = false
+			isDeployed = !isDeployed
 		}
 		else 
         {
 			deploySolenoid.set(Value.kForward)
             secondarySolenoid.set(Value.kForward)
-			isDeployed = true
+			isDeployed = !isDeployed
         }
     }
 
