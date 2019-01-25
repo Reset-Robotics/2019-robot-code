@@ -3,17 +3,18 @@ package frc.robot
 
 public class IDs
 {
-    public var joystickLeftIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the left driver joystick
-    public var joystickRightIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the right driver joystick
-    public var xboxIDs: HashMap<String, Int> = HashMap<String, Int>() // holds ids for different buttons and axes on the xbox controller
-    public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our talon ids for drive motors
-    public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // holds all our PWM ids 
-    public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
-    public var elevatorMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
-    public var ballIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() //temp values
-    public var pidValuesDT: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
-    public var pidValuesEL: HashMap<String, Double> = HashMap<String, Double>() // holds all our PID values 
-    public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // holds all our encoder port values
+    public var joystickLeftIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds IDs for different buttons and axes on the left driver joystick
+    public var joystickRightIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds IDs for different buttons and axes on the right driver joystick
+    public var xboxIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds IDs for different buttons and axes on the xbox controller
+    public var driveMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds all our Talon IDs for drive motors
+    public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds all our PWM IDs 
+    public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds forklift motor IDs
+    public var elevatorMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds elevator motor IDs
+    public var cargoIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds ballintake motor IDs
+    public var drivetrainPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our drivetrain PID values 
+    public var elevatorPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our elevator PID values 
+    public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // Holds all our encoder port values
+    public var deadzones: HashMap<String, Double> = HashMap<String, Double>() // Holds all our deadzones
     public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
 
 
@@ -57,37 +58,46 @@ public class IDs
         xboxIDs.put("Left-Joystick-Y-Axis", 1)
         xboxIDs.put("Right-Joystick-Y-Axis", 5)
 
-        // using Morpheus' IDs for placeholder and testing right now
+
+        // Motors/Encoders/Robot Constants
+
+        // Using Morpheus' IDs for placeholder and testing right now
         driveMotorIDs.put("Front-Left", 1)
         driveMotorIDs.put("Front-Right", 2)
         driveMotorIDs.put("Back-Left", 4)
         driveMotorIDs.put("Back-Right", 3)
 
-        // temp forklift motor IDS
+        // Temporary forklift motor IDS
         forkliftMotorIDs.put("Left", 5) 
         forkliftMotorIDs.put("Right", 6)
 
 
-        // temp elevator motors
+        // Temporary elevator motors
         elevatorMotorIDs.put("Right", 7)
         elevatorMotorIDs.put("Left", 8)
 
-        //temp ball intake motor ids
-        ballIntakeMotorIDs.put("Main",9)
+        // Temporary ball intake motor ids
+        cargoIntakeMotorIDs.put("Main",9)
 
-        // pid tuning drive train
-        pidValuesDT.put("P", 0.006)
-        pidValuesDT.put("I", 0.0)
-        pidValuesDT.put("D", 0.0)
-        pidValuesDT.put("F", 0.0)
+        // PID tuning drivetrain
+        drivetrainPID.put("P", 0.006)
+        drivetrainPID.put("I", 0.0)
+        drivetrainPID.put("D", 0.0)
+        drivetrainPID.put("F", 0.0)
 
-        // pid tuning elevator
-        pidValuesEL.put("P", 0.006)
-        pidValuesEL.put("I", 0.0)
-        pidValuesEL.put("D", 0.0)
-        pidValuesEL.put("F", 0.0)
+        // PID tuning elevator
+        elevatorPID.put("P", 0.006)
+        elevatorPID.put("I", 0.0)
+        elevatorPID.put("D", 0.0)
+        elevatorPID.put("F", 0.0)
 
-        //setting the motor encoder ports for all the motors
+        // Motor encoder ports
         encoderPorts.put("Ball-Intake", 9)
+
+
+        // Deadzones
+        deadzones.put("Drivetrain", 0.1)
+        deadzones.put("CargoIntake-Subsystem", 0.1)
+        deadzones.put("CargoIntake-Spin", 0.1)
     } 
 }

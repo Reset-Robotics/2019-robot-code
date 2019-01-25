@@ -14,8 +14,8 @@ import frc.robot.IDs
 import frc.robot.commands.Drive.*
 import frc.robot.commands.RBrake.*
 import frc.robot.commands.Forklift.*
-import frc.robot.commands.BallIntake.*
-import frc.robot.subsystems.BallIntake
+import frc.robot.commands.CargoIntake.*
+import frc.robot.subsystems.CargoIntake
 import frc.robot.subsystems.RBrake
 
 public class OI 
@@ -46,8 +46,8 @@ public class OI
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
         rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
 
-        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kLeft)) < BallIntake.deadzone) leftTrigger = 0.0
-        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kRight)) < BallIntake.deadzone) rightTrigger = 0.0
+        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kLeft)) < CargoIntake.deadzone) leftTrigger = 0.0
+        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kRight)) < CargoIntake.deadzone) rightTrigger = 0.0
         SpinIntake(leftTrigger, rightTrigger)
         
         if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
