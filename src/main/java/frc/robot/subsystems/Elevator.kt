@@ -16,14 +16,16 @@ public object Elevator : Subsystem()
     
     //importing ids
     val ids: IDs = IDs()
-    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Left"))?: 5) //temp    
-    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Right"))?: 6) //temp
+    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Left"))?: 2) //temp    
+   // val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Right"))?: 3) //temp
+    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
+    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 
     //setting controller deadzone
     var deadzone: Double = 0.1
 
     // setting default command
-    val defautCommand = ElevatorJoystick()
+    override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
@@ -36,11 +38,11 @@ public object Elevator : Subsystem()
     var kPIDLoopIdx: Int = 0
     var kTimeoutMs: Int = 0
     var rightKSlotIdx: Int = 0
-    var leftKSlotIdx: Int = 0
+    var leftKSlotIdx: Int = 1
     var kGainskF: Double = 0.0
     var kGainskP: Double = 0.0
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0
+    var kGainskD: Double = 0.0 
 
     //var elevatorState: Boolean = true //elevator starts in down position
     var elevatorState: String = "Bottom"
@@ -50,54 +52,55 @@ public object Elevator : Subsystem()
     override fun onCreate()
     {
         //setting up talons to ensure no unexpected behavior
-        this.elevatorLeft.configFactoryDefault()
-        this.elevatorRight.configFactoryDefault()
-        //Set up for encoders
-        this.elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											kPIDLoopIdx, 
-											kTimeoutMs);
-        this.elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											kPIDLoopIdx, 
-											kTimeoutMs);
+        elevatorLeft.configFactoryDefault()
+        elevatorRight.configFactoryDefault()
+        
+        //et up for encoders
+        //elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+											//kPIDLoopIdx, 
+											//kTimeoutMs)
+        //elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+											//kPIDLoopIdx, 
+											//kTimeoutMs)
 
         //sets Talons to hold posistion when pow = 0
-        this.elevatorLeft.setNeutralMode(NeutralMode.Brake)
-        this.elevatorRight.setNeutralMode(NeutralMode.Brake)
-        /**
+        elevatorLeft.setNeutralMode(NeutralMode.Brake)
+        elevatorRight.setNeutralMode(NeutralMode.Brake)
+        /*
 		 * Configure Talon SRX Output and Sesnor direction accordingly
 		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
 		 * Phase sensor to have positive increment when driving Talon Forward (Green LED)
 		 */
-        this.elevatorLeft.setSensorPhase(true)
-        this.elevatorRight.setSensorPhase(true)
-        this.elevatorLeft.setInverted(false)
-        this.elevatorRight.setInverted(false)
+        elevatorLeft.setSensorPhase(true)
+        elevatorRight.setSensorPhase(false)
+        elevatorLeft.setInverted(false)
+        elevatorRight.setInverted(true)
         /* Set relevant frame periods to be at least as fast as periodic rate */
-		this.elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    this.elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
-		this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    this.elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
+	    elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
+	    elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
         // Set the peak and nominal voltage outputs- requires adjustment
-		this.elevatorRight.configNominalOutputForward(0.0, kTimeoutMs);
-		this.elevatorRight.configNominalOutputReverse(0.0, kTimeoutMs);
-		this.elevatorRight.configPeakOutputForward(1.0, kTimeoutMs);
-		this.elevatorRight.configPeakOutputReverse(-1.0, kTimeoutMs);
-		this.elevatorLeft.configNominalOutputForward(0.0, kTimeoutMs);
-		this.elevatorLeft.configNominalOutputReverse(0.0, kTimeoutMs);
-		this.elevatorLeft.configPeakOutputForward(1.0, kTimeoutMs);
-		this.elevatorLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
+		elevatorRight.configNominalOutputForward(0.0, kTimeoutMs);
+		elevatorRight.configNominalOutputReverse(0.0, kTimeoutMs);
+		elevatorRight.configPeakOutputForward(1.0, kTimeoutMs);
+		elevatorRight.configPeakOutputReverse(-1.0, kTimeoutMs);
+		elevatorLeft.configNominalOutputForward(0.0, kTimeoutMs);
+		elevatorLeft.configNominalOutputReverse(0.0, kTimeoutMs);
+		elevatorLeft.configPeakOutputForward(1.0, kTimeoutMs);
+		elevatorLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
         /* Set Motion Magic gains in slot kSlotIdx */
-		this.elevatorRight.selectProfileSlot(rightKSlotIdx, kPIDLoopIdx);
-		this.elevatorRight.config_kF(rightKSlotIdx, kGainskF, kTimeoutMs);
-		this.elevatorRight.config_kP(rightKSlotIdx, kGainskP, kTimeoutMs);
-		this.elevatorRight.config_kI(rightKSlotIdx, kGainskI, kTimeoutMs);
-		this.elevatorRight.config_kD(rightKSlotIdx, kGainskD, kTimeoutMs);
-		this.elevatorLeft.selectProfileSlot(leftKSlotIdx, kPIDLoopIdx);
-		this.elevatorLeft.config_kF(leftKSlotIdx, kGainskF, kTimeoutMs);
-		this.elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
-		this.elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
-		this.elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
-
+		elevatorRight.selectProfileSlot(rightKSlotIdx, kPIDLoopIdx);
+		elevatorRight.config_kF(rightKSlotIdx, kGainskF, kTimeoutMs);
+		elevatorRight.config_kP(rightKSlotIdx, kGainskP, kTimeoutMs);
+		elevatorRight.config_kI(rightKSlotIdx, kGainskI, kTimeoutMs);
+		elevatorRight.config_kD(rightKSlotIdx, kGainskD, kTimeoutMs);
+		elevatorLeft.selectProfileSlot(leftKSlotIdx, kPIDLoopIdx);
+		elevatorLeft.config_kF(leftKSlotIdx, kGainskF, kTimeoutMs);
+		elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
+		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
+		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+        
         ResetEnconder()
     }
 
@@ -108,21 +111,24 @@ public object Elevator : Subsystem()
     }
     fun elevator()
     {
+        
         //current limiting
-        this.elevatorLeft.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.elevatorLeft.configPeakCurrentLimit(35,0)//max current
-        this.elevatorLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
-        this.elevatorLeft.enableCurrentLimit(true) 
-        this.elevatorRight.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.elevatorRight.configPeakCurrentLimit(35,0)//max current
-        this.elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
-        this.elevatorRight.enableCurrentLimit(true)  
+        elevatorLeft.configContinuousCurrentLimit(40,0) // desired current after limit
+        elevatorLeft.configPeakCurrentLimit(35,0)//max current
+        elevatorLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        elevatorLeft.enableCurrentLimit(true) 
+        elevatorRight.configContinuousCurrentLimit(40,0) // desired current after limit
+        elevatorRight.configPeakCurrentLimit(35,0)//max current
+        elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        elevatorRight.enableCurrentLimit(true)  
     }
     //lifting the elevator as a single entity
-    fun lift(speedLeft: Double = 1.0, speedRight: Double = 1.0) 
+    fun lift(speedLeft: Double, speedRight: Double) 
     {
-        elevatorLeft.set(ControlMode.PercentOutput, speedLeft)
-        elevatorRight.set(ControlMode.PercentOutput, speedRight)
+        var localSpeedLeft = speedLeft
+        var localSpeedRight = speedRight
+        elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
+        elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
     }
     //joystick input function
     /*  fun manualLift(inputValue: Double)

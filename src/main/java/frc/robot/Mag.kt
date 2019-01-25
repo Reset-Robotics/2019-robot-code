@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
+import frc.robot.subsystems.Elevator
 import frc.robot.commands.Drive.ResetGyro
 import frc.robot.commands.Forklift.ResetForkliftSensor
 
@@ -26,6 +27,8 @@ public class Mag : Robot()
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
     public val rbrake: RBrake = RBrake
+    public var elevator: Elevator = Elevator
+    //public val elevator: Elevator = Elevator
 
     // auto command/chooser initilization goes here later?
 
@@ -37,6 +40,7 @@ public class Mag : Robot()
     {
         drivetrain.onCreate()
         rbrake.onCreate()
+        elevator.onCreate()
         // put any data to dashboard here
     }
 
@@ -52,6 +56,7 @@ public class Mag : Robot()
     override fun onAutoStart()
     {
         drivetrain.onCreate()
+        
         /* auto code goes here later. for now, have a banana
         
          _

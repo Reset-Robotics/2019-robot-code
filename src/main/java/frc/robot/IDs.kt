@@ -57,23 +57,20 @@ public class IDs
         xboxIDs.put("Left-Joystick-Y-Axis", 1)
         xboxIDs.put("Right-Joystick-Y-Axis", 5)
 
-
-        // Motors/Encoders/Robot Constants
-
-        // Using Morpheus' IDs for placeholder and testing right now
-        driveMotorIDs.put("Front-Left", 1)
-        driveMotorIDs.put("Front-Right", 2)
-        driveMotorIDs.put("Back-Left", 4)
-        driveMotorIDs.put("Back-Right", 3)
+        // using Morpheus' IDs for placeholder and testing right now
+        driveMotorIDs.put("Front-Left", 12)
+        driveMotorIDs.put("Front-Right", 11)
+        driveMotorIDs.put("Back-Left", 23)
+        driveMotorIDs.put("Back-Right", 30)
 
         // Temporary forklift motor IDS
-        forkliftMotorIDs.put("Left", 5) 
-        forkliftMotorIDs.put("Right", 6)
+        forkliftMotorIDs.put("Left", 1) 
+        forkliftMotorIDs.put("Right", 0)
 
 
-        // Temporary elevator motors
-        elevatorMotorIDs.put("Right", 7)
-        elevatorMotorIDs.put("Left", 8)
+        // temp elevator motors
+        //elevatorMotorIDs.put("Right", 1)
+        //elevatorMotorIDs.put("Left", 3)
 
         // Temporary ball intake motor ids
         cargoIntakeMotorIDs.put("Main",9)
