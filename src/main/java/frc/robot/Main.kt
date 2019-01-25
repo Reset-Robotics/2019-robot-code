@@ -12,9 +12,6 @@ public class Main
     public companion object 
     {
         @JvmStatic
-        public fun main(args: Array<String>) 
-        {
-            RobotBase.startRobot(::Mag)
-        }
+        public fun main(args: Array<String>) { RobotBase.startRobot(::Mag) }
     }
 }

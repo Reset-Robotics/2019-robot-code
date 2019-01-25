@@ -6,12 +6,9 @@ import frc.robot.subsystems.Drivetrain
 
 public class ToggleFieldOriented : Command()
 {
-   
     override fun execute(): Boolean
     {
         Drivetrain.toggleFieldOriented()
-        
-
         return true;
     }
 }
