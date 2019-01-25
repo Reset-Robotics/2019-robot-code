@@ -17,49 +17,38 @@ import frc.robot.OI
 
 public object RBrake : Subsystem()
 {
-    // constants (move local constants to IDS later)
+    // Constants 
     val ids: IDs = IDs()
     
-    // import oi reference
+    // Local instance of OI
     val oi: OI = OI()
 
-    // variables/objects
+    // Variables/Objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
     var secondarySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[3], ids.rBrakeSolenoid[2])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
     var isDeployed: Boolean = false 
-    val deadzone: Double = 0.1
+    val deadzone: Double = ids.deadzones.get("R-Brake") :? 0.1
     
 
     override fun onCreate()
     {
         rBrakeMotor.configFactoryDefault()
-        rBrakeMotor.configContinuousCurrentLimit(40,0) // desired current after limit
-		rBrakeMotor.configPeakCurrentLimit(35, 0) // max current
-		rBrakeMotor.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+        rBrakeMotor.configContinuousCurrentLimit(40,0) // Desired current after limit
+		rBrakeMotor.configPeakCurrentLimit(35, 0) // Max current
+		rBrakeMotor.configPeakCurrentDuration(100, 0) // How long after max current to be limited (ms)
 		rBrakeMotor.enableCurrentLimit(true)
     }
 
-    fun rBrake()
-    {
-        // Set Talon Modes
-		
-        // Current Limiting
+    fun rBrake() { resetEncoders() }
 
-        resetEncoders()
-    }
-
-    fun driveRBrake(pow: Double)
-    {
-        rBrakeMotor.set(pow)
-    }
+    fun driveRBrake(pow: Double) { rBrakeMotor.set(pow) }
     
     fun deployIn()
     {
         deploySolenoid.set(Value.kForward)
         secondarySolenoid.set(Value.kForward)
     }
-
 
     fun deployOut()
     {
@@ -69,7 +58,6 @@ public object RBrake : Subsystem()
 
     fun deploy()
     {
-		//if(deploySolenoid.get() == Value.kForward) 
         if (isDeployed)
         {
 			deploySolenoid.set(Value.kReverse)
@@ -84,29 +72,12 @@ public object RBrake : Subsystem()
         }
     }
 
-    fun killMotors()
-    {
-        // set each motor to 0.0 using .set()
-    }
-
-    fun resetMotorPositions()
-    {
-        // set each motor encoder position to 0.0 using .set()
-    }
-
-    fun resetEncoders()
-    {
-        // set each encoder sensor/position to (0, 0, 0) using setSelectedSensorPosition()
-    }
-
-    // example for getting raw encoder values
-    //fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
-
-    //  example for getting speed on drive motor
-    //fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
-    fun getRBrakeStatus(): Boolean
-    {
-        return isDeployed
-    }
+    fun killMotors() { rBrakeMotor.set(0.0) }
+    fun resetMotorPositions() { rBrakeMotor.set(0.0) }
+    fun resetEncoders() { this.rBrakeMotor.setSelectedSensorPosition(0, 0, 0) }
+    fun getEncoder(): Int { return rBrakeMotor.getSelectedSensorPosition(0); }
+    fun getSpeed(): Double { return rBrakeMotor.get(); }
+    fun getRBrakeStatus(): Boolean { return isDeployed }
+    
     override val defaultCommand = RBrakeSlave()
 }

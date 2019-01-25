@@ -36,6 +36,7 @@ public class Mag : Robot()
     override fun onCreate()
     {
         drivetrain.onCreate()
+        rbrake.onCreate()
         // put any data to dashboard here
     }
 
