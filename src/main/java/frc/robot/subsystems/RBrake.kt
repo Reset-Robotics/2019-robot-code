@@ -26,7 +26,7 @@ public object RBrake : Subsystem()
     // Variables/Objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
     var secondarySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[3], ids.rBrakeSolenoid[2])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
+    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
     val deadzone: Double = ids.deadzones.get("R-Brake") ?: 0.1
     

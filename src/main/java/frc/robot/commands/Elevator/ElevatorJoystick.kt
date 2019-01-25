@@ -21,7 +21,7 @@ public class ElevatorJoystick: Command ()
         if (Math.abs(joystickInput) < Elevator.deadzone)
             joystickInput = 0.0
 
-        //auto leveling when using the joystick
+         //auto leveling when using the joystick
         if (!Elevator.isElevatorLevel()){
             var error = Elevator.getElevatorError()
             if(error>0.0){//left side is too hgh
@@ -39,7 +39,7 @@ public class ElevatorJoystick: Command ()
         }
 
        
-        Elevator.lift(leftCorrection*joystickInput,rightCorrection*joystickInput)
+        Elevator.lift(leftCorrection*joystickInput, rightCorrection*joystickInput)
         
         return false; 
     }
