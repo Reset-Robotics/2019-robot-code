@@ -25,7 +25,6 @@ public object RBrake : Subsystem()
 
     // Variables/Objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
-    var secondarySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[3], ids.rBrakeSolenoid[2])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
     val deadzone: Double = ids.deadzones.get("R-Brake") ?: 0.1
@@ -44,17 +43,8 @@ public object RBrake : Subsystem()
 
     fun driveRBrake(pow: Double) { rBrakeMotor.set(pow) }
     
-    fun deployIn()
-    {
-        deploySolenoid.set(Value.kForward)
-        secondarySolenoid.set(Value.kForward)
-    }
-
-    fun deployOut()
-    {
-        deploySolenoid.set(Value.kReverse)
-        secondarySolenoid.set(Value.kReverse)
-    }
+    fun deployIn(){ deploySolenoid.set(Value.kForward) }
+    fun deployOut(){ deploySolenoid.set(Value.kReverse) }
 
     fun deploy()
     {

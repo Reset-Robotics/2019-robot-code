@@ -15,7 +15,8 @@ public class IDs
     public var elevatorPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our elevator PID values 
     public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // Holds all our encoder port values
     public var deadzones: HashMap<String, Double> = HashMap<String, Double>() // Holds all our deadzones
-    public var rBrakeSolenoid: IntArray = intArrayOf(0,1,2,3)
+    public var rBrakeSolenoid: IntArray = intArrayOf(0,1)
+    public var panelIntakeSolenoid: IntArray = intArrayOf(2,3,4,5)
 
 
     public fun IDs()
