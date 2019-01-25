@@ -28,7 +28,7 @@ public class Mag : Robot()
     public val drivetrain: Drivetrain = Drivetrain
     public val rbrake: RBrake = RBrake
     public var elevator: Elevator = Elevator
-    //public val elevator: Elevator = Elevator
+   
 
     // auto command/chooser initilization goes here later?
 
@@ -41,6 +41,7 @@ public class Mag : Robot()
         drivetrain.onCreate()
         rbrake.onCreate()
         elevator.onCreate()
+        IDs.IDs()
         // put any data to dashboard here
     }
 
