@@ -1,13 +1,13 @@
-package frc.robot.commands.BallIntake
+package frc.robot.commands.CargoIntake
 
 import org.sertain.command.Command
-import frc.robot.subsystems.BallIntake
+import frc.robot.subsystems.CargoIntake
 
 public class ToggleAutoStop: Command()
 {
     override fun execute(): Boolean
     {
-        BallIntake.toggleAutoStop()
+        CargoIntake.toggleAutoStop()
         return true
     }
 }
