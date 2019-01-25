@@ -7,27 +7,20 @@ import frc.robot.subsystems.RBrake
 class Deploy(param: String = "Null"): Command()
 {
 	var localParam = param
-	init {
+	
+	init 
+	{
 		requires(RBrake)
 	}
+
 	fun Deploy() 
     {
-		// Use requires() here to declare subsystem dependencies
-		//execute()
 	}
-	//override fun isCompleted(): Boolean 
-	//{
-	//	return true;
-	//}
 
 	override fun execute(): Boolean
     {
-		if(localParam == "Null")
-			RBrake.deploy()
-		if(localParam == "Out")
-			RBrake.deployOut()
-		else
-			RBrake.deployIn()
+		if(localParam == "Null") RBrake.deploy() else if(localParam == "Out") RBrake.deployOut() else RBrake.deployIn()
+		
 		return true; 
 	}
 }

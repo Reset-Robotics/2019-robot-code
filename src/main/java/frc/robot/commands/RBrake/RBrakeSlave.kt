@@ -7,11 +7,10 @@ import frc.robot.OI
 
 public class RBrakeSlave : Command()
 {
-    // make sure we require any necessary objects/classes
-    init {
+    init 
+    {
         requires(RBrake)
     }
-
 
     // run all our code here
     override fun execute(): Boolean
@@ -20,9 +19,9 @@ public class RBrakeSlave : Command()
                 
         var yDirection: Double = OI().joystickLeft.getY()
         var throttle: Double = 1.0 // replace with slider throttle later
-       // if (Math.abs(yDirection) < RBrake.deadzone) 
-        //    yDirection = 0.0
+        if (Math.abs(yDirection) < RBrake.deadzone) yDirection = 0.0
         RBrake.driveRBrake(yDirection)
+
         return false;
     }
 
