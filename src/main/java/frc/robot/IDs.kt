@@ -10,7 +10,8 @@ public class IDs
     public var pwmMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds all our PWM IDs 
     public var forkliftMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds forklift motor IDs
     public var elevatorMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds elevator motor IDs
-    public var cargoIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds ballintake motor IDs
+    public var cargoIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds cargointake motor IDs
+    public var armMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds arm motor IDs
     public var drivetrainPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our drivetrain PID values 
     public var elevatorPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our elevator PID values 
     public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // Holds all our encoder port values
