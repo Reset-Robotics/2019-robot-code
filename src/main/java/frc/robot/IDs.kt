@@ -97,8 +97,9 @@ public class IDs
 
         // Deadzones
         deadzones.put("Drivetrain", 0.1)
-        deadzones.put("R-Brake"), 0.1)
+        deadzones.put("R-Brake", 0.1)
         deadzones.put("CargoIntake-Subsystem", 0.1)
         deadzones.put("CargoIntake-Spin", 0.1)
+        deadzones.put("Forklift", 0.1)
     } 
 }
