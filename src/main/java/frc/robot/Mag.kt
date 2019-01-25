@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
+import frc.robot.commands.Drive.ResetGyro
 import frc.robot.commands.Forklift.ResetForkliftSensor
 
 
@@ -17,11 +18,10 @@ public class Mag : Robot()
 {
     public fun main(args: String)
     {
-
     }
 
-    // miscellaneous objects/variables
-    public var compressor: Compressor = Compressor(0);
+    // Miscellaneous objects/variables
+    public var compressor: Compressor = Compressor(0)
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
@@ -43,7 +43,6 @@ public class Mag : Robot()
     override fun executeDisabled()
     {
         drivetrain.unlockAngle()
-        //drivetrain.setFieldOriented(true)
         compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
@@ -83,8 +82,8 @@ public class Mag : Robot()
     {
         compressor.setClosedLoopControl(true)
         ResetForkliftSensor()
-        // zero navx yaw
-        // reset drivetrain encoders
+        frc.robot.commands.Drive.ResetGyro()
+        frc.robot.commands.Drive.ResetEncoders()
         // reset elevator encoders
         // any other starting configurations
         // nullcheck auto command and cancel it since telop is starting; this can eventually be replaced with smoother transition optimization to allow for a few seconds longer in auto control to allow for the sandstorm barrier to be fully up before drivers take control
