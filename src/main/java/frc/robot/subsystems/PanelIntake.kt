@@ -1,4 +1,4 @@
-package frc.robot.subsytems
+package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
 import edu.wpi.first.wpilibj.DoubleSolenoid
@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 
-public object PanelIntake : Subsytem()
+public object PanelIntake: Subsystem()
 {
      val ids: IDs = IDs()
      var solenoidTop: DoubleSolenoid = DoubleSolenoid(ids.panelIntakeSolenoid[0], ids.panelIntakeSolenoid[1])

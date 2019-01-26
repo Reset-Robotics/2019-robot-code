@@ -55,7 +55,7 @@ public object Elevator : Subsystem()
         elevatorLeft.configFactoryDefault()
         elevatorRight.configFactoryDefault()
         
-        //et up for encoders
+        //set up for encoders
         //elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 											//kPIDLoopIdx, 
 											//kTimeoutMs)

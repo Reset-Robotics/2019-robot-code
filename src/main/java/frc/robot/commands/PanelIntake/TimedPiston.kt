@@ -7,7 +7,7 @@ import frc.robot.subsystems.PanelIntake
 class TimedPiston() : Command()
 {	
     val timingConstant: Double = 0.2
-    var start: Double = 0
+    var start: Long = 10L
 
 	init 
 	{

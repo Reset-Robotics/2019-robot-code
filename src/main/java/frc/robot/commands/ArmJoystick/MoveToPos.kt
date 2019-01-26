@@ -10,7 +10,7 @@ import frc.robot.IDs
 public class MoveToPos(position: String): Command()
 {
     var ids: IDs = IDs()
-
+    var position: String = "Null"
     override fun execute(): Boolean
     {
         Arm.armMotionMagic(position)

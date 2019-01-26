@@ -80,7 +80,7 @@ public object Wrist : Subsystem()
         wristMotor.enableCurrentLimit(true) 
     }
 
-    fun moveWrist(speed: Double){ wristMotor.set(ControlMode.PercentOutput, speed) }
+    fun move(speed: Double){ wristMotor.set(ControlMode.PercentOutput, speed) }
     fun killMotors(){ wristMotor.set(0.0) }
 
     //elevator Motion Magic

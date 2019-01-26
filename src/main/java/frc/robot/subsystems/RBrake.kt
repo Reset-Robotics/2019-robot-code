@@ -51,13 +51,13 @@ public object RBrake : Subsystem()
         if (isDeployed)
         {
 			deploySolenoid.set(Value.kReverse)
-            secondarySolenoid.set(Value.kReverse)
+            //secondarySolenoid.set(Value.kReverse)
 			isDeployed = !isDeployed
 		}
 		else 
         {
 			deploySolenoid.set(Value.kForward)
-            secondarySolenoid.set(Value.kForward)
+            //secondarySolenoid.set(Value.kForward)
 			isDeployed = !isDeployed
         }
     }

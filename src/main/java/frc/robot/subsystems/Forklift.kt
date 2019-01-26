@@ -120,7 +120,7 @@ public object Forklift : Subsystem()
 
     fun manualLift(inputValue: Double) { lift(inputValue) }
 
-    fun getForkliftState():Boolean { return forkliftState; }
+   
 
     fun forkliftMM(state: Boolean)
     {

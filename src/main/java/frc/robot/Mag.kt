@@ -41,7 +41,7 @@ public class Mag : Robot()
         drivetrain.onCreate()
         rbrake.onCreate()
         elevator.onCreate()
-        IDs.IDs()
+        
         // put any data to dashboard here
     }
 
