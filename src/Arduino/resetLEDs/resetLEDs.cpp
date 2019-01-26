@@ -3,12 +3,12 @@
 #include "FAB_LED.h"
 
 sk6812<D, 6>   LEDstrip;
-grbw  pixels[12] = {}; // 12 should be _numPixels, but the array needs to be global
+grbw  pixels[12] = {}; // needs updating to be set by the constructor, not 12
 double brightnessModifier = 1;
 
 uint8_t _numPixels; uint8_t _maxBrightness;
 resetLEDs::resetLEDs(uint8_t numPixels) {
-  _numPixels = numPixels; // currently useless, seeking assistance
+  _numPixels = numPixels;
   
   
   // This section uses a for loop to itterate through all pixels in the LED strip and it sets all of their color variables to 0. This clears the LED strip on the setup phase of the Arduino.
@@ -274,3 +274,45 @@ void resetLEDs::color_chase_breathe(uint8_t wait, grbw color, grbw background, u
     }
   }
 }
+
+
+// ---------------------------------------------------------
+// START OF NEW METHODS
+// ---------------------------------------------------------
+
+// This method will blink a given color numBlinks times at intervals of wait
+void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color) {
+	for(int i = 0; i < numBlinks; i++){
+		setStrip(color);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		holdAndClear(wait, wait);
+	}
+}
+
+
+// This method will blink between 2 colors numBlinks times at intervals of wait
+void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color, grbw background) {
+	for(int i = 0; i < numBlinks; i++){
+		setStrip(color);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+		setStrip(background);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+	}
+}
+
+
+void resetLEDs::climb(uint8_t wait, uint8_t jumpSize, grbw color){
+	for(int i = 0; i < _numPixels; i += jumpSize){
+		for(int j = i; j < i + jumpSize; j++){
+			setPixel(j, color);
+		}
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+	}
+}
+
+
+
+
