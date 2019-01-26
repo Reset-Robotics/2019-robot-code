@@ -1,13 +1,19 @@
 #include "Arduino.h"
-#include "2019ResetLEDs"
+#include "resetLEDs.h"
 #include "FAB_LED.h"
 
+sk6812<D, 6>   LEDstrip;
+grbw  pixels[12] = {}; // needs updating to be set by the constructor, not 12
+double brightnessModifier = 1;
+
 uint8_t _numPixels; uint8_t _maxBrightness;
-2019ResetLEDs: :2019ResetLEDs(uint8_t numPixels, uint8_t maxBrightness) {
+resetLEDs::resetLEDs(uint8_t numPixels) {
   _numPixels = numPixels;
-  _maxBrightness = 16;
+  
+  
   // This section uses a for loop to itterate through all pixels in the LED strip and it sets all of their color variables to 0. This clears the LED strip on the setup phase of the Arduino.
   for (uint8_t pos = 0; pos < _numPixels; pos++) {
+    
     pixels[pos].g = 0;
     pixels[pos].b = 0;
     pixels[pos].r = 0;
@@ -16,18 +22,12 @@ uint8_t _numPixels; uint8_t _maxBrightness;
   LEDstrip.sendPixels(_numPixels, pixels); // Clears the LED strip by sending the new values (which we defined as all zeros above).
   //LEDstrip.refresh(); // Hack: needed for apa102 to display last pixels
 
-  grbw purple;
-  purple.r = 55; purple.g = 0; purple.b = 55; purple.w = 0;
-  grbw reset_purple;
-  reset_purple.r = 70.5; reset_purple.g = 0; reset_purple.b = 85.5; reset_purple.w = 0;
-  grbw black;
-  black.r = 0; black.g = 0; black.b = 0; black.w = 0;
   
   uint8_t offsets[] = {0, 10, 20};
 } 
 
 // This function allows us to set certain pixels in the pixels[] array. It sets the pixel at the number pos in the array and it sets it to the colors defined by each of the r, g, b, and w values defined in the other parameters. The function automatically accounts for the swapping necessary for the r and g values
-void 2019ResetLEDs: :setPixelRGBW(uint8_t pos, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
+void resetLEDs::setPixelRGBW(uint8_t pos, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
   pixels[pos].g = r;
   pixels[pos].r = g;
   pixels[pos].b = b;
@@ -35,7 +35,7 @@ void 2019ResetLEDs: :setPixelRGBW(uint8_t pos, uint8_t r, uint8_t g, uint8_t b, 
 }
 
 // This function is similar to the function above; it allows us to set a specified pixel in the pixels[] array. This function uses a grbw color variable in place of the individual r, g, b, and w values and sets the pixel at pos in the array to that color. (Note: grbw is a type declaration and you will have to declare your own grbw variable somewhere else in the script for colors to have meaning. This is a variable like everything else, words like "orange" or "purple" are not inherently understood by the library and must be defined explicity using the grbw type.)
-void 2019ResetLEDs: :setPixel(uint8_t pos, grbw color, double brightnessModifier = 1) {
+void resetLEDs::setPixel(uint8_t pos, grbw color, double brightnessModifier = 1) {
   pixels[pos].g = color.r * brightnessModifier;
   pixels[pos].r = color.g * brightnessModifier;
   pixels[pos].b = color.b * brightnessModifier;
@@ -43,21 +43,21 @@ void 2019ResetLEDs: :setPixel(uint8_t pos, grbw color, double brightnessModifier
 }
 
 // This function allows us to set a whole strip of LEDs to a grbw color variable. We do not have to specify which LED like in previous functions as it will itterate through the strip and illuminate all of them to whatever grbw variable we pass in.
-void 2019ResetLEDs: :setStrip(grbw color, double brightnessModifier = 1) {
+void resetLEDs::setStrip(grbw color, double brightnessModifier = 1) {
   for (int i = 0; i < _numPixels; i++) {
     setPixel(i, color, brightnessModifier);
   }
 }
 
 // @brief Waits then clears the LED strip.
-void 2019ResetLEDs: :holdAndClear(uint16_t on_time, uint16_t off_time) {
+void resetLEDs::holdAndClear(uint16_t on_time, uint16_t off_time) {
   delay(on_time); // waits for specified time in miliseconds
   LEDstrip.clear(1000); // turns the LED strip on for 1000 miliseconds(1 second)
   delay(off_time); // waits for the specified time in miliseconds
 }
 
 // Four Colored LEDs running up the LED strip in a color of your choice.
-void 2019ResetLEDs: :color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main, grbw background) {
+void resetLEDs::color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main, grbw background) {
   setStrip(background); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
   LEDstrip.sendPixels(_numPixels, pixels); // sends the setStrip method to the LEDs setting all the LEDs in the strip to the defined background color.
   // Itterates through all LEDs in the strip by comparing against the _numPixels constant and set an offset pixel (or pixels in this case) to the main color.
@@ -74,7 +74,7 @@ void 2019ResetLEDs: :color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], g
 }
 
 
-void 2019ResetLEDs: :color_bounce(uint8_t wait, uint8_t len, grbw main, grbw background) {
+void resetLEDs::color_bounce(uint8_t wait, uint8_t len, grbw main, grbw background) {
   setStrip(background);
   for (int led_number = -len; led_number < _numPixels + len - 1; led_number++) {
     for (int offset = 0; offset < len; offset++) {
@@ -95,7 +95,7 @@ void 2019ResetLEDs: :color_bounce(uint8_t wait, uint8_t len, grbw main, grbw bac
 }
 
 
-void 2019ResetLEDs: :split_color_bounce(uint8_t wait, uint8_t len, grbw main, grbw background) {
+void resetLEDs::split_color_bounce(uint8_t wait, uint8_t len, grbw main, grbw background) {
   setStrip(background);
   // first half
   for (int led_number = -len/2; led_number < _numPixels/2 - len; led_number++) 
@@ -143,7 +143,7 @@ void 2019ResetLEDs: :split_color_bounce(uint8_t wait, uint8_t len, grbw main, gr
 }
 
 
-void 2019ResetLEDs: :color_tetris(uint8_t wait, uint8_t len, grbw main, grbw background) {
+void resetLEDs::color_tetris(uint8_t wait, uint8_t len, grbw main, grbw background) {
   setStrip(background);
   LEDstrip.sendPixels(_numPixels, pixels);
   for (int r = 0; r < _numPixels; r += len) {
@@ -159,7 +159,7 @@ void 2019ResetLEDs: :color_tetris(uint8_t wait, uint8_t len, grbw main, grbw bac
 }
 
 
-void 2019ResetLEDs: :inverted_color_tetris(uint8_t wait, uint8_t len, grbw main, grbw background) {
+void resetLEDs::inverted_color_tetris(uint8_t wait, uint8_t len, grbw main, grbw background) {
   setStrip(background);
   LEDstrip.sendPixels(_numPixels, pixels);
   for (int r = 0; r > -_numPixels; r += len) {
@@ -175,7 +175,7 @@ void 2019ResetLEDs: :inverted_color_tetris(uint8_t wait, uint8_t len, grbw main,
 }
 
 
-void 2019ResetLEDs: :strip_breathe(uint8_t wait, grbw color, double minModifier, double maxModifier, double stepModifier) {
+void resetLEDs::strip_breathe(uint8_t wait, grbw color, double minModifier, double maxModifier, double stepModifier) {
   for (double i = minModifier; i < maxModifier;) 
   {
     setStrip(color, i);
@@ -193,7 +193,7 @@ void 2019ResetLEDs: :strip_breathe(uint8_t wait, grbw color, double minModifier,
 }
 
 
-void 2019ResetLEDs: :diffuser_breathe(uint8_t wait, grbw color, double minModifier, double maxModifier, double stepModifier, double strip1Length, double strip1Start, double strip2Length, double strip2Start, double strip3Length, double strip3Start) {
+void resetLEDs::diffuser_breathe(uint8_t wait, grbw color, double minModifier, double maxModifier, double stepModifier, double strip1Length, double strip1Start, double strip2Length, double strip2Start, double strip3Length, double strip3Start) {
   for (double pixelNum = strip1Start; pixelNum < strip1Length;)
   {
     for (double breatheIncrement = minModifier; breatheIncrement < maxModifier;) 
@@ -216,7 +216,7 @@ void 2019ResetLEDs: :diffuser_breathe(uint8_t wait, grbw color, double minModifi
 }
 
 
-void 2019ResetLEDs: :pixel_breathe(uint8_t wait, uint8_t pixel, grbw color, double minModifier, double maxModifier, double stepModifier) {
+void resetLEDs::pixel_breathe(uint8_t wait, uint8_t pixel, grbw color, double minModifier, double maxModifier, double stepModifier) {
   for (double i = minModifier; i < maxModifier;) 
   {
     setPixel(pixel, color, i);
@@ -234,7 +234,7 @@ void 2019ResetLEDs: :pixel_breathe(uint8_t wait, uint8_t pixel, grbw color, doub
 }
 
 
-void 2019ResetLEDs: :pixel_chase_breathe(uint8_t nextWait, uint8_t breatheWait, grbw color, grbw background, uint8_t len, uint8_t offsets[], double minModifier, double maxModifier, double stepModifier) {
+void resetLEDs::pixel_chase_breathe(uint8_t nextWait, uint8_t breatheWait, grbw color, grbw background, uint8_t len, uint8_t offsets[], double minModifier, double maxModifier, double stepModifier) {
   for (double i = minModifier; i < maxModifier;) 
   {
     //setStrip(background); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
@@ -256,7 +256,7 @@ void 2019ResetLEDs: :pixel_chase_breathe(uint8_t nextWait, uint8_t breatheWait, 
 }
 
 
-void 2019ResetLEDs: :color_chase_breathe(uint8_t wait, grbw color, grbw background, uint8_t len, uint8_t offsets[], double minModifier, double maxModifier, double stepModifier) {
+void resetLEDs::color_chase_breathe(uint8_t wait, grbw color, grbw background, uint8_t len, uint8_t offsets[], double minModifier, double maxModifier, double stepModifier) {
   for (double i = minModifier; i < maxModifier;) 
   {
     //setStrip(background); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
@@ -274,3 +274,45 @@ void 2019ResetLEDs: :color_chase_breathe(uint8_t wait, grbw color, grbw backgrou
     }
   }
 }
+
+
+// ---------------------------------------------------------
+// START OF NEW METHODS
+// ---------------------------------------------------------
+
+// This method will blink a given color numBlinks times at intervals of wait
+void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color) {
+	for(int i = 0; i < numBlinks; i++){
+		setStrip(color);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		holdAndClear(wait, wait);
+	}
+}
+
+
+// This method will blink between 2 colors numBlinks times at intervals of wait
+void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color, grbw background) {
+	for(int i = 0; i < numBlinks; i++){
+		setStrip(color);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+		setStrip(background);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+	}
+}
+
+
+void resetLEDs::climb(uint8_t wait, uint8_t jumpSize, grbw color){
+	for(int i = 0; i < _numPixels; i += jumpSize){
+		for(int j = i; j < i + jumpSize; j++){
+			setPixel(j, color);
+		}
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
+	}
+}
+
+
+
+
