@@ -12,6 +12,7 @@ public class IDs
     public var elevatorMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds elevator motor IDs
     public var cargoIntakeMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds cargointake motor IDs
     public var armMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds arm motor IDs
+    public var wristMotorIDs: HashMap<String, Int> = HashMap<String, Int>() // Holds wrist motor IDs
     public var drivetrainPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our drivetrain PID values 
     public var elevatorPID: HashMap<String, Double> = HashMap<String, Double>() // Holds all our elevator PID values 
     public var encoderPorts: HashMap<String, Int> = HashMap<String, Int>() // Holds all our encoder port values
@@ -65,16 +66,22 @@ public class IDs
         driveMotorIDs.put("Back-Left", 23)
         driveMotorIDs.put("Back-Right", 30)
 
-        // Temporary forklift motor IDS
+        // Temporary forklift motor IDs
         forkliftMotorIDs.put("Left", 1) 
         forkliftMotorIDs.put("Right", 0)
 
 
-        // temp elevator motors
-        //elevatorMotorIDs.put("Right", 1)
-        //elevatorMotorIDs.put("Left", 3)
+        // Temporary elevator motor IDs
+        elevatorMotorIDs.put("Right", 1)
+        elevatorMotorIDs.put("Left", 3)
 
-        // Temporary ball intake motor ids
+        // Temporary arm motor IDs
+        armMotorIDs.put("Main", 77)
+
+        // Temporary wrist motor IDs
+        wristMotorIDs.put("Main", 78)
+
+        // Temporary cargointake motor IDs
         cargoIntakeMotorIDs.put("Main",9)
 
         // PID tuning drivetrain
