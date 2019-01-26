@@ -1,7 +1,7 @@
-package frc.robot.commands.Arm
+package frc.robot.commands.Wrist
 
 import org.sertain.command.Command
-import frc.robot.subsystems.Arm
+import frc.robot.subsystems.Wrist
 import frc.robot.OI
 
 
@@ -13,7 +13,7 @@ public class MoveToPos(position: String): Command()
 
     override fun execute(): Boolean
     {
-        Arm.armMotionMagic(position)
+        Wrist.wristMotionMagic(position)
         
         return true;
     }

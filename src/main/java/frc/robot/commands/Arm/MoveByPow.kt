@@ -1,7 +1,7 @@
-package frc.robot.commands.CargoIntake
+package frc.robot.commands.Arm
 
 import org.sertain.command.Command
-import frc.robot.subsystems.CargoIntake
+import frc.robot.subsystems.Arm
 import frc.robot.OI
 
 
