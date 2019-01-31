@@ -40,9 +40,10 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
+    var angleDeadzone: Double = 3.0 //
     
 
     override fun onCreate()
@@ -233,9 +234,9 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.setSelectedSensorPosition(0, 0, 0)
     }
 
-    fun lockAngle(newAngle: Double)
+    fun lockAngle(): Boolean
     {
-        driveAngle = newAngle
+        driveAngle = getAngle()
         //turnController.enable()
         //turnController.setSetpoint(driveAngle)
         isAngleLocked = true
@@ -247,7 +248,13 @@ public object Drivetrain : Subsystem(), PIDOutput
         isAngleLocked = false
     }
 
-    fun getAngle(): Float{ return navx.getYaw(); }
+    fun checkAngleLock(): Boolean
+    {
+        if ((driveAngle - getAngle()) > angleDeadzone) return false
+        else return true
+    }
+
+    fun getAngle(): Double{ return navx.getAngle() * Math.PI / 180; }
 
     fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
