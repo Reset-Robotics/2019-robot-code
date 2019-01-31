@@ -235,7 +235,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.setSelectedSensorPosition(0, 0, 0)
     }
 
-    fun lockAtAngle(targetPos: Double)
+    fun lockAtAngle(targetPos: Double): Boolean
     {
         driveAngle = targetPos
         turnController.enable()
