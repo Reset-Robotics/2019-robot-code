@@ -20,9 +20,12 @@ public object Wrist : Subsystem()
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
     var acceleration: Double = 11000.0  //temp
-    var topHeight: Double = 72000.0 //temp
-    var middleHeight: Double = 35000.0//temp
-    var bottomHeight: Double = 0.0//temp
+    var topHeightPanel: Double = 72000.0 //temp
+    var middleHeightPanel: Double = 35000.0//temp
+    var bottomHeightPanel: Double = 0.0//temp
+    var topHeightCargo: Double = 72000.0 //temp
+    var middleHeightCargo: Double = 35000.0//temp
+    var bottomHeightCargo: Double = 0.0//temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -35,7 +38,7 @@ public object Wrist : Subsystem()
     var kGainskD: Double = 0.0 
 
     var wristState: String = "Bottom"
-
+    var intakeType: Boolean = false //false is ball true is panel
     override fun onCreate()
     {
         wristMotor.configFactoryDefault()
@@ -85,26 +88,55 @@ public object Wrist : Subsystem()
     fun wristMotionMagic (newWristState: String = "Null")
     {
         var targetPos = newWristState
-        if(targetPos=="Bottom" && targetPos != wristState )
+        if (intakeType) //panel
         {
-            wristMotor.set(ControlMode.MotionMagic, bottomHeight)
-            wristMotor.set(ControlMode.MotionMagic, bottomHeight)
-            wristState="Bottom"
+            if(targetPos=="Bottom" && targetPos != wristState )
+            {
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel)
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel)
+                wristState="Bottom"
+            }
+            if(targetPos=="Middle" && targetPos !=wristState)
+            {
+                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel)
+                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel)
+                wristState="Middle"
+            }
+            if(targetPos=="Top" && targetPos != wristState)
+            {
+                wristMotor.set(ControlMode.MotionMagic, topHeightPanel)
+                wristMotor.set(ControlMode.MotionMagic, topHeightPanel)
+                wristState="Bottom"
+            }     
         }
-        if(targetPos=="Middle" && targetPos !=wristState)
+        else  //cargo
         {
-            wristMotor.set(ControlMode.MotionMagic, middleHeight)
-            wristMotor.set(ControlMode.MotionMagic, middleHeight)
-            wristState="Middle"
+            if(targetPos=="Bottom" && targetPos != wristState )
+            {
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo)
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo)
+                wristState="Bottom"
+            }
+            if(targetPos=="Middle" && targetPos !=wristState)
+            {
+                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo)
+                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo)
+                wristState="Middle"
+            }
+            if(targetPos=="Top" && targetPos != wristState)
+            {
+                wristMotor.set(ControlMode.MotionMagic, topHeightCargo)
+                wristMotor.set(ControlMode.MotionMagic, topHeightCargo)
+                wristState="Bottom"
+            }    
         }
-        if(targetPos=="Top" && targetPos != wristState)
-        {
-            wristMotor.set(ControlMode.MotionMagic, topHeight)
-            wristMotor.set(ControlMode.MotionMagic, topHeight)
-            wristState="Bottom"
-        }     
     }
 
+    fun toggleIntakeType() : Boolean
+    {
+        intakeType = !intakeType
+        return intakeType
+    }
     // Returning the state the arm is in 
     fun returnWristState(): String { return wristState; }
 
