@@ -16,26 +16,22 @@ import frc.robot.commands.Drive.ArcadeJoystickDrive
 
 public object Drivetrain : Subsystem(), PIDOutput
 {
-    // constants (move local constants to IDS later)
+    // Constants (move local constants to IDS later)
     val ids: IDs = IDs()
 
-    val pidValP: Double = ids.pidValues.get("P") ?: 0.006 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"P\")")
-    val pidValI: Double = ids.pidValues.get("I") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"I\")!!")
-    val pidValD: Double = ids.pidValues.get("D") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"D\")!!")
-    val pidValF: Double = ids.pidValues.get("F") ?: 0.0 //throw IllegalArgumentException("No Value Stored in 'IDs().pidValues.get(\"F\")!!")
-    /*val pidValP: Double = 0.006
-    val pidValI: Double = 0.0
-    val pidValD: Double = 0.0
-    val pidValF: Double = 0.0*/
+    val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
+    val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
+    val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
+    val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
     val wheelCircumference: Double = 18.8495559215
-    val deadzone: Double = 0.1
+    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.1
 
     // drive motors
     // motor 0 is the climber
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 3) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 4) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 2) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 1) // 1
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 10) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 11) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 12) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 13) // 1
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
@@ -102,8 +98,9 @@ public object Drivetrain : Subsystem(), PIDOutput
         var localYVal: Double = yVal
         var localXVal: Double = xVal
         var localSpinVal: Double = spinVal
+        var localFieldOriented: Boolean = getFieldOriented()
 
-        if(isFieldOriented)
+        if(localFieldOriented)
         {
             var angle: Double = navx.getAngle() * Math.PI / 180
             var rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
@@ -113,8 +110,7 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
 
-        if(isAngleLocked)
-            localSpinVal = turnRate
+        if(isAngleLocked) localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
@@ -146,7 +142,6 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun fieldOrientedDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
         val angle: Double = navx.getAngle() * Math.PI / 180
-		
 		val rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
 		val rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
 		
@@ -208,13 +203,11 @@ public object Drivetrain : Subsystem(), PIDOutput
         driveBackRight.set(0.0)
     }
 
-    fun getFieldOriented(): Boolean
-    {
-        return isFieldOriented;
-    }
-    fun setFieldOriented(use: Boolean): Boolean
+    fun getFieldOriented(): Boolean { return isFieldOriented; }
+    
+    fun toggleFieldOriented(): Boolean
     { 
-        isFieldOriented = use
+        isFieldOriented = !isFieldOriented
         return isFieldOriented;
     }
 

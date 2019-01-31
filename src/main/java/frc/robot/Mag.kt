@@ -3,22 +3,32 @@ package frc.robot
 
 import org.sertain.*
 import org.sertain.command.Command
+import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 
 // import commands
 import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
+import frc.robot.subsystems.RBrake
+import frc.robot.subsystems.Elevator
+import frc.robot.commands.Drive.ResetGyro
+import frc.robot.commands.Forklift.ResetForkliftSensor
 
 
 public class Mag : Robot()
 {
     public fun main(args: String)
     {
-
     }
+
+    // Miscellaneous objects/variables
+    public var compressor: Compressor = Compressor(0)
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
+    public val rbrake: RBrake = RBrake
+    public var elevator: Elevator = Elevator
+   
 
     // auto command/chooser initilization goes here later?
 
@@ -29,6 +39,9 @@ public class Mag : Robot()
     override fun onCreate()
     {
         drivetrain.onCreate()
+        rbrake.onCreate()
+        elevator.onCreate()
+        
         // put any data to dashboard here
     }
 
@@ -36,7 +49,7 @@ public class Mag : Robot()
     override fun executeDisabled()
     {
         drivetrain.unlockAngle()
-        drivetrain.setFieldOriented(true)
+        compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
 
@@ -44,6 +57,7 @@ public class Mag : Robot()
     override fun onAutoStart()
     {
         drivetrain.onCreate()
+        
         /* auto code goes here later. for now, have a banana
         
          _
@@ -73,8 +87,10 @@ public class Mag : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
-        // zero navx yaw
-        // reset drivetrain encoders
+        compressor.setClosedLoopControl(true)
+        ResetForkliftSensor()
+        frc.robot.commands.Drive.ResetGyro()
+        frc.robot.commands.Drive.ResetEncoders()
         // reset elevator encoders
         // any other starting configurations
         // nullcheck auto command and cancel it since telop is starting; this can eventually be replaced with smoother transition optimization to allow for a few seconds longer in auto control to allow for the sandstorm barrier to be fully up before drivers take control
@@ -83,6 +99,8 @@ public class Mag : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
+        oi.OI()
+
         // put dashboard data here
     }
 }

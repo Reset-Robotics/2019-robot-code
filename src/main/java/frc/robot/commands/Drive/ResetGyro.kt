@@ -13,6 +13,6 @@ public class ResetGyro : Command()
 	override fun execute(): Boolean
 	{
 		Drivetrain.resetGyro()
-		return false;
+		return true;
 	}
 }
