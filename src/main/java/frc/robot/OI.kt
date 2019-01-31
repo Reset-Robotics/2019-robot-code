@@ -21,11 +21,11 @@ import frc.robot.subsystems.RBrake
 public class OI 
 {
     // Joysticks/Controllers
-    val joystickLeft by lazy { Joystick(IDs().joystickLeftIDs.get("USB-ID")) }
-	val joystickRight by lazy { Joystick(IDs().joystickRightIDs.get("USB-ID")) }
-    val xboxController by lazy { XboxController(IDs().xboxIDs.get("USB-ID")) }
-	val xboxJoystickLeft by lazy { Joystick(IDs().xboxIDs.get("Left-Joystick-Y-Axis")) }
-	val xboxJoystickRight by lazy { Joystick(IDs().xboxIDs.get("Right-Joystick-Y-Axis")) }
+    val joystickLeft by lazy { Joystick(IDs().joystickLeftIDs.get("USB-ID")!!) }
+	val joystickRight by lazy { Joystick(IDs().joystickRightIDs.get("USB-ID")!!) }
+    val xboxController by lazy { XboxController(IDs().xboxIDs.get("USB-ID")!!) }
+	val xboxJoystickLeft by lazy { Joystick(IDs().xboxIDs.get("Left-Joystick-Y-Axis")!!) }
+	val xboxJoystickRight by lazy { Joystick(IDs().xboxIDs.get("Right-Joystick-Y-Axis")!!) }
     
     //setting default trigger variable values
     var leftTrigger: Double = 0.0
@@ -35,11 +35,11 @@ public class OI
 
    fun OI() 
    {
-        joystickRight.whenActive(IDs().joystickRightIDs.get("Trigger"), ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
-        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger"), Deploy()) // deploys the R-Brake in/out
+        joystickRight.whenActive(IDs().joystickRightIDs.get("Trigger")!!, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger")!!, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
-        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb"), ToggleForklift()) // deploys the forklift
+        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, ToggleForklift()) // deploys the forklift
 
         //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)

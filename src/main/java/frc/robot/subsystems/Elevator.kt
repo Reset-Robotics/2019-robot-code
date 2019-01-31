@@ -15,8 +15,8 @@ public object Elevator : Subsystem()
  {
     
     //importing ids
-    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().elevatorMotorIDs.get("Left")) //temp    
-    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((IDs().elevatorMotorIDs.get("Right")) //temp
+    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(IDs().elevatorMotorIDs.get("Left")!!) //temp    
+    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(IDs().elevatorMotorIDs.get("Right")!!) //temp
     //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
     //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 

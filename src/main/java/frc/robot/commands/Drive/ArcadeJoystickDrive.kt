@@ -24,21 +24,9 @@ public class ArcadeJoystickDrive : Command()
         var spin: Double = OI().joystickRight.getTwist() * .75
         var throttle: Double = 1.0 // Replace with slider throttle later
 
-        if (Math.abs(yDirection) < Drivetrain.deadzone) 
-        {
-            yDirection = 0.0
-        }
-        if (Math.abs(xDirection) < Drivetrain.deadzone) 
-        {
-            xDirection = 0.0
-        }
-
-        if (Math.abs(spin) < Drivetrain.deadzone){
-            spin = 0.0
-            Drivetrain.lockAngle()
-
-        }
-        else Drivetrain.unlockAngle()
+        if (Math.abs(yDirection) < Drivetrain.deadzone) yDirection = 0.0 
+        if (Math.abs(xDirection) < Drivetrain.deadzone) xDirection = 0.0 
+        if (Math.abs(spin) < Drivetrain.deadzone) spin = 0.0 
         
         Drivetrain.drive(yDirection, xDirection, spin, throttle)
 

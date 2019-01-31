@@ -9,9 +9,9 @@ import frc.robot.IDs
 
 public object CargoIntake : Subsystem()
 {
-    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX(IDs().cargoIntakeMotorIDs.get("Main"))  // Creating the motor object
+    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX(IDs().cargoIntakeMotorIDs.get("Main")!!)  // Creating the motor object
     val encoderPort = IDs().encoderPorts.get("CargoIntake") // Setting the encoder port
-    public val deadzone: Double = IDs().deadzones.get("CargoIntake-Subsystem") // Trigger deadzone
+    public val deadzone: Double = IDs().deadzones.get("CargoIntake-Subsystem")!! // Trigger deadzone
     val kTimeoutMs: Int = 30// Encoder timeout
    
 

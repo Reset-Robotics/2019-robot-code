@@ -21,7 +21,7 @@ public object RBrake : Subsystem()
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
-    val deadzone: Double = IDs().deadzones.get("R-Brake")
+    val deadzone: Double = IDs().deadzones.get("R-Brake")!!
     
 
     override fun onCreate()

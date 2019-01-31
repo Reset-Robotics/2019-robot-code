@@ -17,21 +17,19 @@ import frc.robot.commands.Drive.ArcadeJoystickDrive
 public object Drivetrain : Subsystem(), PIDOutput
 {
     // Constants (move local constants to IDS later)
-    val ids: IDs = IDs()
-
-    val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
-    val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
-    val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
-    val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
+    val pidValP: Double = IDs().drivetrainPID.get("P")!!
+    val pidValI: Double = IDs().drivetrainPID.get("I")!!
+    val pidValD: Double = IDs().drivetrainPID.get("D")!!
+    val pidValF: Double = IDs().drivetrainPID.get("F")!!
     val wheelCircumference: Double = 18.8495559215
-    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.1
+    val deadzone: Double = IDs().deadzones.get("Drivetrain")!!
 
     // drive motors
     // motor 0 is the climber
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 10) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 11) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 12) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 13) // 1
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(IDs().driveMotorIDs.get("Front-Left")!!) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(IDs().driveMotorIDs.get("Front-Right")!!) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(IDs().driveMotorIDs.get("Back-Left")!!) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(IDs().driveMotorIDs.get("Back-Right")!!) // 1
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
@@ -40,7 +38,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     //var angleDeadzone: Double = 3.0 //
@@ -55,10 +53,12 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // configure PID loop
+        /*
         turnController.setInputRange(-180.0, 180.0)
         turnController.setOutputRange(-1.0, 1.0)
         turnController.setAbsoluteTolerance(turnThreshold)
         turnController.setContinuous(true)
+        */
 
         // zero gyro yaw
         resetGyro()
@@ -171,7 +171,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		val rotatedYVal: Double = yVal * Math.cos(gyroAngle) + xVal * Math.sin(gyroAngle)
 		val rotatedXVal: Double = -yVal * Math.sin(gyroAngle) + xVal * Math.cos(gyroAngle)
 		
-		driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
+		//driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
     }
     /* 
     fun turnToAngle(angle: Double, throttleVal: Double)
@@ -235,29 +235,23 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.setSelectedSensorPosition(0, 0, 0)
     }
 
-    fun lockAngle(): Boolean
+    fun lockAngle(newAngle: Double): Boolean
     {
-        driveAngle = getAngle()
-        turnController.enable()
-        turnController.setSetpoint(driveAngle)
+        driveAngle = newAngle
+        //turnController.enable()
+        //turnController.setSetpoint(driveAngle)
         isAngleLocked = true
-        return isAngleLocked
+        return isAngleLocked;
     }
 
     fun unlockAngle(): Boolean
     {
-        turnController.disable()
+        //turnController.disable()
         isAngleLocked = false
-        return isAngleLocked
+        return isAngleLocked;
     }
 
-    fun checkAngleLock(): Boolean
-    {
-        if ((driveAngle - getAngle()) > angleDeadzone) return false
-        else return true
-    }
-
-    fun getAngle(): Double{ return navx.getAngle() * Math.PI / 180; }
+    fun getAngle(): Float{ return navx.getYaw(); } 
 
     fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
