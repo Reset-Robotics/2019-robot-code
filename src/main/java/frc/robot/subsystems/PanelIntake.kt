@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
+import frc.robot.IDs
 
 public object PanelIntake: Subsystem()
 {
@@ -15,19 +16,29 @@ public object PanelIntake: Subsystem()
      
      fun panelIntake() { }
     
-     fun deployIn(){ deploySolenoid.set(Value.kForward) }
-     fun deployOut(){ deploySolenoid.set(Value.kReverse) }
+     fun deployIn()
+     { 
+          solenoidTop.set(Value.kForward) 
+          solenoidBottom.set(Value.kForward) 
+     }
+     fun deployOut()
+     {
+          solenoidTop.set(Value.kReverse) 
+          solenoidBottom.set(Value.kReverse)
+     }
 
      fun deploy()
      {
           if (isDeployed)
           {
-		     deploySolenoid.set(Value.kReverse)
-			isDeployed = !isDeployed
+               solenoidTop.set(Value.kReverse) 
+               solenoidBottom.set(Value.kReverse)
+               isDeployed = !isDeployed
 		}
 		else 
           {
-			deploySolenoid.set(Value.kForward)
+			solenoidTop.set(Value.kForward) 
+               solenoidBottom.set(Value.kForward) 
 			isDeployed = !isDeployed
           }
      }

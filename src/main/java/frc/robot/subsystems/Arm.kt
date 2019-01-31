@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 
 
 import frc.robot.IDs
-import frc.robot.commands.Arm.JoystickDrive
+import frc.robot.commands.Arm.ArmJoystick
 
 public object Arm : Subsystem()
 {
@@ -90,29 +90,25 @@ public object Arm : Subsystem()
         if(targetPos=="Bottom" && targetPos != armState )
         {
             armMotor.set(ControlMode.MotionMagic, bottomHeight)
-            wristMotor.set(ControlMode.MotionMagic, bottomHeight)
             armState="Bottom"
         }
         if(targetPos=="Middle" && targetPos !=armState)
         {
             armMotor.set(ControlMode.MotionMagic, middleHeight)
-            wristMotor.set(ControlMode.MotionMagic, middleHeight)
             armState="Middle"
         }
         if(targetPos=="Top" && targetPos != armState)
         {
             armMotor.set(ControlMode.MotionMagic, topHeight)
-            wristMotor.set(ControlMode.MotionMagic, topHeight)
             armState="Bottom"
         }     
+    }
 
     // Returning the state the arm is in 
-    fun getArmState(): String { return armState; }
+    fun returnArmState(): String { return armState; }
 
     // Functions for getting encoder values
     fun getEncoderRawArm(): Int { return armMotor.getSelectedSensorPosition(0); }
-    fun getEncoderRawWrist(): Int { return wristMotor.getSelectedSensorPosition(0); }
 
-    override val defaultCommand = JoystickDrive()
-}
+    override val defaultCommand = ArmJoystick()
 }

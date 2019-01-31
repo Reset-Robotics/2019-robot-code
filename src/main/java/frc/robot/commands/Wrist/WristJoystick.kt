@@ -1,4 +1,4 @@
-package frc.robot.commands.Arm
+package frc.robot.commands.Wrist
 
 import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
