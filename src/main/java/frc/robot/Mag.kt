@@ -48,7 +48,7 @@ public class Mag : Robot()
     // Runs periodically when the robot is disabled; WPILib disabledPeriodic() equivalent
     override fun executeDisabled()
     {
-        drivetrain.unlockAngle()
+        //drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
