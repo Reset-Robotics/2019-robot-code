@@ -38,7 +38,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     //var angleDeadzone: Double = 3.0 //
@@ -53,12 +53,12 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // configure PID loop
-        /*
+        
         turnController.setInputRange(-180.0, 180.0)
         turnController.setOutputRange(-1.0, 1.0)
         turnController.setAbsoluteTolerance(turnThreshold)
         turnController.setContinuous(true)
-        */
+        
 
         // zero gyro yaw
         resetGyro()
@@ -210,7 +210,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
-        return isFieldOriented;
+        return true;
     }
 
     fun resetGyro()
@@ -235,23 +235,32 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.setSelectedSensorPosition(0, 0, 0)
     }
 
-    fun lockAngle(newAngle: Double): Boolean
+    fun lockAtAngle(targetPos: Double)
     {
-        driveAngle = newAngle
-        //turnController.enable()
-        //turnController.setSetpoint(driveAngle)
+        driveAngle = targetPos
+        turnController.enable()
+        turnController.setSetpoint(driveAngle)
+        isAngleLocked = true
+        return isAngleLocked;
+    }
+    
+    fun lockAngle(): Boolean
+    {
+        driveAngle = getAngle()
+        turnController.enable()
+        turnController.setSetpoint(driveAngle)
         isAngleLocked = true
         return isAngleLocked;
     }
 
     fun unlockAngle(): Boolean
     {
-        //turnController.disable()
+        turnController.disable()
         isAngleLocked = false
         return isAngleLocked;
     }
 
-    fun getAngle(): Float{ return navx.getYaw(); } 
+    fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
 
     fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
