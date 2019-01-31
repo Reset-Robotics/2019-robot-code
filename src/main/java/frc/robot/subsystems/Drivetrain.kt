@@ -43,7 +43,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
-    var angleDeadzone: Double = 3.0 //
+    //var angleDeadzone: Double = 3.0 //
     
 
     override fun onCreate()
@@ -55,10 +55,10 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // configure PID loop
-        //turnController.setInputRange(-180.0, 180.0)
-        //turnController.setOutputRange(-1.0, 1.0)
-        //turnController.setAbsoluteTolerance(turnThreshold)
-        //turnController.setContinuous(true)
+        turnController.setInputRange(-180.0, 180.0)
+        turnController.setOutputRange(-1.0, 1.0)
+        turnController.setAbsoluteTolerance(turnThreshold)
+        turnController.setContinuous(true)
 
         // zero gyro yaw
         resetGyro()
@@ -149,6 +149,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         cartesianDrive(rotatedYVal, rotatedXVal, spinVal, throttleVal)
     }
 
+    /* 
     fun driveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
     {
         //if(!turnController.isEnabled())
@@ -161,7 +162,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		
         cartesianDrive(yVal, xVal, spin, throttleVal)
     }
-
+    */
     fun fieldOrientedDriveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
     {
 		val gyroAngle: Double = navx.getAngle() * Math.PI / 180 //convert degrees to radians
@@ -172,7 +173,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		
 		driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
     }
-
+    /* 
     fun turnToAngle(angle: Double, throttleVal: Double)
     {
 	    killMotors()
@@ -184,7 +185,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		
 	    killMotors()
     }
-
+    */
 	fun polarDrive(angle: Double, spin: Double, speed: Double)
     {
 		var localAngle: Double = angle + 90
@@ -237,15 +238,17 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun lockAngle(): Boolean
     {
         driveAngle = getAngle()
-        //turnController.enable()
-        //turnController.setSetpoint(driveAngle)
+        turnController.enable()
+        turnController.setSetpoint(driveAngle)
         isAngleLocked = true
+        return isAngleLocked
     }
 
-    fun unlockAngle()
+    fun unlockAngle(): Boolean
     {
-        //turnController.disable()
+        turnController.disable()
         isAngleLocked = false
+        return isAngleLocked
     }
 
     fun checkAngleLock(): Boolean
