@@ -4,12 +4,8 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
 import frc.robot.OI
 
-
-import frc.robot.IDs
-
 public class MoveToPos(position: String): Command()
 {
-    var ids: IDs = IDs()
     var position: String = "Null"
 
     override fun execute(): Boolean

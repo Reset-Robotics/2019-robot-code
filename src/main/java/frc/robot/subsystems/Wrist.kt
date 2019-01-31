@@ -12,9 +12,7 @@ import frc.robot.commands.Wrist.WristJoystick
 
 public object Wrist : Subsystem()
 {
-    val ids: IDs = IDs()
-   
-    val wristMotor: WPI_TalonSRX = WPI_TalonSRX((ids.wristMotorIDs.get("Main"))?: 78) //temp    
+    val wristMotor: WPI_TalonSRX = WPI_TalonSRX(IDs().wristMotorIDs.get("Main")) //temp    
     //setting controller deadzone
     var deadzone: Double = 0.1
 

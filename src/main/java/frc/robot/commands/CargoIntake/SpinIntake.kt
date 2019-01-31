@@ -4,15 +4,11 @@ import org.sertain.command.Command
 import frc.robot.subsystems.CargoIntake
 import frc.robot.OI
 
-
-import frc.robot.IDs
-
 public class SpinIntake(leftInput: Double, rightInput: Double): Command()
 {
     var rightTriggerAxis: Double = rightInput + 1
     var leftTriggerAxis: Double = leftInput
     var spin: Double = 1.0 //pow applied to the ball intake motor
-    var ids: IDs = IDs()
     public val deadzone: Double = 0.1
 
     override fun execute(): Boolean

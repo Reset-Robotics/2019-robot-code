@@ -20,13 +20,12 @@ import frc.robot.subsystems.RBrake
 
 public class OI 
 {
-    val ids: IDs = IDs()
     // Joysticks/Controllers
-    val joystickLeft by lazy { Joystick((ids.joystickLeftIDs.get("USB-ID")) ?: 0) }
-	val joystickRight by lazy { Joystick((ids.joystickRightIDs.get("USB-ID")) ?: 1) }
-    val xboxController by lazy { XboxController((ids.xboxIDs.get("USB-ID")) ?: 2) }
-	val xboxJoystickLeft by lazy { Joystick((ids.xboxIDs.get("Left-Joystick-Y-Axis")) ?: 1) }
-	val xboxJoystickRight by lazy { Joystick((ids.xboxIDs.get("Right-Joystick-Y-Axis")) ?: 5) }
+    val joystickLeft by lazy { Joystick(IDs().joystickLeftIDs.get("USB-ID")) }
+	val joystickRight by lazy { Joystick(IDs().joystickRightIDs.get("USB-ID")) }
+    val xboxController by lazy { XboxController(IDs().xboxIDs.get("USB-ID")) }
+	val xboxJoystickLeft by lazy { Joystick(IDs().xboxIDs.get("Left-Joystick-Y-Axis")) }
+	val xboxJoystickRight by lazy { Joystick(IDs().xboxIDs.get("Right-Joystick-Y-Axis")) }
     
     //setting default trigger variable values
     var leftTrigger: Double = 0.0
@@ -36,11 +35,11 @@ public class OI
 
    fun OI() 
    {
-        joystickRight.whenActive(ids.joystickRightIDs.get("Trigger") ?: 1, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
-        joystickLeft.whenActive(ids.joystickLeftIDs.get("Trigger") ?: 1, Deploy()) // deploys the R-Brake in/out
+        joystickRight.whenActive(IDs().joystickRightIDs.get("Trigger"), ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger"), Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
-        joystickLeft.whenActive(ids.joystickLeftIDs.get("Side-Thumb") ?:1, ToggleForklift()) // deploys the forklift
+        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb"), ToggleForklift()) // deploys the forklift
 
         //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)

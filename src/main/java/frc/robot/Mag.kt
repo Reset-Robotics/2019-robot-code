@@ -17,10 +17,6 @@ import frc.robot.commands.Forklift.ResetForkliftSensor
 
 public class Mag : Robot()
 {
-    public fun main(args: String)
-    {
-    }
-
     // Miscellaneous objects/variables
     public var compressor: Compressor = Compressor(0)
 

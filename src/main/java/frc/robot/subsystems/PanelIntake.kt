@@ -9,9 +9,8 @@ import frc.robot.IDs
 
 public object PanelIntake: Subsystem()
 {
-     val ids: IDs = IDs()
-     var solenoidTop: DoubleSolenoid = DoubleSolenoid(ids.panelIntakeSolenoid[0], ids.panelIntakeSolenoid[1])
-     var solenoidBottom: DoubleSolenoid = DoubleSolenoid(ids.panelIntakeSolenoid[2], ids.panelIntakeSolenoid[3])
+     var solenoidTop: DoubleSolenoid = DoubleSolenoid(IDs().panelIntakeSolenoid[0], IDs().panelIntakeSolenoid[1])
+     var solenoidBottom: DoubleSolenoid = DoubleSolenoid(IDs().panelIntakeSolenoid[2], IDs().panelIntakeSolenoid[3])
      var isDeployed: Boolean = false
      
      fun panelIntake() { }

@@ -13,10 +13,6 @@ class Deploy(param: String = "Null"): Command()
 		requires(RBrake)
 	}
 
-	fun Deploy() 
-    {
-	}
-
 	override fun execute(): Boolean
     {
 		if(localParam == "Null") RBrake.deploy() else if(localParam == "Out") RBrake.deployOut() else RBrake.deployIn()

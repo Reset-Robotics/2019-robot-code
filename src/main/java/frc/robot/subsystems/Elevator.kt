@@ -15,11 +15,10 @@ public object Elevator : Subsystem()
  {
     
     //importing ids
-    val ids: IDs = IDs()
-    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Left"))?: 2) //temp    
-   // val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Right"))?: 3) //temp
-    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
-    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
+    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().elevatorMotorIDs.get("Left")) //temp    
+    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((IDs().elevatorMotorIDs.get("Right")) //temp
+    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
+    //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 
     //setting controller deadzone
     var deadzone: Double = 0.1

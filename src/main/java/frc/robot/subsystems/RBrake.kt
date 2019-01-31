@@ -17,17 +17,11 @@ import frc.robot.OI
 
 public object RBrake : Subsystem()
 {
-    // Constants 
-    val ids: IDs = IDs()
-    
-    // Local instance of OI
-    val oi: OI = OI()
-
     // Variables/Objects
-    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
+    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
-    val deadzone: Double = ids.deadzones.get("R-Brake") ?: 0.1
+    val deadzone: Double = IDs().deadzones.get("R-Brake")
     
 
     override fun onCreate()
