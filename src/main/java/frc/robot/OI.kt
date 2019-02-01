@@ -50,8 +50,5 @@ public class OI
         SpinIntake(leftTrigger, rightTrigger)
         
         if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
-        
-        // TODO: Change this to being just a default command run by the RBrake subsystem
-        RBrakeSlave()
    }
 }
