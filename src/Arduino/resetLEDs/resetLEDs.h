@@ -24,6 +24,7 @@ class resetLEDs {
     void holdAndClear(uint16_t on_time, uint16_t off_time);
 
 	void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main, grbw Background);
+  void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main);
 
 	void color_bounce(uint8_t Wait, uint8_t Legnth, grbw Main, grbw Background);
     void split_color_bounce(uint8_t Wait, uint8_t Legnth, grbw Main, grbw Background);
@@ -44,8 +45,17 @@ class resetLEDs {
 
 	void climb(uint8_t wait, uint8_t jumpSize, grbw color);
   void climb_clear(uint8_t wait, uint8_t jumpSize, grbw color);
+  void climb_in(uint8_t wait, grbw color);
+  void climb_out(uint8_t wait, grbw color);
 
-  void sweeper(uint8_t wait, uint8_t jumpSize, grbw color);
+  void impact(uint8_t climbWait, uint8_t flashWait, grbw climbColor, grbw flashColor);
+
+  void middle_out(int wait, grbw color);
+  void out_middle(int wait, grbw color);
+  void middle_out_middle(int wait, grbw color);
+  void out_middle_out(int wait, grbw color);
+
+  void color_chase_in(uint8_t wait, uint8_t len, uint8_t offsets[], grbw color);
 };
 
 // #endif

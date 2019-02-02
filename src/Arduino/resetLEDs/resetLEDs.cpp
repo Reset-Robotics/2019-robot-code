@@ -5,12 +5,15 @@
 sk6812<D, 6>   LEDstrip;
 grbw*  pixels;
 double brightnessModifier = 1;
+grbw black;
+
+void setPixel(uint8_t pos, grbw color, double brightnessModifier = 1);
 
 uint8_t _numPixels; uint8_t _maxBrightness;
 resetLEDs::resetLEDs(uint8_t numPixels) {
   _numPixels = numPixels;
   pixels = new grbw[_numPixels];
-
+  black.r = 0; black.b = 0; black.g = 0; black.w = 0;
 
   // This section uses a for loop to itterate through all pixels in the LED strip and it sets all of their color variables to 0. This clears the LED strip on the setup phase of the Arduino.
   for (uint8_t pos = 0; pos < _numPixels; pos++) {
@@ -69,6 +72,22 @@ void resetLEDs::color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], grbw m
     }
     setPixel(offsets[0] + led_number, background);
     setPixel(offsets[1] + led_number, background);
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+  }
+}
+
+void resetLEDs::color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main) {
+  setStrip(black); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
+  LEDstrip.sendPixels(_numPixels, pixels); // sends the setStrip method to the LEDs setting all the LEDs in the strip to the defined background color.
+  // Itterates through all LEDs in the strip by comparing against the _numPixels constant and set an offset pixel (or pixels in this case) to the main color.
+  for (int led_number = -len; led_number < _numPixels + len - 1; led_number++) {
+    for (int spot = 0; spot < len; spot++) {
+      setPixel(offsets[0] + led_number + spot, main);
+      setPixel(offsets[1] + led_number + spot, main);
+    }
+    setPixel(offsets[0] + led_number, black);
+    setPixel(offsets[1] + led_number, black);
     LEDstrip.sendPixels(_numPixels, pixels);
     delay(wait);
   }
@@ -284,12 +303,14 @@ void resetLEDs::color_chase_breathe(uint8_t wait, grbw color, grbw background, u
 // This method will blink a given color numBlinks times at intervals of wait
 void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color) {
 	for(int i = 0; i < numBlinks; i++){
-		setStrip(color);
-		LEDstrip.sendPixels(_numPixels, pixels);
-		delay(wait);
     LEDstrip.clear(1000);
     delay(wait);
+    setStrip(color);
+		LEDstrip.sendPixels(_numPixels, pixels);
+		delay(wait);
 	}
+  LEDstrip.clear(1000);
+  delay(wait);
 }
 
 
@@ -305,7 +326,7 @@ void resetLEDs::color_flash(uint8_t wait, uint8_t numBlinks, grbw color, grbw ba
 	}
 }
 
-
+// sets pixels to a color in a snake-like progression
 void resetLEDs::climb(uint8_t wait, uint8_t jumpSize, grbw color){
 	for(int i = 0; i < _numPixels; i += jumpSize){
 		for(int j = i; j < i + jumpSize; j++){
@@ -316,8 +337,10 @@ void resetLEDs::climb(uint8_t wait, uint8_t jumpSize, grbw color){
 	}
 }
 
+// sets pixels to a color in a snake-like progression, then clears the strip
 void resetLEDs::climb_clear(uint8_t wait, uint8_t jumpSize, grbw color){
-  LEDstrip.clear(1000);
+  setStrip(black);
+  LEDstrip.sendPixels(_numPixels, pixels);
 	for(int i = 0; i < _numPixels; i += jumpSize){
 		for(int j = i; j < i + jumpSize; j++){
 			setPixel(j, color);
@@ -327,6 +350,93 @@ void resetLEDs::climb_clear(uint8_t wait, uint8_t jumpSize, grbw color){
 	}
 }
 
-void resetLEDs::sweeper(uint8_t wait, uint8_t jumpSize, grbw color) {
+// climbs the strip in a color, then flashes in a 2nd color
+void resetLEDs::impact(uint8_t wait, uint8_t wait2, grbw climbColor, grbw flashColor) {
+  setStrip(black);
+  LEDstrip.sendPixels(_numPixels, pixels);
 
+  climb_clear(wait, 1, climbColor);
+  color_flash(wait2, 3, flashColor);
+}
+
+// sends a snake out from the middle in both directions
+void resetLEDs::middle_out(int wait, grbw color){
+
+  for(int i = 0; i < _numPixels/2;i++){
+
+    setPixel((_numPixels/2 + i), color);
+
+    setPixel((_numPixels/2 - i), color);
+
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+  }
+  setStrip(color);
+  LEDstrip.sendPixels(_numPixels, pixels);
+  delay(wait);
+}
+
+// sends a snake towards the middle from eother end
+void resetLEDs::out_middle(int wait, grbw color){
+
+  for(int i = 0; i < _numPixels/2;i++){
+
+    setPixel(_numPixels - i, color);
+
+    setPixel(i, color);
+
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+
+  }
+  setStrip(color);
+  LEDstrip.sendPixels(_numPixels, pixels);
+  delay(wait);
+}
+
+// snakes from the middle to the outside, then retracts back to the middle
+void resetLEDs::middle_out_middle(int wait, grbw color) {
+  middle_out(wait, color);
+  out_middle(wait, black);
+}
+
+// snakes from the outsides to the middle, then retracts
+void resetLEDs::out_middle_out(int wait, grbw color) {
+  out_middle(wait, color);
+  middle_out(wait, black);
+}
+
+// snakes out from the middle, then clears from the middle
+void resetLEDs::climb_out(uint8_t wait, grbw color){
+  middle_out(wait, color);
+  middle_out(wait, black);
+}
+
+// snakes out from the middle, then clears from the middle
+void resetLEDs::climb_in(uint8_t wait, grbw color){
+  out_middle(wait, color);
+  out_middle(wait, black);
+}
+
+// sends groups outwards from the center
+void resetLEDs::color_chase_in(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main){
+
+  for (int led_number = -len; led_number < _numPixels/2 - len + 1; led_number++) {
+
+    for (int spot = 0; spot < len; spot++) {
+      setPixel(led_number + spot, main);
+
+      setPixel((_numPixels - led_number) - spot, main);
+    }
+    setPixel(led_number, black);
+    setPixel(led_number, black);
+
+    setPixel((_numPixels - led_number), black);
+    setPixel((_numPixels - led_number), black);
+
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+  }
+  setStrip(black);
+  LEDstrip.sendPixels(_numPixels, pixels);
 }
