@@ -25,6 +25,8 @@ public class Mag : Robot()
     public val rbrake: RBrake = RBrake
     public var elevator: Elevator = Elevator
    
+    // Initialize I2C object for the Arduino
+    public var arduino: I2C = I2C(Port.kOnboard, 168) // 168 is placeholder for the i2c wire number; change this later to be reflective of the actual port and put this in a constants file
 
     // auto command/chooser initilization goes here later?
 

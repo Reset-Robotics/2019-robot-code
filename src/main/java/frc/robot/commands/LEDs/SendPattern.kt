@@ -1,8 +1,14 @@
 package frc.robot.commands.LEDs
 
 import org.sertain.command.Command
-import frc.robot.subsystems.LEDs
+import frc.robot.subsystems.LEDController
 
-public class SendPattern(string : String): Command() {
-  // CALLS sendToArduino with the value from Options at string
+public class SendPattern(pattern: String): Command() 
+{
+      override fun execute(): Boolean
+    {
+        LEDController.sendToArduino(pattern)
+        
+        return false;
+    }
 }
