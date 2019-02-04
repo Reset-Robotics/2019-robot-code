@@ -18,16 +18,16 @@
 #include <iomanip>
 #include <atomic>
 #include <unistd.h>
-#include <zmq.hpp>
+//#include <zmq.hpp>
 
 
 //Main
 int main()
 {
 
-	zmq::context_t context (1);
-	zmq::socket_t publisher(context, ZMQ_PUB);
-	publisher.bind("tcp://*:5801"); // Available ports are 1180-1190 and 5800 to 5810. Do not use 1181.
+	//zmq::context_t context (1);
+	//zmq::socket_t publisher(context, ZMQ_PUB);
+	//publisher.bind("tcp://*:5801"); // Available ports are 1180-1190 and 5800 to 5810. Do not use 1181.
 
 	std::cout << "starting server\n";
 
@@ -82,7 +82,7 @@ int main()
 
 
   //start the video
-  cv::VideoCapture input(0);
+  cv::VideoCapture input(28);
   cv::VideoWriter output;
 
   //loop for each frame
@@ -173,10 +173,10 @@ int main()
         double distance2Pixels= ((centerX + centerX1) / 2) - (640 / 2); // 640 is camera width
 				std::cout << "Distance pix" << distance2Pixels << std::endl;
 
-				zmq::message_t message(20);
+				//zmq::message_t message(20);
 
-				snprintf ((char *) message.data(), 20, "displacement %f", distance2Pixels);
-				publisher.send(message);
+				//snprintf ((char *) message.data(), 20, "displacement %f", distance2Pixels);
+				//publisher.send(message);
       }
 		}
 }

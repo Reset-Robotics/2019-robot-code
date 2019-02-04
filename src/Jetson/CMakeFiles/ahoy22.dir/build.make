@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/ahoy
+CMAKE_SOURCE_DIR = /home/nvidia/Jetson
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/ahoy
+CMAKE_BINARY_DIR = /home/nvidia/Jetson
 
 # Include any dependencies generated for this target.
 include CMakeFiles/ahoy22.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/ahoy22.dir/flags.make
 
 CMakeFiles/ahoy22.dir/ahoy22.cpp.o: CMakeFiles/ahoy22.dir/flags.make
 CMakeFiles/ahoy22.dir/ahoy22.cpp.o: ahoy22.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/ahoy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ahoy22.dir/ahoy22.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ahoy22.dir/ahoy22.cpp.o -c /home/ubuntu/ahoy/ahoy22.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nvidia/Jetson/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ahoy22.dir/ahoy22.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ahoy22.dir/ahoy22.cpp.o -c /home/nvidia/Jetson/ahoy22.cpp
 
 CMakeFiles/ahoy22.dir/ahoy22.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ahoy22.dir/ahoy22.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/ahoy/ahoy22.cpp > CMakeFiles/ahoy22.dir/ahoy22.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nvidia/Jetson/ahoy22.cpp > CMakeFiles/ahoy22.dir/ahoy22.cpp.i
 
 CMakeFiles/ahoy22.dir/ahoy22.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ahoy22.dir/ahoy22.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/ahoy/ahoy22.cpp -o CMakeFiles/ahoy22.dir/ahoy22.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nvidia/Jetson/ahoy22.cpp -o CMakeFiles/ahoy22.dir/ahoy22.cpp.s
 
 CMakeFiles/ahoy22.dir/ahoy22.cpp.o.requires:
 
@@ -90,36 +90,26 @@ ahoy22_EXTERNAL_OBJECTS =
 
 ahoy22: CMakeFiles/ahoy22.dir/ahoy22.cpp.o
 ahoy22: CMakeFiles/ahoy22.dir/build.make
-ahoy22: /usr/lib/libopencv_vstab.so.2.4.13
-ahoy22: /usr/lib/libopencv_imuvstab.so.2.4.13
-ahoy22: /usr/lib/libopencv_facedetect.so.2.4.13
-ahoy22: /usr/lib/libopencv_esm_panorama.so.2.4.13
-ahoy22: /usr/lib/libopencv_detection_based_tracker.so.2.4.13
-ahoy22: /usr/lib/libopencv_videostab.so.2.4.13
-ahoy22: /usr/lib/libopencv_ts.a
-ahoy22: /usr/lib/libopencv_superres.so.2.4.13
-ahoy22: /usr/lib/libopencv_contrib.so.2.4.13
-ahoy22: /usr/lib/libopencv_tegra.so.2.4.13
-ahoy22: /usr/lib/libopencv_stitching.so.2.4.13
-ahoy22: /usr/lib/libopencv_gpu.so.2.4.13
-ahoy22: /usr/lib/libopencv_photo.so.2.4.13
-ahoy22: /usr/lib/libopencv_legacy.so.2.4.13
-ahoy22: /usr/local/cuda-8.0/lib64/libcufft.so
-ahoy22: /usr/lib/libopencv_video.so.2.4.13
-ahoy22: /usr/lib/libopencv_objdetect.so.2.4.13
-ahoy22: /usr/lib/libopencv_ml.so.2.4.13
-ahoy22: /usr/lib/libopencv_calib3d.so.2.4.13
-ahoy22: /usr/lib/libopencv_features2d.so.2.4.13
-ahoy22: /usr/lib/libopencv_highgui.so.2.4.13
-ahoy22: /usr/lib/libopencv_imgproc.so.2.4.13
-ahoy22: /usr/lib/libopencv_flann.so.2.4.13
-ahoy22: /usr/lib/libopencv_core.so.2.4.13
-ahoy22: /usr/local/cuda-8.0/lib64/libcudart.so
-ahoy22: /usr/local/cuda-8.0/lib64/libnppc.so
-ahoy22: /usr/local/cuda-8.0/lib64/libnppi.so
-ahoy22: /usr/local/cuda-8.0/lib64/libnpps.so
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_videostab.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_ts.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_superres.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_ocl.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_gpu.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_contrib.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_photo.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_legacy.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_video.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_ml.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_flann.so.2.4.9
+ahoy22: /usr/lib/aarch64-linux-gnu/libopencv_core.so.2.4.9
 ahoy22: CMakeFiles/ahoy22.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/ahoy/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ahoy22"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nvidia/Jetson/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ahoy22"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ahoy22.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -136,6 +126,6 @@ CMakeFiles/ahoy22.dir/clean:
 .PHONY : CMakeFiles/ahoy22.dir/clean
 
 CMakeFiles/ahoy22.dir/depend:
-	cd /home/ubuntu/ahoy && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/ahoy /home/ubuntu/ahoy /home/ubuntu/ahoy /home/ubuntu/ahoy /home/ubuntu/ahoy/CMakeFiles/ahoy22.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nvidia/Jetson && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nvidia/Jetson /home/nvidia/Jetson /home/nvidia/Jetson /home/nvidia/Jetson /home/nvidia/Jetson/CMakeFiles/ahoy22.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ahoy22.dir/depend
 

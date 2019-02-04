@@ -301,7 +301,7 @@ OpenCV_LIB_DIR_DBG:PATH=
 OpenCV_LIB_DIR_OPT:PATH=
 
 //The directory containing a CMake configuration file for ZeroMQ.
-ZeroMQ_DIR:PATH=/usr/local/share/cmake/ZeroMQ
+ZeroMQ_DIR:PATH=ZeroMQ_DIR-NOTFOUND
 
 //Value Computed by CMake
 ahoy_BINARY_DIR:STATIC=/home/nvidia/Jetson

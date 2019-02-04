@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/nvidia/Jetson/ahoy22.cpp
+/home/nvidia/Jetson/ahoy44.cpp
 opencv2/highgui/highgui.hpp
 -
 opencv2/imgproc/imgproc.hpp
@@ -38,5 +38,7 @@ iomanip
 atomic
 -
 unistd.h
+-
+zmq.hpp
 -
 
