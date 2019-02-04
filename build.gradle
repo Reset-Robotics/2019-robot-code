@@ -1,15 +1,26 @@
 import edu.wpi.first.gradlerio.GradleRIOPlugin
 import edu.wpi.first.gradlerio.frc.FRCJavaArtifact
 import edu.wpi.first.gradlerio.frc.RoboRIO
+import com.cisco.gradle.externalbuild.ExternalNativeLibrarySpec
+import com.cisco.gradle.externalbuild.tasks.CMake
+
 
 plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.3.11"
     id "edu.wpi.first.GradleRIO" version "2019.1.1"
     id "jaci.gradle.EmbeddedTools" version "2018.12.18"
+    id 'com.cisco.external-build' version '1.10'
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
+def getIntermediateDir = { binary ->
+    file("${buildDir}/external-build/${binary.component.name}/${binary.targetPlatform.name}")
+}
+
+def getInstallDir = { binary ->
+    file("${buildDir}/install/${binary.component.name}/${binary.targetPlatform.name}")
+}
 
 
 ext.kotlinVersion = "1.3.11"
@@ -111,6 +122,35 @@ deploy {
         fileArtifact('jetsonFileDeploy') {
             file = file('ahoy22')
             filename = 'ahoy22.exe'
+        }
+    }
+}
+
+model {
+    components {
+        jetson(ExternalNativeExecutableSpec) {
+            buildConfig(CMake) {
+                def intDir = getIntermediateDir(binary)
+                def outputDir = getInstallDir(binary)
+
+                cmakeRoot '.'
+                cmakeArgs "-DCMAKE_INSTALL_PREFIX=${outputDir}"
+                targets 'all', 'install'
+
+                inputs.dir 'src/Jetson'
+                inputs.file 'CMakeLists.txt'
+                outputs.dir outputDir
+
+                workingDir intDir
+                environment = [
+                    'PATH': toolChainPath,
+                ]
+            }
+
+            buildOutput {
+                def outputDir = getInstallDir(binary)
+                outputFile = file("${outputDir}/bin/jetson")
+            }
         }
     }
 }
