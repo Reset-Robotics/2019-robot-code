@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
+import edu.wpi.first.wpilibj.I2C
 import frc.robot.Mag
 
 public object LEDController : Subsystem() 
@@ -25,6 +26,6 @@ public object LEDController : Subsystem()
       "Panel-Intake-Ready" -> patternAddress = panelReadyPattern.address
     }
 
-    Mag.arduino.write(168, patternAddress)
+    Mag.arduino.write(63, patternAddress)
   }
 }

@@ -5,6 +5,7 @@ import org.sertain.*
 import org.sertain.command.Command
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
+import edu.wpi.first.wpilibj.I2C
 
 // import commands
 import frc.robot.IDs
@@ -26,7 +27,7 @@ public class Mag : Robot()
     public var elevator: Elevator = Elevator
    
     // Initialize I2C object for the Arduino
-    public var arduino: I2C = I2C(Port.kOnboard, 168) // 168 is placeholder for the i2c wire number; change this later to be reflective of the actual port and put this in a constants file
+    public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
 
     // auto command/chooser initilization goes here later?
 
