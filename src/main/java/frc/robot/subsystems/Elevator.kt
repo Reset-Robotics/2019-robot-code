@@ -100,10 +100,10 @@ public object Elevator : Subsystem()
 		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
 		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
         
-        ResetEnconder()
+        ResetEncoders()
     }
 
-    fun ResetEnconder()
+    fun ResetEncoders()
     {
         elevatorLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
         elevatorRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)

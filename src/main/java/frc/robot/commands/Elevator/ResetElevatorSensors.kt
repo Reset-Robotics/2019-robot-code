@@ -5,11 +5,9 @@ import frc.robot.subsystems.Elevator
 
 public class ResetElevatorSensor: Command()
 {
-    // resets all the sensors to do with the Forklist subsystem
     override fun execute(): Boolean
     {
-        Elevator.ResetEncoder() //reseting both motor encoders on the forklift to have the same "zeroed" state
-        //will reset gyro when gyro code is installed
+        Elevator.ResetEncoders()
         return true;
     }
 }
