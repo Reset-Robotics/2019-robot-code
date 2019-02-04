@@ -31,12 +31,9 @@ public object Forklift : Subsystem()
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0
 
-    var forkliftState: Boolean = true //forklift starts in down position
-
 
     fun Forklift()
     {
-        /* 
         //current limiting 
         this.forkliftLeft.configContinuousCurrentLimit(40,0) // desired current after limit
         this.forkliftLeft.configPeakCurrentLimit(35,0)//max current
@@ -48,9 +45,8 @@ public object Forklift : Subsystem()
         this.forkliftRight.enableCurrentLimit(true) 
 
         //set Talon Mode
-        this.forkliftLeft.setNeutralMode(NuetralMode.Brake)
-        this.forkliftRight.setNeutralMode(NuetralMode.Brake)
-          */
+        this.forkliftLeft.setNeutralMode(NeutralMode.Brake)
+        this.forkliftRight.setNeutralMode(NeutralMode.Brake)
     }
 
     override fun onCreate()
@@ -101,10 +97,10 @@ public object Forklift : Subsystem()
 		this.forkliftLeft.configMotionAcceleration(acceleration, kTimeoutMs);
 		this.forkliftRight.configMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
 		this.forkliftRight.configMotionAcceleration(acceleration, kTimeoutMs);
-        ResetEnconder()
+        ResetEncoders()
     }
 
-    fun ResetEnconder()
+    fun ResetEncoders()
     {
         forkliftLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
         forkliftRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
@@ -118,7 +114,10 @@ public object Forklift : Subsystem()
 
     fun manualLift(inputValue: Double) { lift(inputValue) }
 
-   
+    fun deployForks()
+    {
+        // do something
+    }
 
     fun forkliftMM(state: Boolean)
     {

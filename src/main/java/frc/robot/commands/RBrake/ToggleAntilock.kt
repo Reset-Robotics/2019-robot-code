@@ -4,7 +4,7 @@ import org.sertain.command.Command
 import frc.robot.subsystems.RBrake
 
 
-class Deploy(param: String = "Null"): Command()
+class ToggleAntilock(param: String = "Null"): Command()
 {
 	var localParam = param
 	
