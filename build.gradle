@@ -6,9 +6,11 @@ plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.3.11"
     id "edu.wpi.first.GradleRIO" version "2019.1.1"
+    id "jaci.gradle.EmbeddedTools" version "2018.12.18"
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
 
 ext.kotlinVersion = "1.3.11"
 ext.sertainVersion = "a2c505171b318836e0619b3c25dabae3a7857bf5"
@@ -56,6 +58,7 @@ compileKotlin {
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
+        // Rio co-processor target
         roboRIO("roborio") {
             // Team number is loaded either from the .wpilib/wpilib_preferences.json
             // or from command line. If not found an exception will be thrown.
@@ -63,8 +66,27 @@ deploy {
             // want to store a team number in this file.
             team = frc.getTeamOrDefault(6325)
         }
+
+        // Jetson co-processor target
+        target("jetson") {
+            directory = '/home/6325/Jetson' 
+            maxChannels = 1
+            timeout = 30
+            failOnMissing = true
+            
+            locations {
+                ssh {
+                    address = "nvidia@tegra-ubuntu"
+                    user = 'nvidia'
+                    password = 'nvidia'
+                    ipv6 = false
+                }
+            }
+                       
+        }
     }
     artifacts {
+        // Rio co-processor artifact
         frcJavaArtifact('frcJava') {
             targets << "roborio"
             // Debug can be overridden by command line, for use with VSCode
@@ -78,12 +100,24 @@ deploy {
             targets << "roborio"
             directory = '/home/lvuser/deploy'
         }
+
+        // Jetson co-processor artifact
+        artifact('jetsonArtifact') {
+            directory = '/home/6325/Jetson'
+            targets << "jetson"
+        }
+
+        // Jetson co-processor file deploy artifact
+        fileArtifact('jetsonFileDeploy') {
+            file = file('ahoy22')
+            filename = 'ahoy22.exe'
+        }
     }
 }
 
-// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding the manifest so WPILib
-// knows where to look for our Robot Class.
+/* Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+in order to make them all available at runtime. Also adding the manifest so WPILib
+knows where to look for our Robot Class. */
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
