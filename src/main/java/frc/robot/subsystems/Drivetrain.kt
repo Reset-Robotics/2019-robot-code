@@ -16,20 +16,21 @@ import frc.robot.commands.Drive.ArcadeJoystickDrive
 
 public object Drivetrain : Subsystem(), PIDOutput
 {
-    // Constants (move local constants to IDS later)
-    val pidValP: Double = 0.006
-    val pidValI: Double = 0.0
-    val pidValD: Double = 0.0
-    val pidValF: Double = 0.0
+    val ids: IDs = IDs()
+
+    val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
+    val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
+    val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
+    val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
     val wheelCircumference: Double = 18.8495559215
-    val deadzone: Double = 0.1
+    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.1
 
     // drive motors
     // motor 0 is the climber
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(3) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(4) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(2) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(1) // 1
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 3) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 4) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 2) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 1) // 1
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
