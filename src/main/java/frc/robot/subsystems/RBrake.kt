@@ -22,7 +22,7 @@ public object RBrake : Subsystem()
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
     var antiMode: Boolean = false
-    val deadzone: Double = IDs().deadzones.get("R-Brake")!!
+    val deadzone: Double = 0.1
     
 
     override fun onCreate()
