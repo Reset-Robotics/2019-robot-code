@@ -10,6 +10,7 @@ public class DriveByTime(xDir: Double, yDir: Double, angle: Double, throttleVal:
     var yDirection: Double = xDir
     var xDirection: Double = yDir
     var localTime: Double = time
+    var startTime: Double = 0.0
     var isFinished: Boolean = false
     var localAngle: Double = angle
     var throttle: Double = throttleVal
@@ -20,7 +21,7 @@ public class DriveByTime(xDir: Double, yDir: Double, angle: Double, throttleVal:
         requires(Drivetrain)
     }
 
-    override fun onCreate() { var startTime: Double = Timer.getMatchTime() }
+    override fun onCreate() { startTime = Timer.getMatchTime() }
 
     override fun execute(): Boolean
     {             
@@ -31,7 +32,7 @@ public class DriveByTime(xDir: Double, yDir: Double, angle: Double, throttleVal:
     		isFinished = true
     		Drivetrain.killMotors()
         }
-        if (isFinished = true)
+        if (isFinished)
             return true;
 
         return false;
