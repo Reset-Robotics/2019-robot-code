@@ -119,7 +119,7 @@ public object Forklift : Subsystem()
         // do something
     }
 
-    fun forkliftMM(state: Boolean)
+    /*fun forkliftMM(state: Boolean)
     {
         forkliftState = state
         if (forkliftState == false)
@@ -132,7 +132,7 @@ public object Forklift : Subsystem()
             forkliftLeft.set(ControlMode.MotionMagic, 0.0)
             forkliftRight.set(ControlMode.MotionMagic, 0.0)
         }
-    }
+    }*/
 
     fun getEncoderRawLeftForklift(): Int { return forkliftLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawRightForklift(): Int { return forkliftRight.getSelectedSensorPosition(0); }

@@ -41,7 +41,8 @@ public object Drivetrain : Subsystem(), PIDOutput
     var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
-    //var angleDeadzone: Double = 3.0 //
+    var isProfileFinished: Boolean = false
+    var angleDeadzone: Double = 3.0 
     
 
     override fun onCreate()
@@ -173,19 +174,19 @@ public object Drivetrain : Subsystem(), PIDOutput
 		
 		//driveAtAngle(rotatedYVal, rotatedXVal, angle, throttleVal)
     }
-    /* 
+
     fun turnToAngle(angle: Double, throttleVal: Double)
     {
 	    killMotors()
 	
-	    lockAngle(angle)
+	    lockAngle()
 	
-	    //while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
-		//    drive(0.0, 0.0, 0.0, throttleVal);
+	    while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+		    drive(0.0, 0.0, 0.0, throttleVal);
 		
 	    killMotors()
     }
-    */
+
 	fun polarDrive(angle: Double, spin: Double, speed: Double)
     {
 		var localAngle: Double = angle + 90

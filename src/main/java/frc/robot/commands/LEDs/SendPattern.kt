@@ -6,9 +6,10 @@ import frc.robot.subsystems.LEDController
 
 public class SendPattern(pattern: String): Command() 
 {
-      override fun execute(): Boolean
+    val localPattern: String = pattern
+    override fun execute(): Boolean
     {
-        LEDController.sendToArduino(pattern)
+        LEDController.sendToArduino(localPattern)
         
         return false;
     }

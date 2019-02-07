@@ -26,6 +26,6 @@ public object LEDController : Subsystem()
       "Panel-Intake-Ready" -> patternAddress = panelReadyPattern.address
     }
 
-    Mag.arduino.write(63, patternAddress)
+    //Mag.arduino.write(63, patternAddress)
   }
 }

@@ -39,7 +39,7 @@ public class OI
         joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger")!!, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
-        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, ToggleForklift()) // deploys the forklift
+        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, DeployForks()) // deploys the forklift
 
         //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)

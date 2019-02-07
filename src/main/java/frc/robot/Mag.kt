@@ -27,7 +27,7 @@ public class Mag : Robot()
     public var elevator: Elevator = Elevator
    
     // Initialize I2C object for the Arduino
-    public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
+    //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
 
     // auto command/chooser initilization goes here later?
 

@@ -15,7 +15,7 @@ class DeployForks(param: String = "Null"): Command()
 
 	override fun execute(): Boolean
     {
-		Forklift.deployForks
+		Forklift.deployForks()
 		
 		return true; 
 	}

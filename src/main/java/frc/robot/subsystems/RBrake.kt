@@ -21,7 +21,7 @@ public object RBrake : Subsystem()
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
     var isDeployed: Boolean = false 
-    var antilockMode: Boolean = false
+    var antiMode: Boolean = false
     val deadzone: Double = IDs().deadzones.get("R-Brake")!!
     
 
@@ -67,26 +67,26 @@ public object RBrake : Subsystem()
 
     fun antilockModeEnable()
     {  
-        antilockMode = true
+        antiMode = true
         runAntilockMode()
     }
-    fun antilockModeDisable(){ antilockMode = false }
+    fun antilockModeDisable(){ antiMode = false }
 
     fun runAntilockMode()
     {
-        var startTime: Double = System.currentTimeMillis()
+        var startTime = System.currentTimeMillis()
 
-        if (antilockMode && isDeployed == false)
-            deployOut
+        if (antiMode && isDeployed == false)
+            deployOut()
 
-        while(antilockMode)
+        while(antiMode)
         {
-            driveRBrake(1)
+            driveRBrake(1.0)
             if (System.currentTimeMillis() - startTime > 0.05) // arbitrary delay; needs testing
                 killMotors()
         }
 
-        if (antilockMode == false)
+        if (antiMode == false)
             killMotors()
     }
 
@@ -95,7 +95,7 @@ public object RBrake : Subsystem()
     fun resetEncoders() { this.rBrakeMotor.setSelectedSensorPosition(0, 0, 0) }
     fun getEncoder(): Int { return rBrakeMotor.getSelectedSensorPosition(0); }
     fun getSpeed(): Double { return rBrakeMotor.get(); }
-    fun getAntilockMode(): Boolean { return antilockMode }
+    fun getAntilockMode(): Boolean { return antiMode }
     fun getRBrakeStatus(): Boolean { return isDeployed }
     
     override val defaultCommand = RBrakeSlave()

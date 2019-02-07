@@ -4,7 +4,12 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
 import frc.robot.OI
 
-public class ResetWristEncoders(position: String): Command() //done after auto unfold is complete
+public class ResetWristEncoders(position: String): Command()
 {
-    Wrist.ResetEncoders()
+    override fun execute(): Boolean
+    {
+        Wrist.ResetEncoder()
+        //will reset gyro when gyro code is installed
+        return true;
+    }
 }
