@@ -23,8 +23,8 @@ public class Mag : Robot()
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
-    public val rbrake: RBrake = RBrake
-    public var elevator: Elevator = Elevator
+    //public val rbrake: RBrake = RBrake
+    //public var elevator: Elevator = Elevator
    
     // Initialize I2C object for the Arduino
     //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
@@ -38,8 +38,8 @@ public class Mag : Robot()
     override fun onCreate()
     {
         drivetrain.onCreate()
-        rbrake.onCreate()
-        elevator.onCreate()
+        //rbrake.onCreate()
+        //elevator.onCreate()
         
         // put any data to dashboard here
     }

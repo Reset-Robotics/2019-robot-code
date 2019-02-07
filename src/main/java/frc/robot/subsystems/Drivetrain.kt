@@ -238,10 +238,13 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     fun lockAtAngle(targetPos: Double): Boolean
     {
+        if (!isAngleLocked)
+        {
         driveAngle = targetPos
         turnController.enable()
         turnController.setSetpoint(driveAngle)
         isAngleLocked = true
+        }
         return isAngleLocked;
     }
     
