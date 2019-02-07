@@ -12,6 +12,8 @@ plugins {
     id "jaci.gradle.EmbeddedTools" version "2018.12.18"
     id 'com.cisco.external-build' version '1.10'
 }
+apply plugin: 'com.cisco.external-build'
+
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 def getIntermediateDir = { binary ->
@@ -113,7 +115,7 @@ deploy {
         }
 
         // Jetson co-processor artifact
-        artifact('jetsonArtifact') {
+        nativeArtifact('myNativeArtifact') {
             directory = '/home/6325/Jetson'
             targets << "jetson"
         }
@@ -128,7 +130,7 @@ deploy {
 
 model {
     components {
-        jetson(ExternalNativeExecutableSpec) {
+        jetson(ExternalNativeLibrarySpec) {
             buildConfig(CMake) {
                 def intDir = getIntermediateDir(binary)
                 def outputDir = getInstallDir(binary)
