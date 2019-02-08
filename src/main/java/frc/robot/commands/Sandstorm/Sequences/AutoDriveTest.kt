@@ -1,9 +1,9 @@
 package frc.robot.commands.Sandstorm.Sequences
 
-import org.sertain.command.CommandGroup
+import org.sertain.command.Command
 import frc.robot.commands.Drive.Auto.DriveByTime
 
-public class AutoDriveTest : CommandGroup()
+public class AutoDriveTest : Command()
 {
     override fun execute(): Boolean
     {
@@ -12,4 +12,3 @@ public class AutoDriveTest : CommandGroup()
         return true;
     }
 }
-//philip is a noodle
