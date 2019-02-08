@@ -20,12 +20,13 @@ import frc.robot.subsystems.RBrake
 
 public class OI 
 {
+    val ids: IDs = IDs()
     // Joysticks/Controllers
-    val joystickLeft by lazy { Joystick(IDs().joystickLeftIDs.get("USB-ID")!!) }
-	val joystickRight by lazy { Joystick(IDs().joystickRightIDs.get("USB-ID")!!) }
-    val xboxController by lazy { XboxController(IDs().xboxIDs.get("USB-ID")!!) }
-	val xboxJoystickLeft by lazy { Joystick(IDs().xboxIDs.get("Left-Joystick-Y-Axis")!!) }
-	val xboxJoystickRight by lazy { Joystick(IDs().xboxIDs.get("Right-Joystick-Y-Axis")!!) }
+    val joystickLeft by lazy { Joystick((ids.joystickLeftIDs.get("USB-ID")) ?: 0) }
+	val joystickRight by lazy { Joystick((ids.joystickRightIDs.get("USB-ID")) ?: 1) }
+    val xboxController by lazy { XboxController((ids.xboxIDs.get("USB-ID")) ?: 2) }
+	val xboxJoystickLeft by lazy { Joystick((ids.xboxIDs.get("Left-Joystick-Y-Axis")) ?: 1) }
+    val xboxJoystickRight by lazy { Joystick((ids.xboxIDs.get("Right-Joystick-Y-Axis")) ?: 5) }
     
     //setting default trigger variable values
     var leftTrigger: Double = 0.0
