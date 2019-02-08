@@ -42,6 +42,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
+    var isDriftMode: Boolean = false
     //var isProfileFinished: Boolean = false
     //var angleDeadzone: Double = 3.0 
     
@@ -71,8 +72,8 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun Drivetrain()
     {
         // Set Talon Mode
-        this.driveFrontLeft.setNeutralMode(NeutralMode.Brake)
-        this.driveFrontRight.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontLeft.setNeutralMode(NeutralMode.Coast)
+        this.driveFrontRight.setNeutralMode(NeutralMode.Coast)
         this.driveBackLeft.setNeutralMode(NeutralMode.Brake)
         this.driveBackRight.setNeutralMode(NeutralMode.Brake)
 		
@@ -137,11 +138,20 @@ public object Drivetrain : Subsystem(), PIDOutput
             wheels[2] = wheels[2] / max
             wheels[3] = wheels[3] / max
         }
-
+        if (isDriftMode)
+        {
+        driveFrontLeft.set(0.0)
+        driveFrontRight.set(0.0)
+        driveBackLeft.set(wheels[1])
+        driveBackRight.set(wheels[2])
+        }
+        else
+        {
         driveFrontLeft.set(wheels[0])
         driveFrontRight.set(wheels[3])
         driveBackLeft.set(wheels[1])
         driveBackRight.set(wheels[2])
+        }
     }
 
     fun fieldOrientedDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
@@ -273,6 +283,12 @@ public object Drivetrain : Subsystem(), PIDOutput
         turnController.disable()
         isAngleLocked = false
         return isAngleLocked;
+    }
+
+    fun toggleDriftMode(): Boolean
+    {
+        isDriftMode=!isDriftMode
+        return isDriftMode
     }
 
     fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 

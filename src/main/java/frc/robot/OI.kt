@@ -36,8 +36,9 @@ public class OI
 
    fun OI() 
    {
-        joystickRight.whenActive(2, ResetGyro())
-        joystickRight.whenActive(3, ToggleAngleLock())
+        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
+        joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
+        joystickRight.whenActive(2, DriftMode())
         joystickRight.whenActive((IDs().joystickRightIDs.get("Trigger")) ?: 1, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
