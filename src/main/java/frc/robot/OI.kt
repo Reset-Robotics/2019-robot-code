@@ -38,8 +38,8 @@ public class OI
    {
         joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
-        joystickRight.whenActive(2, DriftMode())
-        joystickRight.whenActive((IDs().joystickRightIDs.get("Trigger")) ?: 1, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        joystickRight.whileActive(1, DriftMode())
+        joystickRight.whenActive((IDs().joystickRightIDs.get("Trigger")) ?: 2, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering

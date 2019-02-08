@@ -9,8 +9,17 @@ public class DriftMode : Command()
 	// Called just before this Command runs the first time
 	override fun execute(): Boolean
 	{
-		Drivetrain.toggleDriftMode()
-		return true;
+		//Drivetrain.toggleDriftMode()
+		return false;
 	}
+    
+    override fun onCreate()
+    {
+        Drivetrain.toggleDriftMode()
+    }
+    override fun onDestroy()
+    {
+        Drivetrain.toggleDriftMode()
+    }
 }
 //Makes our robot think its in a TokyoDriftMovie

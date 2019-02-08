@@ -140,8 +140,8 @@ public object Drivetrain : Subsystem(), PIDOutput
         }
         if (isDriftMode)
         {
-        driveFrontLeft.set(0.0)
-        driveFrontRight.set(0.0)
+        driveFrontLeft.set(yVal)
+        driveFrontRight.set(yVal)
         driveBackLeft.set(wheels[1])
         driveBackRight.set(wheels[2])
         }
