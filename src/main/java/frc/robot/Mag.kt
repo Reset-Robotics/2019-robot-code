@@ -19,6 +19,10 @@ import frc.robot.commands.Sandstorm.Sequences.AutoDriveTest
 
 public class Mag : Robot()
 {
+    public fun main(args: String)
+    {
+    }
+
     // Miscellaneous objects/variables
     public var compressor: Compressor = Compressor(0)
 
