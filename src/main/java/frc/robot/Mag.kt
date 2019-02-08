@@ -62,7 +62,7 @@ public class Mag : Robot()
     {
         drivetrain.onCreate()
         
-        //AutoDriveTest()
+        AutoDriveTest()
         /* auto code goes here later. for now, have a banana
         
          _

@@ -10,11 +10,11 @@ import frc.robot.IDs
 
 public object Forklift : Subsystem()
  {
-    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX(IDs().forkliftMotorIDs.get("Left")!!) // Placeholder    
-    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX(IDs().forkliftMotorIDs.get("right")!!) // Placeholder
+    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().forkliftMotorIDs.get("Left")) ?: 1) // Placeholder    
+    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX((IDs().forkliftMotorIDs.get("Right")) ?: 0) // Placeholder
 
     // Setting controller deadzone
-    val deadzone: Double = IDs().deadzones.get("Forklift")!!
+    val deadzone: Double = (IDs().deadzones.get("Forklift")) ?: 0.1
 
     // Configure motion magic
     var cruiseVelocity: Int = 1500 // Placeholder
