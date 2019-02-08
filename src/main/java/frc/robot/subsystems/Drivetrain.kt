@@ -39,11 +39,11 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
-    var isProfileFinished: Boolean = false
-    var angleDeadzone: Double = 3.0 
+    //var isProfileFinished: Boolean = false
+    //var angleDeadzone: Double = 3.0 
     
 
     override fun onCreate()
@@ -182,8 +182,8 @@ public object Drivetrain : Subsystem(), PIDOutput
 	
 	    lockAngle()
 	
-	    while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
-		    drive(0.0, 0.0, 0.0, throttleVal);
+	    /*while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+		    drive(0.0, 0.0, 0.0, throttleVal);*/
 		
 	    killMotors()
     }
@@ -241,26 +241,26 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         if (!isAngleLocked)
         {
-        driveAngle = targetPos
-        turnController.enable()
-        turnController.setSetpoint(driveAngle)
-        isAngleLocked = true
+            //driveAngle = targetPos
+            //turnController.enable()
+            //turnController.setSetpoint(driveAngle)
+            isAngleLocked = true
         }
         return isAngleLocked;
     }
     
     fun lockAngle(): Boolean
     {
-        driveAngle = getAngle()
-        turnController.enable()
-        turnController.setSetpoint(driveAngle)
+        //driveAngle = getAngle()
+        //turnController.enable()
+        //turnController.setSetpoint(driveAngle)
         isAngleLocked = true
         return isAngleLocked;
     }
 
     fun unlockAngle(): Boolean
     {
-        turnController.disable()
+        //turnController.disable()
         isAngleLocked = false
         return isAngleLocked;
     }
