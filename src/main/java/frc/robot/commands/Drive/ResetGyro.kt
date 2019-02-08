@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drivetrain
 
 public class ResetGyro : Command()
 {
-	public fun ResetGyro() = requires(Drivetrain)
+	
 
 	// Called just before this Command runs the first time
 	override fun execute(): Boolean

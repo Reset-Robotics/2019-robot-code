@@ -214,7 +214,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
-        return true;
+        return isFieldOriented;
     }
 
     fun resetGyro()
