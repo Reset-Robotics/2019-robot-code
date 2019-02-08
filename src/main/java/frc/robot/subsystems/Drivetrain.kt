@@ -270,7 +270,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     fun unlockAngle(): Boolean
     {
-        //turnController.disable()
+        turnController.disable()
         isAngleLocked = false
         return isAngleLocked;
     }
