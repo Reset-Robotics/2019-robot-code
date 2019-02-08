@@ -3,7 +3,7 @@ package frc.robot.commands.Sandstorm.Sequences
 import org.sertain.command.Command
 import frc.robot.commands.Drive.Auto.DriveByTime
 
-public class AutoDriveTest : Command()
+public class AutoDriveTest : CommandGroup()
 {
     override fun execute(): Boolean
     {
