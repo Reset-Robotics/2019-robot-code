@@ -48,6 +48,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     override fun onCreate()
     {
+        /* 
         // Set up encoders
         this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
         this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
@@ -62,8 +63,9 @@ public object Drivetrain : Subsystem(), PIDOutput
         turnController.setContinuous(true)
         
 
-        // zero gyro yaw
+        //zero gyro yaw
         resetGyro()
+        */
     }
 
     fun Drivetrain()
@@ -251,10 +253,13 @@ public object Drivetrain : Subsystem(), PIDOutput
     
     fun lockAngle(): Boolean
     {
-        //driveAngle = getAngle()
+        //if (!isAngleLocked)
+        //{
+        driveAngle = getAngle()
         //turnController.enable()
         //turnController.setSetpoint(driveAngle)
         isAngleLocked = true
+        //}
         return isAngleLocked;
     }
 

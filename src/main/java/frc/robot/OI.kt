@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.GenericHID
 // Robot Imports
 import frc.robot.IDs
 import frc.robot.commands.Drive.*
-import frc.robot.commands.RBrake.*
-import frc.robot.commands.Forklift.*
-import frc.robot.commands.CargoIntake.*
-import frc.robot.subsystems.CargoIntake
-import frc.robot.subsystems.RBrake
+//import frc.robot.commands.RBrake.*
+//import frc.robot.commands.Forklift.*
+//import frc.robot.commands.CargoIntake.*
+//import frc.robot.subsystems.CargoIntake
+//import frc.robot.subsystems.RBrake
 
 public class OI 
 {
@@ -39,19 +39,19 @@ public class OI
         joystickRight.whenActive(2, ResetGyro())
         joystickRight.whenActive(3, ToggleAngleLock())
         joystickRight.whenActive(IDs().joystickRightIDs.get("Trigger")!!, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
-        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger")!!, Deploy()) // deploys the R-Brake in/out
+        //joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger")!!, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
-        joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, DeployForks()) // deploys the forklift
+        //joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, DeployForks()) // deploys the forklift
 
         //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
         rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
 
-        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kLeft)) < CargoIntake.deadzone) leftTrigger = 0.0
-        if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kRight)) < CargoIntake.deadzone) rightTrigger = 0.0
-        SpinIntake(leftTrigger, rightTrigger)
+        //if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kLeft)) < CargoIntake.deadzone) leftTrigger = 0.0
+        //if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kRight)) < CargoIntake.deadzone) rightTrigger = 0.0
+        //SpinIntake(leftTrigger, rightTrigger)
         
-        if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
+        //if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
    }
 }
