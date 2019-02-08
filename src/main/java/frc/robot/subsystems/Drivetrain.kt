@@ -39,7 +39,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    //var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     //var isProfileFinished: Boolean = false
@@ -48,7 +48,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     override fun onCreate()
     {
-        /* 
+        
         // Set up encoders
         this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
         this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
@@ -65,7 +65,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 
         //zero gyro yaw
         resetGyro()
-        */
+        
     }
 
     fun Drivetrain()
@@ -243,9 +243,9 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         if (!isAngleLocked)
         {
-            //driveAngle = targetPos
-            //turnController.enable()
-            //turnController.setSetpoint(driveAngle)
+            driveAngle = targetPos
+            turnController.enable()
+            turnController.setSetpoint(driveAngle)
             isAngleLocked = true
         }
         return isAngleLocked;
@@ -253,13 +253,18 @@ public object Drivetrain : Subsystem(), PIDOutput
     
     fun lockAngle(): Boolean
     {
-        //if (!isAngleLocked)
-        //{
+        if (!isAngleLocked)
+        {
         driveAngle = getAngle()
-        //turnController.enable()
-        //turnController.setSetpoint(driveAngle)
+        turnController.enable()
+        turnController.setSetpoint(driveAngle)
         isAngleLocked = true
-        //}
+        }
+        else 
+        {
+            isAngleLocked = false
+            turnController.disable()
+        }
         return isAngleLocked;
     }
 
