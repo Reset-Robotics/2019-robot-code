@@ -14,6 +14,7 @@ import frc.robot.subsystems.RBrake
 import frc.robot.subsystems.Elevator
 import frc.robot.commands.Drive.ResetGyro
 import frc.robot.commands.Forklift.ResetForkliftSensor
+import frc.robot.commands.Sandstorm.Sequences.AutoDriveTest
 
 
 public class Mag : Robot()
@@ -57,6 +58,7 @@ public class Mag : Robot()
     {
         drivetrain.onCreate()
         
+        AutoDriveTest()
         /* auto code goes here later. for now, have a banana
         
          _
