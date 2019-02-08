@@ -62,7 +62,7 @@ public class Mag : Robot()
     {
         drivetrain.onCreate()
         
-        AutoDriveTest()
+        
         /* auto code goes here later. for now, have a banana
         
          _
@@ -85,6 +85,7 @@ public class Mag : Robot()
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
     override fun executeAuto()
     {
+        AutoDriveTest()
         // put any dashboard data
         // something to allow for interruption and transition to 'teleop' either at the end of the sandstorm or as soon as the driver takes control
     }
