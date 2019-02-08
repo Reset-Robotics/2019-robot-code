@@ -38,11 +38,11 @@ public class OI
    {
         joystickRight.whenActive(2, ResetGyro())
         joystickRight.whenActive(3, ToggleAngleLock())
-        joystickRight.whenActive(IDs().joystickRightIDs.get("Trigger")!!, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
-        //joystickLeft.whenActive(IDs().joystickLeftIDs.get("Trigger")!!, Deploy()) // deploys the R-Brake in/out
+        joystickRight.whenActive((IDs().joystickRightIDs.get("Trigger")) ?: 1, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
-        //joystickLeft.whenActive(IDs().joystickLeftIDs.get("Side-Thumb")!!, DeployForks()) // deploys the forklift
+        //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Side-Thumb")) ?: 2, DeployForks()) // deploys the forklift
 
         //Ball intake Controls
         leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
