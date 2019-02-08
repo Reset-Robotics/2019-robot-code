@@ -1,6 +1,6 @@
 package frc.robot.commands.Sandstorm.Sequences
 
-import org.sertain.command.Command
+import org.sertain.command.CommandGroup
 import frc.robot.commands.Drive.Auto.DriveByTime
 
 public class AutoDriveTest : CommandGroup()
