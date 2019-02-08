@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain
 //import frc.robot.subsystems.Elevator
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
-import frc.robot.commands.Sandstorm.Sequences.AutoDriveTest
+import frc.robot.commands.Drive.Auto.DriveByTime
 
 
 public class Mag : Robot()
@@ -85,7 +85,7 @@ public class Mag : Robot()
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
     override fun executeAuto()
     {
-        AutoDriveTest()
+        DriveByTime(0.0, -1.0, 0.0, 1.0, 2.0)
         // put any dashboard data
         // something to allow for interruption and transition to 'teleop' either at the end of the sandstorm or as soon as the driver takes control
     }
