@@ -9,8 +9,9 @@ public class DriftMode : Command()
 	// Called just before this Command runs the first time
 	override fun execute(): Boolean
 	{
-		//Drivetrain.toggleDriftMode()
-		return false;
+	
+        
+		return true;
 	}
     
     override fun onCreate()

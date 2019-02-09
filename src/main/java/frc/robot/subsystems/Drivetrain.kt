@@ -115,8 +115,10 @@ public object Drivetrain : Subsystem(), PIDOutput
             localYVal = rotatedYVal
             localXVal = rotatedXVal
         }
+        
+        
 
-        //if(isAngleLocked) localSpinVal = turnRate
+        if(isAngleLocked&&!isDriftMode) localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
