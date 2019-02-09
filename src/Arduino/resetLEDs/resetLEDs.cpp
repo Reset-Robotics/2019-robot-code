@@ -10,11 +10,17 @@ void setPixel(uint8_t pos, grbw color, double brightnessModifier = 1);
 
 uint8_t _numPixels; uint8_t _maxBrightness;
 
-resetLEDs::resetLEDs(uint8_t numPixels, const char port) {
+sk6812<D, 6> LEDstrip; // TEMPORARY !!
+
+resetLEDs::resetLEDs(uint8_t numPixels, int port) {
+	
   _numPixels = numPixels;
   pixels = new grbw[_numPixels];
-  const unsigned char localPort = port;
-  static sk6812<D, localPort> LEDstrip;
+  
+  // choosePort(port);
+  //  const unsigned char localPort = port;
+  //  static sk6812<D, localPort> LEDstrip;
+  
   Black.r = 0; Black.b = 0; Black.g = 0; Black.w = 0;
 
   // This section uses a for loop to itterate through all pixels in the LED strip and it sets all of their color variables to 0. This clears the LED strip on the setup phase of the Arduino.
@@ -31,6 +37,38 @@ resetLEDs::resetLEDs(uint8_t numPixels, const char port) {
 
   uint8_t offsets[] = {0, 10, 20};
 }
+
+/*
+sk6812<D, 6> choosePort(uint8_t port){
+	switch(port){
+		case 0:
+			public static sk6812<D, 0> LEDstrip;
+			break;
+		case 1:
+			public static sk6812<D, 1> LEDstrip;
+			break;
+		case 2:
+			public static sk6812<D, 2> LEDstrip;
+			break;
+		case 3:
+			public static sk6812<D, 3> LEDstrip;
+			break;
+		case 4:
+			public static sk6812<D, 4> LEDstrip;
+			break;
+		case 5:
+			public static sk6812<D, 5> LEDstrip;
+			break;
+		case 6:
+			public static sk6812<D, 6> LEDstrip;
+			break;
+		case 7:
+			public static sk6812<D, 7> LEDstrip;
+			break;
+	}
+}
+*/
+
 
 // This function allows us to set certain pixels in the pixels[] array. It sets the pixel at the number pos in the array and it sets it to the colors defined by each of the r, g, b, and w values defined in the other parameters. The function automatically accounts for the swapping necessary for the r and g values
 void resetLEDs::setPixelRGBW(uint8_t pos, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
@@ -421,7 +459,7 @@ void resetLEDs::climb_in(uint8_t wait, grbw color){
 }
 
 // sends groups outwards from the center
-void resetLEDs::color_chase_in(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main){
+void resetLEDs::color_chase_in(uint8_t wait, uint8_t len, grbw main){
 
   for (int led_number = -len; led_number < _numPixels/2 - len + 1; led_number++) {
 
@@ -441,4 +479,38 @@ void resetLEDs::color_chase_in(uint8_t wait, uint8_t len, uint8_t offsets[], grb
   }
   setStrip(Black);
   LEDstrip.sendPixels(_numPixels, pixels);
+}
+
+void resetLEDs::color_bounce_in(uint8_t wait, uint8_t len, grbw main){
+  setStrip(Black);
+  for (int led_number = 0; led_number < _numPixels/2; led_number++) {
+    for (int offset = 0; offset < len; offset++) {
+      setPixel(_numPixels - led_number - offset, main);
+	  setPixel(led_number + offset, main);
+    }
+    setPixel(led_number, Black);
+	setPixel(_numPixels - led_number, Black);
+	
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+  }
+  
+  for (int led_number = _numPixels/2; led_number > len/2; led_number--) {
+    for (int offset = 0; offset < len; offset++) {
+      setPixel(led_number - offset, main);
+	  setPixel(_numPixels -+led_number + offset, main);
+    }
+    setPixel(led_number, Black);
+	setPixel(_numPixels - led_number, Black);
+	
+	
+    LEDstrip.sendPixels(_numPixels, pixels);
+    delay(wait);
+  }
+
+
+
+
+
+
 }

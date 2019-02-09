@@ -13,9 +13,12 @@
 #include "FAB_LED.h" // includes the FAB_LED library in this file so we can use its library functions
 
 class resetLEDs {
+  
+  
   public:
-
-    resetLEDs(uint8_t Number_Of_LEDs_In_Strip, const char port);
+	
+    resetLEDs(uint8_t Number_Of_LEDs_In_Strip, int port);
+	// sk6812<D, 6> choosePort(uint8_t portNumber);
 
 	// Old methods - from the original robot code
     void setPixelRGBW(uint8_t Position_Of_Pixel, uint8_t Red, uint8_t Green, uint8_t Blue, uint8_t White);
@@ -23,7 +26,7 @@ class resetLEDs {
     void setStrip(grbw Color, double brightnessModifier = 1);
     void holdAndClear(uint16_t on_time, uint16_t off_time);
 
-	  void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main, grbw Background);
+	void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main, grbw Background);
     void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main);
 
   	void color_bounce(uint8_t Wait, uint8_t Legnth, grbw Main, grbw Background);
@@ -55,7 +58,8 @@ class resetLEDs {
     void middle_out_middle(int wait, grbw color);
     void out_middle_out(int wait, grbw color);
 
-    void color_chase_in(uint8_t wait, uint8_t len, uint8_t offsets[], grbw color);
+    void color_chase_in(uint8_t wait, uint8_t len, grbw color);
+	void color_bounce_in(uint8_t wait, uint8_t len, grbw main);
 };
 
 // #endif
