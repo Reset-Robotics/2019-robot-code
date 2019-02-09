@@ -3,6 +3,7 @@ package frc.robot
 
 import org.sertain.*
 import org.sertain.command.Command
+import org.sertain.command.and
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.I2C
@@ -14,7 +15,9 @@ import frc.robot.subsystems.Drivetrain
 //import frc.robot.subsystems.Elevator
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
+import frc.robot.subsystems.AutoController
 import frc.robot.commands.Drive.Auto.DriveByTime
+import frc.robot.commands.Drive.ToggleFieldOriented
 
 
 public class Mag : Robot()
@@ -30,6 +33,7 @@ public class Mag : Robot()
     public val drivetrain: Drivetrain = Drivetrain
     //public val rbrake: RBrake = RBrake
     //public var elevator: Elevator = Elevator
+    public val autocontroller: AutoController = AutoController
    
     // Initialize I2C object for the Arduino
     //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
@@ -61,8 +65,12 @@ public class Mag : Robot()
     override fun onAutoStart()
     {
         drivetrain.onCreate()
+        autocontroller.onCreate()
+        //ToggleFieldOriented()
+        DriveByTime(-1.0, 0.0, 0.25, 1.0, 2.0).start()
+        //DriveByTime
         
-        
+
         /* auto code goes here later. for now, have a banana
         
          _
@@ -85,7 +93,6 @@ public class Mag : Robot()
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
     override fun executeAuto()
     {
-        DriveByTime(0.0, -1.0, 0.0, 1.0, 2.0)
         // put any dashboard data
         // something to allow for interruption and transition to 'teleop' either at the end of the sandstorm or as soon as the driver takes control
     }
@@ -93,6 +100,7 @@ public class Mag : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
+        //drivetrain.onCreate()
         //compressor.setClosedLoopControl(true)
         //ResetForkliftSensor()
         //frc.robot.commands.Drive.ResetGyro()

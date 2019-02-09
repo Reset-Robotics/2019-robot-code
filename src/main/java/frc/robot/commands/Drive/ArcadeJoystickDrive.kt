@@ -34,7 +34,6 @@ public class ArcadeJoystickDrive : Command()
         else Drivetrain.unlockAngle()
         
         Drivetrain.drive(yDirection, xDirection, spin, throttle)
-        System.err.println("throttle")
         return false;
     }
 

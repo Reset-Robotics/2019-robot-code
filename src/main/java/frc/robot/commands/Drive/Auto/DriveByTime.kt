@@ -24,6 +24,7 @@ public class DriveByTime(xDir: Double, yDir: Double, angle: Double, throttleVal:
 
     override fun execute(): Boolean
     {             
+        Drivetrain.unlockAngle()
         Drivetrain.drive(yDirection, xDirection, localAngle, throttle)
 
         if(System.currentTimeMillis() - startTime > timeInMillis)

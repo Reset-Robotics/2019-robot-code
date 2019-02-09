@@ -23,7 +23,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
     val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
     val wheelCircumference: Double = 18.8495559215
-    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.1
+    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.3
 
     // drive motors
     // motor 0 is the climber
@@ -116,7 +116,7 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
 
-        if(isAngleLocked) localSpinVal = turnRate
+        //if(isAngleLocked) localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }

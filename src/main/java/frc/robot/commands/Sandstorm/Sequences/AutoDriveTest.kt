@@ -7,7 +7,7 @@ public class AutoDriveTest : Command()
 {
     override fun execute(): Boolean
     {
-        DriveByTime(0.0, -1.0, 0.0, 1.0, 2.0) //xdir, ydir, angle, throttle, time
+        DriveByTime(0.0, -1.0, 0.0, 0.4, 2.0) //xdir, ydir, angle, throttle, time
         
         return true;
     }
