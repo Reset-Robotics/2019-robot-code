@@ -4,9 +4,9 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
 import frc.robot.OI
 
-public class MoveToPos(position: String): Command()
+public class MoveToPos(position: Wrist.MotionData): Command()
 {
-    var localPos: String = position
+    var localPos = position
 
     override fun execute(): Boolean
     {

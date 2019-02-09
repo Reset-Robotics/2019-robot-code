@@ -18,6 +18,9 @@ import frc.robot.commands.Drive.*
 //import frc.robot.subsystems.CargoIntake
 //import frc.robot.subsystems.RBrake
 
+//utils
+import frc.robot.Util.toggleOnButtonPress
+
 public class OI 
 {
     val ids: IDs = IDs()
@@ -38,8 +41,8 @@ public class OI
    {
         joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
-        joystickRight.whileActive(1, DriftMode())
-        joystickRight.whenActive((IDs().joystickRightIDs.get("Trigger")) ?: 2, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        joystickRight.whenActive(5, DriftMode())
+        joystickRight.toggleOnButtonPress((IDs().joystickRightIDs.get("Trigger")) ?: 1, DriftMode()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering

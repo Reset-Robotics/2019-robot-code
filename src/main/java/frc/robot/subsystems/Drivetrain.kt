@@ -118,13 +118,16 @@ public object Drivetrain : Subsystem(), PIDOutput
         
         
 
-        if(isAngleLocked&&!isDriftMode) localSpinVal = turnRate
+        if(isAngleLocked && !isDriftMode) 
+            localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
 
     fun cartesianDrive(yVal: Double, xVal: Double, spinVal: Double, throttleVal: Double)
     {
+        var localDriftMode: Boolean = getDriftMode()
+
         val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), 
         ((-yVal + xVal + spinVal) * throttleVal), 
         (-((-yVal - xVal - spinVal) * throttleVal)), 
@@ -140,19 +143,19 @@ public object Drivetrain : Subsystem(), PIDOutput
             wheels[2] = wheels[2] / max
             wheels[3] = wheels[3] / max
         }
-        if (isDriftMode)
+        if(localDriftMode)
         {
-        driveFrontLeft.set(yVal)
-        driveFrontRight.set(yVal)
-        driveBackLeft.set(wheels[1])
-        driveBackRight.set(wheels[2])
+            driveFrontLeft.set(wheels[0])
+            driveFrontRight.set(wheels[3])
+            driveBackLeft.set(yVal)
+            driveBackRight.set(yVal)
         }
-        else
+        if(!localDriftMode)
         {
-        driveFrontLeft.set(wheels[0])
-        driveFrontRight.set(wheels[3])
-        driveBackLeft.set(wheels[1])
-        driveBackRight.set(wheels[2])
+            driveFrontLeft.set(wheels[0])
+            driveFrontRight.set(wheels[3])
+            driveBackLeft.set(wheels[1])
+            driveBackRight.set(wheels[2])
         }
     }
 
@@ -226,7 +229,16 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
+        System.err.println(isFieldOriented)
         return isFieldOriented;
+    }
+
+    fun getDriftMode(): Boolean { return isDriftMode; }
+
+    fun toggleDriftMode(): Boolean
+    {
+        isDriftMode = !isDriftMode
+        return isDriftMode;
     }
 
     fun resetGyro()
@@ -285,12 +297,6 @@ public object Drivetrain : Subsystem(), PIDOutput
         turnController.disable()
         isAngleLocked = false
         return isAngleLocked;
-    }
-
-    fun toggleDriftMode(): Boolean
-    {
-        isDriftMode=!isDriftMode
-        return isDriftMode
     }
 
     fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
