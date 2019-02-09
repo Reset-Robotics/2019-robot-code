@@ -6,11 +6,11 @@ import frc.robot.OI
 
 public class MoveToPos(position: String): Command()
 {
-    var position: String = "Null"
+    var localPos: String = position
 
     override fun execute(): Boolean
     {
-        Wrist.wristMotionMagic(position)
+        Wrist.wristMotionMagic(localPos)
         
         return true;
     }

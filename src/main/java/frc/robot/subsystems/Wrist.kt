@@ -16,16 +16,16 @@ public object Wrist : Subsystem()
     //setting controller deadzone
     var deadzone: Double = 0.1
 
-
     //configuring motion magic
-    var cruiseVelocity: Double = 19000.0  //temp
-    var acceleration: Double = 11000.0  //temp
-    var topHeightPanel: Double = 72000.0 //temp
-    var middleHeightPanel: Double = 35000.0//temp
-    var bottomHeightPanel: Double = 0.0//temp
-    var topHeightCargo: Double = 72000.0 //temp
-    var middleHeightCargo: Double = 35000.0//temp
-    var bottomHeightCargo: Double = 0.0//temp
+    data class MotionData(val name: String, val data: Double)
+    val cruiseVelocity = MotionData("Cruise-Velocity", 19000.0)
+    var acceleration = MotionData("Acceleration", 11000.0)
+    var topHeightPanel = MotionData("Panel-Top", 72000.0)
+    var middleHeightPanel = MotionData("Panel-Middle", 35000.0)
+    var bottomHeightPanel = MotionData("Panel-Bottom", 0.0)
+    var topHeightCargo = MotionData("Cargo-Top", 72000.0)
+    var middleHeightCargo = MotionData("Cargo-Middle", 35000.0)
+    var bottomHeightCargo = MotionData("Cargo-Bottom", 0.0)
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -85,58 +85,44 @@ public object Wrist : Subsystem()
     fun killMotors(){ wristMotor.set(0.0) }
 
     //elevator Motion Magic
-    fun wristMotionMagic (newWristState: String = "Null")
+    fun wristMotionMagic (newWristState: MotionData)
     {
         var targetPos = newWristState
-        if (intakeType) //panel
+        when(targetPos.name)
         {
-            if(targetPos=="Bottom" && targetPos != wristState )
-            {
-                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel)
-                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel)
-                wristState="Bottom"
+            "Panel-Top" -> {
+                wristMotor.set(ControlMode.MotionMagic, topHeightPanel.data)
+                wristMotor.set(ControlMode.MotionMagic, topHeightPanel.data)
+                wristState = "Panel-Top"
             }
-            if(targetPos=="Middle" && targetPos !=wristState)
-            {
-                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel)
-                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel)
-                wristState="Middle"
+            "Panel-Middle" -> {
+                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel.data)
+                wristMotor.set(ControlMode.MotionMagic, middleHeightPanel.data)
+                wristState = "Panel-Middle"
             }
-            if(targetPos=="Top" && targetPos != wristState)
-            {
-                wristMotor.set(ControlMode.MotionMagic, topHeightPanel)
-                wristMotor.set(ControlMode.MotionMagic, topHeightPanel)
-                wristState="Bottom"
-            }     
-        }
-        else  //cargo
-        {
-            if(targetPos=="Bottom" && targetPos != wristState )
-            {
-                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo)
-                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo)
-                wristState="Bottom"
+            "Panel-Bottom" -> {
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel.data)
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightPanel.data)
+                wristState = "Panel-Bottom"
             }
-            if(targetPos=="Middle" && targetPos !=wristState)
-            {
-                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo)
-                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo)
-                wristState="Middle"
+            "Cargo-Top" -> {
+                wristMotor.set(ControlMode.MotionMagic, topHeightCargo.data)
+                wristMotor.set(ControlMode.MotionMagic, topHeightCargo.data)
+                wristState = "Cargo-Top"
             }
-            if(targetPos=="Top" && targetPos != wristState)
-            {
-                wristMotor.set(ControlMode.MotionMagic, topHeightCargo)
-                wristMotor.set(ControlMode.MotionMagic, topHeightCargo)
-                wristState="Bottom"
-            }    
-        }
+            "Cargo-Middle" -> {
+                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo.data)
+                wristMotor.set(ControlMode.MotionMagic, middleHeightCargo.data)
+                wristState = "Cargo-Middle"
+            }
+            "Cargo-Bottom" -> {
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo.data)
+                wristMotor.set(ControlMode.MotionMagic, bottomHeightCargo.data)
+                wristState = "Cargo-Bottom"
+            }
+        }  
     }
 
-    fun toggleIntakeType() : Boolean
-    {
-        intakeType = !intakeType
-        return intakeType
-    }
     // Returning the state the arm is in 
     fun returnWristState(): String { return wristState; }
 

@@ -12,17 +12,17 @@ import frc.robot.commands.Arm.ArmJoystick
 
 public object Arm : Subsystem()
 { 
-    val armMotor: WPI_TalonSRX = WPI_TalonSRX(IDs().armMotorIDs.get("Main")!!) //temp    
+    val armMotor: WPI_TalonSRX = WPI_TalonSRX((IDs().armMotorIDs.get("Main")) ?: 77) //temp    
     //setting controller deadzone
     var deadzone: Double = 0.1
 
-
     //configuring motion magic
-    var cruiseVelocity: Double = 19000.0  //temp
-    var acceleration: Double = 11000.0  //temp
-    var topHeight: Double = 72000.0 //temp
-    var middleHeight: Double = 35000.0//temp
-    var bottomHeight: Double = 0.0//temp
+    data class MotionData(val name: String, val data: Double)
+    val cruiseVelocity = MotionData("Cruise-Velocity", 19000.0)
+    val acceleration = MotionData("Acceleration", 11000.0)
+    val topHeight = MotionData("Top", 72000.0)
+    val middleHeight = MotionData("Middle", 35000.0)
+    val bottomHeight = MotionData("Bottom", 0.0)
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -82,24 +82,24 @@ public object Arm : Subsystem()
     fun killMotors(){ armMotor.set(0.0) }
 
     //elevator Motion Magic
-    fun armMotionMagic (newArmState: String = "Null")
+    fun armMotionMagic (newArmState: MotionData)
     {
         var targetPos = newArmState
-        if(targetPos=="Bottom" && targetPos != armState )
+        when(targetPos.name)
         {
-            armMotor.set(ControlMode.MotionMagic, bottomHeight)
-            armState="Bottom"
-        }
-        if(targetPos=="Middle" && targetPos !=armState)
-        {
-            armMotor.set(ControlMode.MotionMagic, middleHeight)
-            armState="Middle"
-        }
-        if(targetPos=="Top" && targetPos != armState)
-        {
-            armMotor.set(ControlMode.MotionMagic, topHeight)
-            armState="Bottom"
-        }     
+            "Top" -> {
+                armMotor.set(ControlMode.MotionMagic, topHeight.data)
+                armState = "Top"
+            }
+            "Middle" -> {
+                armMotor.set(ControlMode.MotionMagic, middleHeight.data)
+                armState = "Middle"
+            }
+            "Bottom" -> {
+                armMotor.set(ControlMode.MotionMagic, bottomHeight.data)
+                armState = "Bottom"
+            }
+        } 
     }
 
     // Returning the state the arm is in 
