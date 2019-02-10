@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.buttons.*
 import edu.wpi.first.wpilibj.GenericHID
 
-
 // Robot Imports
 import frc.robot.IDs
 import frc.robot.commands.Drive.*
@@ -18,8 +17,8 @@ import frc.robot.commands.Drive.*
 //import frc.robot.subsystems.CargoIntake
 //import frc.robot.subsystems.RBrake
 
-//utils
-import frc.robot.Util.toggleOnButtonPress
+// Util classes
+import frc.robot.util.toggleOnButtonPress
 
 public class OI 
 {

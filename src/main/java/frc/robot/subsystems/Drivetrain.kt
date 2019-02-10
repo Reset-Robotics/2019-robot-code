@@ -10,41 +10,31 @@ import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 
 import frc.robot.Mag
-import frc.robot.IDs
+import frc.robot.data.DrivetrainData
 import frc.robot.commands.Drive.ArcadeJoystickDrive
 
 
 public object Drivetrain : Subsystem(), PIDOutput
 {
-    val ids: IDs = IDs()
+    val driveData: DrivetrainData = DrivetrainData()
 
-    val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
-    val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
-    val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
-    val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
-    val wheelCircumference: Double = 18.8495559215
-    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.3
+    // Drive motors
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontLeft) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontRight) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackLeft) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackRight) // 1
 
-    // drive motors
-    // motor 0 is the climber
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 3) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 4) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 2) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 1) // 1
+    // PID values for turning to angles
+    var turnRate: Double = driveData.turnThreshold
+    var driveAngle: Double = driveData.driveAngle
 
-    // PID values for turning to angles; PIDF stored in IDs()
-    val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
-    var turnRate: Double = 0.0
-    var driveAngle: Double = 0.0
-
-    // other assorted vars/objects
+    // Misc Variables/Objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidD, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     var isDriftMode: Boolean = false
-    //var isProfileFinished: Boolean = false
-    //var angleDeadzone: Double = 3.0 
+    var angleDeadzone: Double = 3.0 
     
 
     override fun onCreate()
@@ -56,17 +46,14 @@ public object Drivetrain : Subsystem(), PIDOutput
         this.driveBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
         this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
-        // configure PID loop
-        
+        // Configure PID loop
         turnController.setInputRange(-180.0, 180.0)
         turnController.setOutputRange(-1.0, 1.0)
-        turnController.setAbsoluteTolerance(turnThreshold)
+        turnController.setAbsoluteTolerance(driveData.turnThreshold)
         turnController.setContinuous(true)
         
-
-        //zero gyro yaw
-        resetGyro()
-        
+        // Zero gyro yaw
+        resetGyro() 
     }
 
     fun Drivetrain()
@@ -95,6 +82,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		this.driveBackRight.configPeakCurrentDuration(100, 0)
 		this.driveBackRight.enableCurrentLimit(true)   
 
+        // Reset Sensors
 		resetGyro()
         resetEncoders()
     }
@@ -116,8 +104,6 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
         
-        
-
         if(isAngleLocked && !isDriftMode) 
             localSpinVal = turnRate
 
@@ -199,7 +185,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 	
 	    lockAngle()
 	
-	    /*while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+	    /*while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > driveData.turnThreshold)
 		    drive(0.0, 0.0, 0.0, throttleVal);*/
 		
 	    killMotors()
