@@ -18,7 +18,7 @@ import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.AutoController
 import frc.robot.commands.Drive.Auto.DriveByTime
 import frc.robot.commands.Drive.ToggleFieldOriented
-import frc.robot.commands.Drive.InertialGuidance
+//import frc.robot.commands.Drive.InertialGuidance
 
 
 public class Mag : Robot()
@@ -67,7 +67,7 @@ public class Mag : Robot()
     {
         drivetrain.onCreate()
         autocontroller.onCreate()
-        InertialGuidance(2.0, 2.0).start()
+        //InertialGuidance(2.0, 2.0).start()
         //ToggleFieldOriented()
         //DriveByTime(-1.0, 0.0, 0.25, 1.0, 2.0).start()
         //DriveByTime

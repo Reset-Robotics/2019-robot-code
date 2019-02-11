@@ -23,6 +23,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
     val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
     val wheelCircumference: Double = 18.8495559215
+    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter
     val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.3
 
     // drive motors
@@ -43,8 +44,14 @@ public object Drivetrain : Subsystem(), PIDOutput
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     var isDriftMode: Boolean = false
+    
+    //deadReckon Values
+    var deadReckonX: Double = 0.0
+    var deadReckonY: Double = 0.0
+    val rpmToRad: Double = 9.5492965964254
     //var isProfileFinished: Boolean = false
     //var angleDeadzone: Double = 3.0 
+
     
 
     override fun onCreate()
@@ -229,7 +236,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
-        System.err.println(isFieldOriented)
+        //System.err.println(isFieldOriented)
         return isFieldOriented;
     }
 
@@ -299,17 +306,81 @@ public object Drivetrain : Subsystem(), PIDOutput
         return isAngleLocked;
     }
 
-    fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
+    fun deadReckonX(deltaT: Double): Double  //when run in a loop. keeps track of robot posistion through encoder values gives displacment in meters over a deltaT
+    {
+        
+        val frontLeftVelocity = getEncoderVelocityFrontLeft().toDouble() / rpmToRad
+        val frontRightVelocity = getEncoderVelocityFrontRight().toDouble() / rpmToRad
+        val backLeftVelocity = getEncoderVelocityBackLeft().toDouble()  / rpmToRad
+        val backRightVelocity = getEncoderVelocityBackRight().toDouble() /rpmToRad
+        val currentGyroAngle = getAngle()
+        //xVelocity = ((wheelRadius/4)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5))).toDouble()
+        //yVelocity = (((wheelRadius/4)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5)))*.5).toDouble()
+        val xVelocity: Double = ((wheelRadius/4.0)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5)).toDouble())  
+        val yVelocity: Double = (((wheelRadius/4.0)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5).toDouble()))*0.5)
+        val rotatedXVelocity: Double  = yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        val rotatedYVelocity: Double  = -yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        deadReckonX = rotatedXVelocity * deltaT
+        //deadReckonY = rotatedYVelocity * deltaT
+        //val rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
+		//val rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
+        return deadReckonX;
+    }
+    fun deadReckonY(deltaT: Double): Double  //when run in a loop. keeps track of robot posistion through encoder values gives displacment in meters over a deltaT
+    {
+        
+        val frontLeftVelocity = getEncoderVelocityFrontLeft().toDouble() / rpmToRad
+        val frontRightVelocity = getEncoderVelocityFrontRight().toDouble() / rpmToRad
+        val backLeftVelocity = getEncoderVelocityBackLeft().toDouble()  / rpmToRad
+        val backRightVelocity = getEncoderVelocityBackRight().toDouble() / rpmToRad
+        val currentGyroAngle = getAngle()
+        //xVelocity = ((wheelRadius/4)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5))).toDouble()
+        //yVelocity = (((wheelRadius/4)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5)))*.5).toDouble()
+        val xVelocity: Double = ((wheelRadius/4.0)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5)).toDouble())  
+        val yVelocity: Double = (((wheelRadius/4.0)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5).toDouble()))*0.5)
+        val rotatedXVelocity: Double  = yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        val rotatedYVelocity: Double  = -yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        //deadReckonX = rotatedXVelocity * deltaT
+        deadReckonY = rotatedYVelocity * deltaT
+        //val rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
+		//val rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
+        return deadReckonY;
+    }
+    
+/* 
+    fun getDeadReckonX(): Double 
+        {
+        val localDeadReckonX = deadReckonX
+        return localDeadReckonX;
+        }
 
+    fun getDeadReckonY(): Double 
+        {
+        val localDeadReckonY = deadReckonY
+        return localDeadReckonY;
+        }
+ */
+
+    fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
     fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
     fun getEncoderRawBackLeft(): Int { return driveBackLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawBackRight(): Int { return driveBackRight.getSelectedSensorPosition(0); }
+    fun getEncoderVelocityFrontLeft(): Int { return driveFrontLeft.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityFrontRight(): Int { return driveFrontRight.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityBackLeft(): Int { return driveBackLeft.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityBackRight(): Int { return driveBackRight.getSelectedSensorVelocity(0); }
+    //fun getEncoderVelocityFrontLeftRad(): Double { return (driveFrontLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //fun getEncoderVelocityFrontRightRad(): Double { return (driveFrontRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //fun getEncoderVelocityBackLeftRad(): Double { return (driveBackLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //sfun getEncoderVelocityBackRightRad(): Double { return (driveBackRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
 
     fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
     fun getSpeedFrontRight(): Double { return driveFrontRight.get(); }
     fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
     fun getSpeedBackRight(): Double { return driveBackRight.get(); }
+
+
 
     override fun pidWrite(output: Double){ turnRate = output }
 
