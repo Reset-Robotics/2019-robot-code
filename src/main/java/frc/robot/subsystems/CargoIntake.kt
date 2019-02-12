@@ -4,12 +4,15 @@ import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 
+import frc.robot.data.CargoIntakeData
+
 //importing IDs
 import frc.robot.IDs
 
 public object CargoIntake : Subsystem()
 {
-    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX((IDs().cargoIntakeMotorIDs.get("Main")) ?: 9)  // Creating the motor object
+    val cargoIntakeData: CargoIntakeData = CargoIntakeData()
+    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX(cargoIntakeData.intakeMotorPort)  // Creating the motor object
     val encoderPort = 9 // Setting the encoder port
     public val deadzone: Double = (IDs().deadzones.get("CargoIntake-Subsystem")) ?: 0.1 // Trigger deadzone
     val kTimeoutMs: Int = 30// Encoder timeout
