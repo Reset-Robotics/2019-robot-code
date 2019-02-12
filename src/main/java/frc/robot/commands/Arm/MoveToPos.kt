@@ -4,7 +4,7 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Arm
 import frc.robot.OI
 
-public class MoveToPos(position: Arm.MotionData): Command()
+public class MoveToPos(position: String): Command()
 {
     var localPos = position
     override fun execute(): Boolean

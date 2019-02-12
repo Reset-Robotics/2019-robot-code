@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+import frc.robot.data.ArmData
 
 
 import frc.robot.IDs
@@ -12,34 +13,27 @@ import frc.robot.commands.Arm.ArmJoystick
 
 public object Arm : Subsystem()
 { 
-    val armMotor: WPI_TalonSRX = WPI_TalonSRX((IDs().armMotorIDs.get("Main")) ?: 77) //temp    
+    val armData : ArmData = ArmData()
+    val armMotor: WPI_TalonSRX = WPI_TalonSRX((armData.armMotorPort) ?: 77) //temp    
     //setting controller deadzone
     var deadzone: Double = 0.1
 
     //configuring motion magic
-    data class MotionData(val name: String, val data: Double)
+    /* data class MotionData(val name: String, val data: Double)
     val cruiseVelocity = MotionData("Cruise-Velocity", 19000.0)
     val acceleration = MotionData("Acceleration", 11000.0)
     val topHeight = MotionData("Top", 72000.0)
     val middleHeight = MotionData("Middle", 35000.0)
     val bottomHeight = MotionData("Bottom", 0.0)
+    */
 
     //configuring PID Loop for motion magic to do- move to IDS
-    var kPIDLoopIdx: Int = 0
-    var kTimeoutMs: Int = 0
-    var rightKSlotIdx: Int = 0
-    var leftKSlotIdx: Int = 1
-    var kGainskF: Double = 0.0
-    var kGainskP: Double = 0.0
-    var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0 
-
-    var armState: String = "Bottom"
+  
 
     override fun onCreate()
     {
         armMotor.configFactoryDefault()
-        armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs)
+        armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, armData.kPIDLoopIdx, armData.kTimeoutMs)
 
         armMotor.setNeutralMode(NeutralMode.Brake)
         /*
@@ -50,24 +44,24 @@ public object Arm : Subsystem()
         armMotor.setSensorPhase(true)
         armMotor.setInverted(false)
         /* Set relevant frame periods to be at least as fast as periodic rate */
-		armMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    armMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		armMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, armData.kTimeoutMs);
+	    armMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, armData.kTimeoutMs);
         // Set the peak and nominal voltage outputs- requires adjustment
-		armMotor.configNominalOutputForward(0.0, kTimeoutMs);
-		armMotor.configNominalOutputReverse(0.0, kTimeoutMs);
-		armMotor.configPeakOutputForward(1.0, kTimeoutMs);
-		armMotor.configPeakOutputReverse(-1.0, kTimeoutMs);
+		armMotor.configNominalOutputForward(0.0, armData.kTimeoutMs);
+		armMotor.configNominalOutputReverse(0.0, armData.kTimeoutMs);
+		armMotor.configPeakOutputForward(1.0, armData.kTimeoutMs);
+		armMotor.configPeakOutputReverse(-1.0, armData.kTimeoutMs);
         /* Set Motion Magic gains in slot kSlotIdx */
-		armMotor.selectProfileSlot(leftKSlotIdx, kPIDLoopIdx);
-		armMotor.config_kF(leftKSlotIdx, kGainskF, kTimeoutMs);
-		armMotor.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
-		armMotor.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
-		armMotor.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+		armMotor.selectProfileSlot(armData.leftKSlotIdx, armData.kPIDLoopIdx);
+		armMotor.config_kF(armData.leftKSlotIdx, armData.kGainskF, armData.kTimeoutMs);
+		armMotor.config_kP(armData.leftKSlotIdx, armData.kGainskP, armData.kTimeoutMs);
+		armMotor.config_kI(armData.leftKSlotIdx, armData.kGainskI, armData.kTimeoutMs);
+		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
         
         ResetEncoder()
     }
 
-    fun ResetEncoder(){ armMotor.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs) }
+    fun ResetEncoder(){ armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) }
 
     fun Arm()
     {
@@ -82,28 +76,28 @@ public object Arm : Subsystem()
     fun killMotors(){ armMotor.set(0.0) }
 
     //elevator Motion Magic
-    fun armMotionMagic (newArmState: MotionData)
+    fun armMotionMagic (newArmState: String)
     {
         var targetPos = newArmState
-        when(targetPos.name)
+        when(targetPos)
         {
             "Top" -> {
-                armMotor.set(ControlMode.MotionMagic, topHeight.data)
-                armState = "Top"
+                armMotor.set(ControlMode.MotionMagic, armData.topHeight)
+                armData.armState = "Top"
             }
             "Middle" -> {
-                armMotor.set(ControlMode.MotionMagic, middleHeight.data)
-                armState = "Middle"
+                armMotor.set(ControlMode.MotionMagic, armData.middleHeight)
+                armData.armState = "Middle"
             }
             "Bottom" -> {
-                armMotor.set(ControlMode.MotionMagic, bottomHeight.data)
-                armState = "Bottom"
+                armMotor.set(ControlMode.MotionMagic, armData.bottomHeight)
+                armData.armState = "Bottom"
             }
         } 
     }
 
     // Returning the state the arm is in 
-    fun returnArmState(): String { return armState; }
+    fun returnArmState(): String { return armData.armState; }
 
     // Functions for getting encoder values
     fun getEncoderRawArm(): Int { return armMotor.getSelectedSensorPosition(0); }
