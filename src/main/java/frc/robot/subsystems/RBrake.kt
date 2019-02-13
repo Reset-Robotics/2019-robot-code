@@ -19,7 +19,7 @@ public object RBrake : Subsystem()
 {
     // Variables/Objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
+    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
     var isDeployed: Boolean = false 
     var antiMode: Boolean = false
     val deadzone: Double = 0.1
