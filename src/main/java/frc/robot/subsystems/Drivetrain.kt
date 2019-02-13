@@ -18,12 +18,14 @@ public object Drivetrain : Subsystem(), PIDOutput
 {
     val ids: IDs = IDs()
 
+
+    //turn PID Loop
     val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
     val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
     val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
     val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
     val wheelCircumference: Double = 18.8495559215
-    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter
+    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter in meters
     val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.3
 
     // drive motors
