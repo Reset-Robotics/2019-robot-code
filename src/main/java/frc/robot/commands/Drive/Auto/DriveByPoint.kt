@@ -8,11 +8,11 @@ import frc.robot.Util.PIDSourceY
 import frc.robot.Util.PIDWriteX
 import frc.robot.Util.PIDWriteY
 
-public class DriveByPoint(xLocation: Double, yLocation: Double) : Command()
+public class DriveByPoint(yLocation: Double , xLocation: Double) : Command()
 {
     //localizing target locatin
-    val localXLocation: Double = xLocation
-    val localYLocation: Double = yLocation*2//multpilied by two as the mecanumn drive train is less effecitive in this direction (probably)
+    val localXLocation: Double = xLocation*2//multpilied by two as the mecanumn drive train is less effecitive in this direction (probably)
+    val localYLocation: Double = yLocation
     //needs tuning
     val pidValPX: Double = 0.006
     val pidValIX: Double = 0.0
@@ -43,8 +43,8 @@ public class DriveByPoint(xLocation: Double, yLocation: Double) : Command()
         distanceControllerX.setSetpoint(localXLocation)  
         distanceControllerY.setSetpoint(localYLocation)  
         //setting Input Range for PID Controllers
-        distanceControllerX.setInputRange(-maxVelocity , maxVelocity)
-        distanceControllerY.setInputRange(-maxVelocity , maxVelocity)//may need to be havled 
+        distanceControllerX.setInputRange(-maxVelocity , maxVelocity)//may need to be havled 
+        distanceControllerY.setInputRange(-maxVelocity , maxVelocity)
         //setting Output Rangs for the PID Controllers
         distanceControllerX.setOutputRange(-1.0 , 1.0)
         distanceControllerY.setOutputRange(-1.0 , 1.0)
