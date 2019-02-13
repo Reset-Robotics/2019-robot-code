@@ -1,10 +1,17 @@
 package frc.robot.data
+import edu.wpi.first.wpilibj.DigitalInput
 
 public data class ElevatorData(val polybiusIsDead: Boolean = true)
 {
     val elevatorLeftPort: Int = 1
     val elevatorRightPort: Int = 3
     val deadzone: Double = 0.1
+
+    //limit switches
+    val bottomSwitchRight: DigitalInput = DigitalInput(2)
+    val bottomSwitchLeft: DigitalInput = DigitalInput(2)
+    val topSwitchRight: DigitalInput = DigitalInput(2)
+    val topSwitchLeft: DigitalInput = DigitalInput(2)
 
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp

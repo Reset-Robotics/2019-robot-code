@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.wpilibj.DigitalInput
 
 import frc.robot.data.ElevatorData
 import frc.robot.IDs

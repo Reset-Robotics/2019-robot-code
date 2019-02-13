@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.DigitalInput
 
 import frc.robot.Mag
 import frc.robot.IDs
@@ -19,10 +20,12 @@ public object RBrake : Subsystem()
 {
     // Variables/Objects
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
-    var isDeployed: Boolean = false 
+    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
+    var isDeployed: Boolean = true
     var antiMode: Boolean = false
     val deadzone: Double = 0.1
+
+   // val limitSwitch : DigitalInput = DigitalInput(1)
     
 
     override fun onCreate()
@@ -79,16 +82,27 @@ public object RBrake : Subsystem()
         if (antiMode && isDeployed == false)
             deployOut()
 
-        while(antiMode)
+        when(antiMode)
         {
-            driveRBrake(1.0)
-            if (System.currentTimeMillis() - startTime > 0.05) // arbitrary delay; needs testing
+            true -> { driveRBrake(1.0)
+            if (System.currentTimeMillis() - startTime > 0.05 ) 
+            {// arbitrary delay; needs testing
                 killMotors()
+            }
+        }
         }
 
         if (antiMode == false)
+        {
             killMotors()
+        }
     }
+
+    /* fun isLimitSwitchTriggered(): Boolean
+    {
+        return limitSwitch.get()
+    }*/
+    
 
     fun killMotors() { rBrakeMotor.set(0.0) }
     fun resetMotorPositions() { rBrakeMotor.set(0.0) }
@@ -97,6 +111,7 @@ public object RBrake : Subsystem()
     fun getSpeed(): Double { return rBrakeMotor.get(); }
     fun getAntilockMode(): Boolean { return antiMode }
     fun getRBrakeStatus(): Boolean { return isDeployed }
+    
     
     override val defaultCommand = RBrakeSlave()
 }
