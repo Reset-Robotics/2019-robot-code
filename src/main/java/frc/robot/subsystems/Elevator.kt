@@ -7,12 +7,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
 
-
+import frc.robot.data.ElevatorData
 import frc.robot.IDs
 import frc.robot.commands.Elevator.ElevatorJoystick
 
 public object Elevator : Subsystem()
  {
+    val elevatorData: ElevatorData = ElevatorData()
     
     //importing ids
     val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().elevatorMotorIDs.get("Left")) ?: 1) //temp    
