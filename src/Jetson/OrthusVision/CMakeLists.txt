@@ -1,17 +1,31 @@
 # Require correct version of cmake
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.5.1)
+
+# Set CMake CUDA compiler
+set(CMAKE_CUDA_COMPILER  /usr/local/cuda-9.0/bin/nvcc)
 
 # Set project name
-project (OrthusVision LANGUAGES CXX CUDA)
+project (OrthusVision LANGUAGES CUDA CXX)
 
-# Find libraries
+# Enable CUDA language
+enable_language(CUDA)
+
+# Include/Find/Check libraries
+include(FindCUDA)
+include(CheckLanguage)
 find_package(OpenCV REQUIRED)
+find_package(CUDA REQUIRED)
+check_language(CUDA)
 
 # Set flags for C++ standard libraries
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if(NOT DEFINED CMAKE_CUDA_STANDARD)
+    set(CMAKE_CUDA_STANDARD 11)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+endif()
 
 # Include directories
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 include_directories(${allwpilib/wpilibc/athena/include})
 #include_directories(${orthusVision.h})
 include_directories(${WPILib.h})
