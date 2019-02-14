@@ -116,6 +116,7 @@ public class Mag : Robot()
     override fun executeTeleop()
     {
         oi.OI()
+        System.err.println(Drivetrain.ultrasonicTest())
 
         // put dashboard data here
     }

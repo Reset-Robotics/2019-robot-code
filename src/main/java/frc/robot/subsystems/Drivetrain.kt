@@ -8,15 +8,24 @@ import edu.wpi.first.wpilibj.PIDController
 import edu.wpi.first.wpilibj.PIDOutput
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.PWM
+import edu.wpi.first.wpilibj.DigitalInput
 
 import frc.robot.Mag
 import frc.robot.IDs
 import frc.robot.commands.Drive.ArcadeJoystickDrive
+import frc.robot.Util.UltrasonicBase
 
 
 public object Drivetrain : Subsystem(), PIDOutput
 {
     val ids: IDs = IDs()
+
+    var deltaT: Long = 0.0.toLong()
+    val ultrasonic1: UltrasonicBase = UltrasonicBase(0)
+    var isPulsed: Boolean = false
+    var prevSysTime: Long = 0.0.toLong()
+    var ultrasonicDistance: Long = 0.0.toLong()
 
 
     //turn PID Loop
@@ -73,10 +82,38 @@ public object Drivetrain : Subsystem(), PIDOutput
         turnController.setOutputRange(-1.0, 1.0)
         turnController.setAbsoluteTolerance(turnThreshold)
         turnController.setContinuous(true)
+
+        //ultrasonic1.enableInterrupts()
         
 
         //zero gyro yaw
         resetGyro()
+        
+    }
+    fun ultrasonicTest(): Double
+    {
+      
+      /* 
+        if(ultrasonic1.get()&&!isPulsed)
+        {
+            isPulsed = true
+            prevSysTime = System.currentTimeMillis()
+        }
+        if(!ultrasonic1.get()&&isPulsed)
+        {
+            isPulsed = false
+            deltaT = System.currentTimeMillis()-prevSysTime
+            ultrasonicDistance = (deltaT*(Math.pow(10.0,3.0)).toLong()).toLong()
+
+        }
+        System.err.println(ultrasonicDistance)
+        return ultrasonic1.get()
+        */
+        ultrasonic1.allocateInterrupts(true)
+        ((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
+        return 0.0
+        
+
         
     }
 
