@@ -7,6 +7,7 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalSource
 
+
 public class UltrasonicBase(channel: Int): DigitalSource()
 {
     var m_channel: Int = 0 
@@ -63,10 +64,7 @@ public class UltrasonicBase(channel: Int): DigitalSource()
         return this.readFallingTimestamp();
     }
 
-    override fun allocateInterrupts(watcher: Boolean)
-    {
-        this.allocateInterrupts(watcher)
-    }
+    
 
 
 

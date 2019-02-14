@@ -109,7 +109,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         System.err.println(ultrasonicDistance)
         return ultrasonic1.get()
         */
-        ultrasonic1.allocateInterrupts(true)
+        ultrasonic1.requestInterrupts()
         ((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
         return 0.0
         
