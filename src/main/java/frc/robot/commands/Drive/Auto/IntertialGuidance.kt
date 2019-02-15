@@ -1,6 +1,7 @@
 package frc.robot.commands.Drive
-
+/* 
 import org.sertain.command.Command
+import org.apache.commons.math3.filter.KalmanFilter
 import frc.robot.subsystems.Drivetrain
 import frc.robot.OI
 import edu.wpi.first.wpilibj.PIDController
@@ -37,19 +38,19 @@ public class InertialGuidance(xDis: Double, yDis: Double) : Command()
 
     override fun onCreate()
     {
-        distanceControllerX.enable()
-        distanceControllerX.setSetpoint(localXDis)
-        distanceControllerX.enable()
-        distanceControllerX.setSetpoint(localYDis)
+        distanceControllerX.distanceControllerX.enable()
+        distanceControllerX.distanceControllerX.setSetpoint(sx)
+        distanceControllerY.distanceControllerY.enable()
+        distanceControllerY.distanceControllerY.setSetpoint(sy)
 
-        distanceControllerX.setInputRange(0.0, 180.0)
-        distanceControllerX.setOutputRange(-1.0, 1.0)
-        distanceControllerX.setAbsoluteTolerance(0.5)
-        distanceControllerX.setContinuous(true)
-        distanceControllerY.setInputRange(0.0, 180.0)
-        distanceControllerY.setOutputRange(-1.0, 1.0)
-        distanceControllerY.setAbsoluteTolerance(0.5)
-        distanceControllerY.setContinuous(true)
+        distanceControllerX.distanceControllerX.setInputRange(0.0, 180.0)
+        distanceControllerX.distanceControllerX.setOutputRange(-1.0, 1.0)
+        distanceControllerX.distanceControllerX.setAbsoluteTolerance(0.5)
+        distanceControllerX.distanceControllerX.setContinuous(true)
+        distanceControllerY.distanceControllerY.setInputRange(0.0, 180.0)
+        distanceControllerY.distanceControllerY.setOutputRange(-1.0, 1.0)
+        distanceControllerY.distanceControllerY.setAbsoluteTolerance(0.5)
+        distanceControllerY.distanceControllerY.setContinuous(true)
     }
     // Run all our code here
     override fun execute(): Boolean
@@ -88,8 +89,11 @@ public class InertialGuidance(xDis: Double, yDis: Double) : Command()
     override fun onDestroy() 
     {
          Drivetrain.killMotors()
-         distanceControllerX.disable()
-         distanceControllerY.disable()
+         distanceControllerX.distanceControllerX.disable()
+         distanceControllerY.distanceControllerY.disable()
     }
     //override fun pidWrite(output: Double){ throttle = output }
 }
+
+//very unstable and innacurrate do not use
+*/

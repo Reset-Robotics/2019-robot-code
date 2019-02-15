@@ -19,11 +19,11 @@ public object RBrake : Subsystem()
 {
     // Variables/Objects
     var rBrakeData: RBrakeData = RBrakeData()
-
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(rBrakeData.solenoid[0], rBrakeData.solenoid[1])
     val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(rBrakeData.motor)
-    var isDeployed: Boolean = true
+    var isDeployed: Boolean = false 
     var antiMode: Boolean = false
+    val deadzone: Double = 0.1
   
     override fun onCreate()
     {

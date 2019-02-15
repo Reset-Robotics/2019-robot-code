@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj.PIDController
 import edu.wpi.first.wpilibj.PIDOutput
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.PWM
+import edu.wpi.first.wpilibj.DigitalInput
 
 import frc.robot.Mag
 import frc.robot.data.DrivetrainData
 import frc.robot.commands.Drive.ArcadeJoystickDrive
+import frc.robot.Util.UltrasonicBase
 
 
 public object Drivetrain : Subsystem(), PIDOutput
@@ -26,15 +29,31 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // PID values for turning to angles
     var turnRate: Double = driveData.turnThreshold
+    val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
     var driveAngle: Double = driveData.driveAngle
+    val wheelCircumference: Double = 18.8495559215
+    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter in meters
 
     // Misc Variables/Objects
+    var deltaT: Long = 0.0.toLong()
+    val ultrasonic1: UltrasonicBase = UltrasonicBase(0)
+    var isPulsed: Boolean = false
+    var prevSysTime: Long = 0.0.toLong()
+    var ultrasonicDistance: Long = 0.0.toLong()
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
     var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidD, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
-    var isDriftMode: Boolean = false
-    var angleDeadzone: Double = 3.0 
+    var isDriftMode: Boolean = false 
+   
+    //deadReckon Values
+    var deadReckonX: Double = 0.0
+    var deadReckonY: Double = 0.0
+    val rpmToRad: Double = 9.5492965964254
+    var rotatedXVelocity: Double = 0.0
+    var rotatedYVelocity: Double = 0.0
+    //var isProfileFinished: Boolean = false
+    //var angleDeadzone: Double = 3.0 
     
 
     override fun onCreate()
@@ -51,9 +70,37 @@ public object Drivetrain : Subsystem(), PIDOutput
         turnController.setOutputRange(-1.0, 1.0)
         turnController.setAbsoluteTolerance(driveData.turnThreshold)
         turnController.setContinuous(true)
+
+        //ultrasonic1.enableInterrupts()
         
         // Zero gyro yaw
         resetGyro() 
+    }
+    fun ultrasonicTest(): Double
+    {
+      
+      /* 
+        if(ultrasonic1.get()&&!isPulsed)
+        {
+            isPulsed = true
+            prevSysTime = System.currentTimeMillis()
+        }
+        if(!ultrasonic1.get()&&isPulsed)
+        {
+            isPulsed = false
+            deltaT = System.currentTimeMillis()-prevSysTime
+            ultrasonicDistance = (deltaT*(Math.pow(10.0,3.0)).toLong()).toLong()
+
+        }
+        System.err.println(ultrasonicDistance)
+        return ultrasonic1.get()
+        */
+        ultrasonic1.requestInterrupts()
+        ((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
+        return 0.0
+        
+
+        
     }
 
     fun Drivetrain()
@@ -215,7 +262,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
-        System.err.println(isFieldOriented)
+        //System.err.println(isFieldOriented)
         return isFieldOriented;
     }
 
@@ -284,18 +331,53 @@ public object Drivetrain : Subsystem(), PIDOutput
         isAngleLocked = false
         return isAngleLocked;
     }
+    private fun velocityObject() =  object
+    {
+
+    }
+
+    // deadReckon functions, outputs may need to be reversed
+    public fun deadReckon()//when run in a loop. keeps track of robot posistion through encoder values gives robot speed in meters per second
+    {
+        
+        val frontLeftVelocity = getEncoderVelocityFrontLeft().toDouble() / rpmToRad
+        val frontRightVelocity = getEncoderVelocityFrontRight().toDouble() / rpmToRad
+        val backLeftVelocity = getEncoderVelocityBackLeft().toDouble()  / rpmToRad
+        val backRightVelocity = getEncoderVelocityBackRight().toDouble() /rpmToRad
+        val currentGyroAngle = getAngle()
+        //xVelocity = ((wheelRadius/4)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5))).toDouble()
+        //yVelocity = (((wheelRadius/4)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2,.5)))*.5).toDouble()
+        val xVelocity: Double = ((wheelRadius/4.0)*(frontLeftVelocity + frontRightVelocity + backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5)).toDouble())  
+        val yVelocity: Double = (((wheelRadius/4.0)*(frontLeftVelocity - frontRightVelocity - backLeftVelocity + backRightVelocity)*(1/Math.pow(2.0,0.5).toDouble()))*0.5)
+        rotatedXVelocity = yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        rotatedYVelocity = -yVelocity * Math.cos(currentGyroAngle) + xVelocity * Math.sin(currentGyroAngle)
+        //deadReckonY = rotatedYVelocity * deltaT
+        //val rotatedYVal: Double = yVal * Math.cos(angle) + xVal * Math.sin(angle)
+		//val rotatedXVal: Double = -yVal * Math.sin(angle) + xVal * Math.cos(angle)
+        return;
+    }
+    
 
     fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
-
     fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
     fun getEncoderRawBackLeft(): Int { return driveBackLeft.getSelectedSensorPosition(0); }
     fun getEncoderRawBackRight(): Int { return driveBackRight.getSelectedSensorPosition(0); }
+    fun getEncoderVelocityFrontLeft(): Int { return driveFrontLeft.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityFrontRight(): Int { return driveFrontRight.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityBackLeft(): Int { return driveBackLeft.getSelectedSensorVelocity(0); }
+    fun getEncoderVelocityBackRight(): Int { return driveBackRight.getSelectedSensorVelocity(0); }
+    //fun getEncoderVelocityFrontLeftRad(): Double { return (driveFrontLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //fun getEncoderVelocityFrontRightRad(): Double { return (driveFrontRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //fun getEncoderVelocityBackLeftRad(): Double { return (driveBackLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
+    //fun getEncoderVelocityBackRightRad(): Double { return (driveBackRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
 
     fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
     fun getSpeedFrontRight(): Double { return driveFrontRight.get(); }
     fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
     fun getSpeedBackRight(): Double { return driveBackRight.get(); }
+
+
 
     override fun pidWrite(output: Double){ turnRate = output }
 

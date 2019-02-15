@@ -24,6 +24,8 @@
 //Main
 int main()
 {
+    cv::gpu::printShortCudaDeviceInfo(cv::gpu::getDevice());
+
 
 	//zmq::context_t context (1);
 	//zmq::socket_t publisher(context, ZMQ_PUB);
