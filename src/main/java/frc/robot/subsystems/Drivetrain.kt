@@ -41,7 +41,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     var prevSysTime: Long = 0.0.toLong()
     var ultrasonicDistance: Long = 0.0.toLong()
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidD, navx, this, 0.05)
+    var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
     var isDriftMode: Boolean = false 
