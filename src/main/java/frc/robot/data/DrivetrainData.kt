@@ -7,10 +7,10 @@ public data class DrivetrainData(val paramDeadzone: Double = 0.1)
     val deadzone: Double = 0.3
     
     // Motors
-    val motorFrontLeft: Int = 3
-    val motorFrontRight: Int = 4
-    val motorBackLeft: Int = 2
-    val motorBackRight: Int = 1
+    val motorFrontLeft: Int = 1
+    val motorFrontRight: Int = 2
+    val motorBackLeft: Int = 3
+    val motorBackRight: Int = 4
 
     // PID
     val pidP: Double = 0.006
@@ -22,10 +22,10 @@ public data class DrivetrainData(val paramDeadzone: Double = 0.1)
     var driveAngle: Double = 0.0
 
     // Encoders
-    val encoderFrontLeft: Int = 3
-    val encoderFrontRight: Int = 4
-    val encoderBackLeft: Int = 2
-    val encoderBackRight: Int = 1
+    val encoderFrontLeft: Int = 1
+    val encoderFrontRight: Int = 2
+    val encoderBackLeft: Int = 3
+    val encoderBackRight: Int = 4
 
     // Misc
     val wheelCircumference: Double = 18.8495559215

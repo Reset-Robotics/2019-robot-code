@@ -14,21 +14,7 @@ import frc.robot.commands.Arm.ArmJoystick
 public object Arm : Subsystem()
 { 
     val armData : ArmData = ArmData()
-    val armMotor: WPI_TalonSRX = WPI_TalonSRX((armData.armMotorPort) ?: 77) //temp    
-    //setting controller deadzone
-    var deadzone: Double = 0.1
-
-    //configuring motion magic
-    /* data class MotionData(val name: String, val data: Double)
-    val cruiseVelocity = MotionData("Cruise-Velocity", 19000.0)
-    val acceleration = MotionData("Acceleration", 11000.0)
-    val topHeight = MotionData("Top", 72000.0)
-    val middleHeight = MotionData("Middle", 35000.0)
-    val bottomHeight = MotionData("Bottom", 0.0)
-    */
-
-    //configuring PID Loop for motion magic to do- move to IDS
-  
+    val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
 
     override fun onCreate()
     {
@@ -82,15 +68,15 @@ public object Arm : Subsystem()
         when(targetPos)
         {
             "Top" -> {
-                armMotor.set(ControlMode.MotionMagic, armData.topHeight)
+                armMotor.set(ControlMode.MotionMagic, armData.topHeight.data)
                 armData.armState = "Top"
             }
             "Middle" -> {
-                armMotor.set(ControlMode.MotionMagic, armData.middleHeight)
+                armMotor.set(ControlMode.MotionMagic, armData.middleHeight.data)
                 armData.armState = "Middle"
             }
             "Bottom" -> {
-                armMotor.set(ControlMode.MotionMagic, armData.bottomHeight)
+                armMotor.set(ControlMode.MotionMagic, armData.bottomHeight.data)
                 armData.armState = "Bottom"
             }
         } 

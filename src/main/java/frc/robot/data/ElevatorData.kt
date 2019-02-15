@@ -3,26 +3,29 @@ import edu.wpi.first.wpilibj.DigitalInput
 
 public data class ElevatorData(val polybiusIsDead: Boolean = true)
 {
-    val elevatorLeftPort: Int = 1
-    val elevatorRightPort: Int = 3
+    // Deadzones
     val deadzone: Double = 0.1
+    
+    // Motors
+    val leftMotor: Int = 7
+    val rightMotor: Int = 8
 
-    //limit switches
+    // Limit Switches
     val bottomSwitchRight: DigitalInput = DigitalInput(2)
     val bottomSwitchLeft: DigitalInput = DigitalInput(2)
     val topSwitchRight: DigitalInput = DigitalInput(2)
     val topSwitchLeft: DigitalInput = DigitalInput(2)
 
-    //configuring motion magic
-    var cruiseVelocity: Double = 19000.0  //temp
-    var acceleration: Double = 11000.0  //temp
-    var topHeight: Double = 72000.0 //temp
-    var middleHeight: Double = 35000.0//temp
-    var bottomHeight: Double = 0.0//temp
+    // Motion Magic
+    data class MMData(val name: String, val data: Double)
+    val cruiseVelocity = MMData("Cruise-Velocity", 19000.0)
+    val acceleration = MMData("Acceleration", 11000.0)
+    val topHeight = MMData("Top", 72000.0)
+    val middleHeight = MMData("Middle", 35000.0)
+    val bottomHeight = MMData("Bottom", 0.0)
 
-      //configuring PID Loop for motion magic to do- move to IDS
+    // PID
     var kPIDLoopIdx: Int = 0
-    var kTimeoutMs: Int = 0
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
     var kGainskF: Double = 0.0
@@ -30,8 +33,12 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0 
 
-     var elevatorState: String = "Bottom"
+    // Encoders
+    val leftEncoder: Int = 7
+    val rightEncoder: Int = 8
+    var kTimeoutMs: Int = 0
 
-     var allowableLevelError: Double = 20.0
-    
+    // Misc
+    var elevatorState: String = "Bottom"
+    var allowableLevelError: Double = 20.0
 }

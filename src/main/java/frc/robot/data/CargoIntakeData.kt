@@ -1,14 +1,21 @@
 package frc.robot.data
 
-public data class CargoIntakeData (val isCoreyInTheHouse: Boolean = true)
+public data class CargoIntakeData (val areWe254Yet: Boolean = false)
 {
-    val intakeMotorPort: Int = 9
-    val encoderPort: Int = 9
-    val kTimeoutMs: Int = 30// Encoder timeout
+    // Deadzones
+    val deadzone: Double = 0.1
+    
+    // Motors
+    val motor: Int = 3
     val minimumSpeed: Int = 10
-    var autoStopEnabled: Boolean = true // Sets whether the autostop will enage 
     var talonVoltage: Double = 0.0 // Initializing the variable for the voltage of the talon
     var minimumMotorOutputPercent: Double = 50.0 // The value for the voltage above which the autostop will initialize
-    var brake: Boolean = false // Sets wether the motor is stopped by the autostop
 
+    // Encoders
+    val encoder: Int = 13
+    val kTimeoutMs: Int = 30// Encoder timeout
+
+    // Misc
+    var armState: String = "Bottom"
+    var brake: Boolean = false // Sets whether the motor is stopped by the autostop
 }

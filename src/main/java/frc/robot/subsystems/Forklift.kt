@@ -12,22 +12,19 @@ import frc.robot.data.ForkliftData
 public object Forklift : Subsystem()
  {
     val forkliftData: ForkliftData = ForkliftData()
-    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX(forkliftData.forkliflMotorLeftPort) // Placeholder    
-    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX(forkliftData.forkliflMotorRightPort) // Placeholder
-
- 
-
+    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX(forkliftData.leftMotor)
+    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX(forkliftData.rightMotor)
 
     fun Forklift()
     {
         //current limiting 
-        this.forkliftLeft.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.forkliftLeft.configPeakCurrentLimit(35,0)//max current
-        this.forkliftLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        this.forkliftLeft.configContinuousCurrentLimit(40,0) // Desired current after limit
+        this.forkliftLeft.configPeakCurrentLimit(35,0) // Max current
+        this.forkliftLeft.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         this.forkliftLeft.enableCurrentLimit(true) 
-        this.forkliftRight.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.forkliftRight.configPeakCurrentLimit(35,0)//max current
-        this.forkliftRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        this.forkliftRight.configContinuousCurrentLimit(40,0)
+        this.forkliftRight.configPeakCurrentLimit(35,0)
+        this.forkliftRight.configPeakCurrentDuration(100,0)
         this.forkliftRight.enableCurrentLimit(true) 
 
         //set Talon Mode
@@ -79,10 +76,10 @@ public object Forklift : Subsystem()
 		this.forkliftLeft.config_kI(forkliftData.kSlotIdx, forkliftData.kGainskI, forkliftData.kTimeoutMs);
 		this.forkliftLeft.config_kD(forkliftData.kSlotIdx, forkliftData.kGainskD, forkliftData.kTimeoutMs);
         // Set acceleration and vcruise velocity - see documentation
-		this.forkliftLeft.configMotionCruiseVelocity(forkliftData.cruiseVelocity, forkliftData.kTimeoutMs);
-		this.forkliftLeft.configMotionAcceleration(forkliftData.acceleration, forkliftData.kTimeoutMs);
-		this.forkliftRight.configMotionCruiseVelocity(forkliftData.cruiseVelocity, forkliftData.kTimeoutMs);
-		this.forkliftRight.configMotionAcceleration(forkliftData.acceleration, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configMotionCruiseVelocity(forkliftData.cruiseVelocity.data, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configMotionAcceleration(forkliftData.acceleration.data, forkliftData.kTimeoutMs);
+		this.forkliftRight.configMotionCruiseVelocity(forkliftData.cruiseVelocity.data, forkliftData.kTimeoutMs);
+		this.forkliftRight.configMotionAcceleration(forkliftData.acceleration.data, forkliftData.kTimeoutMs);
         ResetEncoders()
     }
 

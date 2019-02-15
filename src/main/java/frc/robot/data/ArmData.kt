@@ -1,20 +1,24 @@
 package frc.robot.data
 
 
-public data class ArmData(val coreyInTheHouse: Boolean = false)
+public data class ArmData(val isBenGay: Boolean = true)
 {
+    // Deadzones
+    val deadzone: Double = 0.1
+    
+    // Motors
+    val motor: Int = 1
 
-    //val armMotor: WPI_TalonSRX = WPI_TalonSRX((IDs().armMotorIDs.get("Main")) ?: 77) //temp  
-    val deadzone: Double = 0.1  
-    val armMotorPort: Int = 77
-    //data class MotionData(val name: String, val data: Double)
-    val cruiseVelocity =  19000.0
-    val acceleration = 11000.0
-    val topHeight =  72000.0
-    val middleHeight =  35000.0
-    val bottomHeight = 0.0
+    // Motion Magic
+    data class MMData(val name: String, val data: Double)
+    val cruiseVelocity = MMData("Cruise-Velocity", 19000.0)
+    val acceleration = MMData("Acceleration", 11000.0)
+    val topHeight = MMData("Top", 72000.0)
+    val middleHeight = MMData("Middle", 35000.0)
+    val bottomHeight = MMData("Bottom", 0.0)
+
+    // PID
     var kPIDLoopIdx: Int = 0
-    var kTimeoutMs: Int = 0
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
     var kGainskF: Double = 0.0
@@ -22,5 +26,10 @@ public data class ArmData(val coreyInTheHouse: Boolean = false)
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0 
 
+    // Encoders
+    val encoder: Int = 11
+    var kTimeoutMs: Int = 0
+
+    // Misc
     var armState: String = "Bottom"
 }
