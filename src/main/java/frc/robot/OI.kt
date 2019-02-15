@@ -16,19 +16,22 @@ import frc.robot.commands.Drive.*
 //import frc.robot.commands.CargoIntake.*
 //import frc.robot.subsystems.CargoIntake
 //import frc.robot.subsystems.RBrake
+import frc.robot.data.OIData
 
 // Util classes
 import frc.robot.util.toggleOnButtonPress
 
 public class OI 
 {
+    val oiData: OIData = OIData()
+
     val ids: IDs = IDs()
     // Joysticks/Controllers
-    val joystickLeft by lazy { Joystick((ids.joystickLeftIDs.get("USB-ID")) ?: 0) }
-	val joystickRight by lazy { Joystick((ids.joystickRightIDs.get("USB-ID")) ?: 1) }
-    val xboxController by lazy { XboxController((ids.xboxIDs.get("USB-ID")) ?: 2) }
-	val xboxJoystickLeft by lazy { Joystick((ids.xboxIDs.get("Left-Joystick-Y-Axis")) ?: 1) }
-    val xboxJoystickRight by lazy { Joystick((ids.xboxIDs.get("Right-Joystick-Y-Axis")) ?: 5) }
+    val joystickLeft by lazy { Joystick((oiData.leftUSBID.id)) }
+	val joystickRight by lazy { Joystick((oiData.rightUSBID.id)) }
+    val xboxController by lazy { XboxController((oiData.xboxUSBID.id)) }
+	val xboxJoystickLeft by lazy { Joystick((oiData.xboxLeftJoystickYAxis.id)) }
+    val xboxJoystickRight by lazy { Joystick((oiData.xboxRightJoystickYAxis.id)) }
     
     //setting default trigger variable values
     var leftTrigger: Double = 0.0

@@ -3,10 +3,13 @@ package frc.robot.commands.RBrake
 import org.sertain.command.Command
 import frc.robot.subsystems.RBrake
 import frc.robot.OI
+import frc.robot.data.RBrakeData
 
 
 public class RBrakeSlave : Command()
 {
+    var rBrakeData: RBrakeData = RBrakeData()
+    
     init 
     {
         requires(RBrake)
@@ -21,7 +24,7 @@ public class RBrakeSlave : Command()
         var yDirection: Double = OI().joystickLeft.getY()
         var throttle: Double = 1.0 // replace with slider throttle later
 
-        if (Math.abs(yDirection) < RBrake.deadzone)
+        if (Math.abs(yDirection) < rBrakeData.deadzone)
             {
                 yDirection = 0.0;
             }

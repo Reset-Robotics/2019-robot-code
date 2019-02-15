@@ -14,20 +14,18 @@ import frc.robot.Mag
 import frc.robot.IDs
 import frc.robot.commands.RBrake.RBrakeSlave
 import frc.robot.OI
-
+import frc.robot.data.RBrakeData
 
 public object RBrake : Subsystem()
 {
     // Variables/Objects
-    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(IDs().rBrakeSolenoid[0], IDs().rBrakeSolenoid[1])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(0) // 3
+    var rBrakeData: RBrakeData = RBrakeData()
+
+    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(rBrakeData.solenoid[0], rBrakeData.solenoid[1])
+    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(rBrakeData.motor)
     var isDeployed: Boolean = true
     var antiMode: Boolean = false
-    val deadzone: Double = 0.1
-
-   // val limitSwitch : DigitalInput = DigitalInput(1)
-    
-
+  
     override fun onCreate()
     {
         rBrakeMotor.configFactoryDefault()
@@ -85,11 +83,11 @@ public object RBrake : Subsystem()
         when(antiMode)
         {
             true -> { driveRBrake(1.0)
-            if (System.currentTimeMillis() - startTime > 0.05 ) 
-            {// arbitrary delay; needs testing
-                killMotors()
+                if (System.currentTimeMillis() - startTime > 0.05 ) 
+                {// arbitrary delay; needs testing
+                    killMotors()
+                }
             }
-        }
         }
 
         if (antiMode == false)
