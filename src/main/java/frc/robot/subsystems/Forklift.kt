@@ -6,8 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.commands.Forklift.ForkliftJoystick
-import frc.robot.IDs
 import frc.robot.data.ForkliftData
+
 
 public object Forklift : Subsystem()
  {

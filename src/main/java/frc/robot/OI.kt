@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.buttons.*
 import edu.wpi.first.wpilibj.GenericHID
 
 // Robot Imports
-import frc.robot.IDs
 import frc.robot.commands.Drive.*
 //import frc.robot.commands.RBrake.*
 //import frc.robot.commands.Forklift.*
@@ -25,7 +24,6 @@ public class OI
 {
     val oiData: OIData = OIData()
 
-    val ids: IDs = IDs()
     // Joysticks/Controllers
     val joystickLeft by lazy { Joystick((oiData.leftUSBID.id)) }
 	val joystickRight by lazy { Joystick((oiData.rightUSBID.id)) }
@@ -44,7 +42,7 @@ public class OI
         joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
         joystickRight.whenActive(5, DriftMode())
-        joystickRight.toggleOnButtonPress((IDs().joystickRightIDs.get("Trigger")) ?: 1, DriftMode()) // Toggle whether the drivetrain is field oriented or normal
+        joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, DriftMode()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering

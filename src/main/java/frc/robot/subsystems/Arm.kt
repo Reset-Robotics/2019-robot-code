@@ -6,10 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.data.ArmData
-
-
-import frc.robot.IDs
 import frc.robot.commands.Arm.ArmJoystick
+
 
 public object Arm : Subsystem()
 { 

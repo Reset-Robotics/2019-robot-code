@@ -41,10 +41,10 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         
         // Set up encoders
-        this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
+        //this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
         // Configure PID loop
         turnController.setInputRange(-180.0, 180.0)
@@ -59,8 +59,8 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun Drivetrain()
     {
         // Set Talon Mode
-        this.driveFrontLeft.setNeutralMode(NeutralMode.Coast)
-        this.driveFrontRight.setNeutralMode(NeutralMode.Coast)
+        this.driveFrontLeft.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontRight.setNeutralMode(NeutralMode.Brake)
         this.driveBackLeft.setNeutralMode(NeutralMode.Brake)
         this.driveBackRight.setNeutralMode(NeutralMode.Brake)
 		
@@ -132,16 +132,16 @@ public object Drivetrain : Subsystem(), PIDOutput
         if(localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[3])
+            driveFrontRight.set(wheels[1])
             driveBackLeft.set(yVal)
             driveBackRight.set(yVal)
         }
         if(!localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[3])
-            driveBackLeft.set(wheels[1])
-            driveBackRight.set(wheels[2])
+            driveFrontRight.set(wheels[1])
+            driveBackLeft.set(wheels[2])
+            driveBackRight.set(wheels[3])
         }
     }
 
