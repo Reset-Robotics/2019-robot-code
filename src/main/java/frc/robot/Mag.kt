@@ -8,10 +8,8 @@ import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.I2C
 
-// import commands
-import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
-//import frc.robot.subsystems.RBrake
+import frc.robot.subsystems.RBrake
 //import frc.robot.subsystems.Elevator
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
@@ -32,7 +30,7 @@ public class Mag : Robot()
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
-    //public val rbrake: RBrake = RBrake
+    public val rbrake: RBrake = RBrake
     //public var elevator: Elevator = Elevator
     public val autocontroller: AutoController = AutoController
    

@@ -5,13 +5,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
-import frc.robot.IDs
+//import frc.robot.IDs
+import frc.robot.data.PanelIntakeData
 
 public object PanelIntake: Subsystem()
 {
-     var solenoidTop: DoubleSolenoid = DoubleSolenoid(IDs().panelIntakeSolenoid[0], IDs().panelIntakeSolenoid[1])
-     var solenoidBottom: DoubleSolenoid = DoubleSolenoid(IDs().panelIntakeSolenoid[2], IDs().panelIntakeSolenoid[3])
-     var isDeployed: Boolean = false
+     val panelIntakeData : PanelIntakeData = PanelIntakeData()
+     var solenoidTop: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodTopInPort, panelIntakeData.soleniodTopOutPort)
+     var solenoidBottom: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodBottomInPort, panelIntakeData.soleniodBottomOutPort)
+     
      
      fun panelIntake() { }
     
@@ -28,19 +30,19 @@ public object PanelIntake: Subsystem()
 
      fun deploy()
      {
-          if (isDeployed)
+          if (panelIntakeData.isDeployed)
           {
                solenoidTop.set(Value.kReverse) 
                solenoidBottom.set(Value.kReverse)
-               isDeployed = !isDeployed
+               panelIntakeData.isDeployed = !panelIntakeData.isDeployed
 		}
 		else 
           {
 			solenoidTop.set(Value.kForward) 
                solenoidBottom.set(Value.kForward) 
-			isDeployed = !isDeployed
+			panelIntakeData.isDeployed = !panelIntakeData.isDeployed
           }
      }
 
-    fun getRBrakeStatus(): Boolean { return isDeployed; }
+    fun getRBrakeStatus(): Boolean { return panelIntakeData.isDeployed; }
 }

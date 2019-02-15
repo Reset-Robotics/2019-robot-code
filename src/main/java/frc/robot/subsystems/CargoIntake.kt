@@ -3,25 +3,14 @@ package frc.robot.subsystems
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
+import frc.robot.data.CargoIntakeData
 
-//importing IDs
-import frc.robot.IDs
 
 public object CargoIntake : Subsystem()
 {
-    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX((IDs().cargoIntakeMotorIDs.get("Main")) ?: 9)  // Creating the motor object
-    val encoderPort = 9 // Setting the encoder port
-    public val deadzone: Double = (IDs().deadzones.get("CargoIntake-Subsystem")) ?: 0.1 // Trigger deadzone
-    val kTimeoutMs: Int = 30// Encoder timeout
-   
-
-    // Autobrake constants
-    val minimumSpeed: Int = 10// Speed below which the autobrake will engage
-    var autoStopEnabled: Boolean = true // Sets whether the autostop will enage 
-    var talonVoltage: Double = 0.0 // Initializing the variable for the voltage of the talon
-    var minimumMotorOutputPercent: Double = 50.0 // The value for the voltage above which the autostop will initialize
-    var brake: Boolean = false // Sets wether the motor is stopped by the autostop
-   
+    val cargoIntakeData: CargoIntakeData = CargoIntakeData()
+    val intakeMotor: WPI_TalonSRX = WPI_TalonSRX(cargoIntakeData.motor)  // Creating the motor object
+    var autoStopEnabled: Boolean = true // Sets whether the autostop will enage       
 
     override fun onCreate()
     {
@@ -29,7 +18,7 @@ public object CargoIntake : Subsystem()
 		this.intakeMotor.configPeakCurrentLimit(35, 0) // max current
 		this.intakeMotor.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
 		this.intakeMotor.enableCurrentLimit(true)
-        this.intakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
+        this.intakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, cargoIntakeData.kTimeoutMs);
         this.intakeMotor.setSensorPhase(true)
         this.intakeMotor.setInverted(false)
         this.intakeMotor.setNeutralMode(NeutralMode.Coast)
@@ -43,7 +32,7 @@ public object CargoIntake : Subsystem()
         if(input > 0)
         {
             localSpin = 1.0
-            brake = false
+            cargoIntakeData.brake = false
         }
 
         // Left trigger spinning out
@@ -52,13 +41,13 @@ public object CargoIntake : Subsystem()
             localSpin = -1.0
             this.intakeMotor.setNeutralMode(NeutralMode.Coast)
         }
-        //testing to see if the motor should autostop
-        if(this.intakeMotor.getSelectedSensorVelocity() < minimumSpeed && autoStopEnabled && this.intakeMotor.getMotorOutputPercent() > minimumMotorOutputPercent)
-            brake = true
+        // testing to see if the motor should autostop
+        if(this.intakeMotor.getSelectedSensorVelocity() < cargoIntakeData.minimumSpeed && autoStopEnabled && this.intakeMotor.getMotorOutputPercent() > cargoIntakeData.minimumMotorOutputPercent)
+            cargoIntakeData.brake = true
             this.intakeMotor.setNeutralMode(NeutralMode.Brake)
         
-        //setting the motor speed or disabling the motor
-        if(!brake)
+        // setting the motor speed or disabling the motor
+        if(!cargoIntakeData.brake)
             this.intakeMotor.set(localSpin)
 
     }

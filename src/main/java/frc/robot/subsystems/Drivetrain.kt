@@ -12,50 +12,40 @@ import edu.wpi.first.wpilibj.PWM
 import edu.wpi.first.wpilibj.DigitalInput
 
 import frc.robot.Mag
-import frc.robot.IDs
+import frc.robot.data.DrivetrainData
 import frc.robot.commands.Drive.ArcadeJoystickDrive
 import frc.robot.Util.UltrasonicBase
 
 
 public object Drivetrain : Subsystem(), PIDOutput
 {
-    val ids: IDs = IDs()
+    val driveData: DrivetrainData = DrivetrainData()
 
+    // Drive motors
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontLeft) // 3
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontRight) // 4
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackLeft) // 2
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackRight) // 1
+
+    // PID values for turning to angles
+    var turnRate: Double = driveData.turnThreshold
+    val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
+    var driveAngle: Double = driveData.driveAngle
+    val wheelCircumference: Double = 18.8495559215
+    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter in meters
+
+    // Misc Variables/Objects
     var deltaT: Long = 0.0.toLong()
     val ultrasonic1: UltrasonicBase = UltrasonicBase(0)
     var isPulsed: Boolean = false
     var prevSysTime: Long = 0.0.toLong()
     var ultrasonicDistance: Long = 0.0.toLong()
-
-
-    //turn PID Loop
-    val pidValP: Double = ids.drivetrainPID.get("P") ?: 0.006
-    val pidValI: Double = ids.drivetrainPID.get("I") ?: 0.0
-    val pidValD: Double = ids.drivetrainPID.get("D") ?: 0.0
-    val pidValF: Double = ids.drivetrainPID.get("F") ?: 0.0
-    val wheelCircumference: Double = 18.8495559215
-    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter in meters
-    val deadzone: Double = ids.deadzones.get("Drivetrain") ?: 0.3
-
-    // drive motors
-    // motor 0 is the climber
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Left")) ?: 3) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Front-Right")) ?: 4) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Left")) ?: 2) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX((ids.driveMotorIDs.get("Back-Right")) ?: 1) // 1
-
-    // PID values for turning to angles; PIDF stored in IDs()
-    val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
-    var turnRate: Double = 0.0
-    var driveAngle: Double = 0.0
-
-    // other assorted vars/objects
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
-    var turnController: PIDController = PIDController(pidValP, pidValI, pidValD, pidValF, navx, this, 0.05)
+    var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidD, navx, this, 0.05)
     var isFieldOriented: Boolean = false
     var isAngleLocked: Boolean = false
-    var isDriftMode: Boolean = false
-    
+    var isDriftMode: Boolean = false 
+   
     //deadReckon Values
     var deadReckonX: Double = 0.0
     var deadReckonY: Double = 0.0
@@ -64,31 +54,27 @@ public object Drivetrain : Subsystem(), PIDOutput
     var rotatedYVelocity: Double = 0.0
     //var isProfileFinished: Boolean = false
     //var angleDeadzone: Double = 3.0 
-
     
 
     override fun onCreate()
     {
         
         // Set up encoders
-        this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
+        //this.driveFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        //this.driveBackRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)   
 
-        // configure PID loop
-        
+        // Configure PID loop
         turnController.setInputRange(-180.0, 180.0)
         turnController.setOutputRange(-1.0, 1.0)
-        turnController.setAbsoluteTolerance(turnThreshold)
+        turnController.setAbsoluteTolerance(driveData.turnThreshold)
         turnController.setContinuous(true)
 
         //ultrasonic1.enableInterrupts()
         
-
-        //zero gyro yaw
-        resetGyro()
-        
+        // Zero gyro yaw
+        resetGyro() 
     }
     fun ultrasonicTest(): Double
     {
@@ -120,8 +106,8 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun Drivetrain()
     {
         // Set Talon Mode
-        this.driveFrontLeft.setNeutralMode(NeutralMode.Coast)
-        this.driveFrontRight.setNeutralMode(NeutralMode.Coast)
+        this.driveFrontLeft.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontRight.setNeutralMode(NeutralMode.Brake)
         this.driveBackLeft.setNeutralMode(NeutralMode.Brake)
         this.driveBackRight.setNeutralMode(NeutralMode.Brake)
 		
@@ -143,6 +129,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 		this.driveBackRight.configPeakCurrentDuration(100, 0)
 		this.driveBackRight.enableCurrentLimit(true)   
 
+        // Reset Sensors
 		resetGyro()
         resetEncoders()
     }
@@ -164,8 +151,6 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
         
-        
-
         if(isAngleLocked && !isDriftMode) 
             localSpinVal = turnRate
 
@@ -194,16 +179,16 @@ public object Drivetrain : Subsystem(), PIDOutput
         if(localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[3])
+            driveFrontRight.set(wheels[1])
             driveBackLeft.set(yVal)
             driveBackRight.set(yVal)
         }
         if(!localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[3])
-            driveBackLeft.set(wheels[1])
-            driveBackRight.set(wheels[2])
+            driveFrontRight.set(wheels[1])
+            driveBackLeft.set(wheels[2])
+            driveBackRight.set(wheels[3])
         }
     }
 
@@ -247,7 +232,7 @@ public object Drivetrain : Subsystem(), PIDOutput
 	
 	    lockAngle()
 	
-	    /*while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > turnThreshold)
+	    /*while(Math.abs(navx.getAngle() - turnController.getSetpoint()) > driveData.turnThreshold)
 		    drive(0.0, 0.0, 0.0, throttleVal);*/
 		
 	    killMotors()

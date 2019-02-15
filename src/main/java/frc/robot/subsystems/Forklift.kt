@@ -6,42 +6,25 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.commands.Forklift.ForkliftJoystick
-import frc.robot.IDs
+import frc.robot.data.ForkliftData
+
 
 public object Forklift : Subsystem()
  {
-    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX((IDs().forkliftMotorIDs.get("Left")) ?: 1) // Placeholder    
-    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX((IDs().forkliftMotorIDs.get("Right")) ?: 0) // Placeholder
-
-    // Setting controller deadzone
-    val deadzone: Double = (IDs().deadzones.get("Forklift")) ?: 0.1
-
-    // Configure motion magic
-    var cruiseVelocity: Int = 1500 // Placeholder
-    var acceleration: Int = 6000  // Placeholder
-    var height: Double = 6000.0  // Placeholder
-
-    // TODO: Move this to IDs
-    // Configure PID Loop for motion magic
-    var kPIDLoopIdx: Int = 0
-    var kTimeoutMs: Int = 0
-    var kSlotIdx: Int = 0
-    var kGainskF: Double = 0.0
-    var kGainskP: Double = 0.0
-    var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0
-
+    val forkliftData: ForkliftData = ForkliftData()
+    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX(forkliftData.leftMotor)
+    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX(forkliftData.rightMotor)
 
     fun Forklift()
     {
         //current limiting 
-        this.forkliftLeft.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.forkliftLeft.configPeakCurrentLimit(35,0)//max current
-        this.forkliftLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        this.forkliftLeft.configContinuousCurrentLimit(40,0) // Desired current after limit
+        this.forkliftLeft.configPeakCurrentLimit(35,0) // Max current
+        this.forkliftLeft.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         this.forkliftLeft.enableCurrentLimit(true) 
-        this.forkliftRight.configContinuousCurrentLimit(40,0) // desired current after limit
-        this.forkliftRight.configPeakCurrentLimit(35,0)//max current
-        this.forkliftRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        this.forkliftRight.configContinuousCurrentLimit(40,0)
+        this.forkliftRight.configPeakCurrentLimit(35,0)
+        this.forkliftRight.configPeakCurrentDuration(100,0)
         this.forkliftRight.enableCurrentLimit(true) 
 
         //set Talon Mode
@@ -55,8 +38,8 @@ public object Forklift : Subsystem()
         this.forkliftLeft.configFactoryDefault()
         this.forkliftRight.configFactoryDefault()
         // Set up for encoders
-        this.forkliftLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs);
-        this.forkliftRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs);
+        this.forkliftLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs);
+        this.forkliftRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs);
 
         /**
 		 * Configure Talon SRX Output and Sesnor direction accordingly
@@ -68,42 +51,42 @@ public object Forklift : Subsystem()
         this.forkliftLeft.setInverted(false)
         this.forkliftRight.setInverted(false)
         // Set relevant frame periods to be at least as fast as periodic rate
-		this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
-		this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, forkliftData.kTimeoutMs);
+	    this.forkliftLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, forkliftData.kTimeoutMs);
+		this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, forkliftData.kTimeoutMs);
+	    this.forkliftRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, forkliftData.kTimeoutMs);
         // Set the peak and nominal outputs
-		this.forkliftRight.configNominalOutputForward(0.0, kTimeoutMs);
-		this.forkliftRight.configNominalOutputReverse(0.0, kTimeoutMs);
-		this.forkliftRight.configPeakOutputForward(1.0, kTimeoutMs);
-		this.forkliftRight.configPeakOutputReverse(-1.0, kTimeoutMs);
-		this.forkliftLeft.configNominalOutputForward(0.0, kTimeoutMs);
-		this.forkliftLeft.configNominalOutputReverse(0.0, kTimeoutMs);
-		this.forkliftLeft.configPeakOutputForward(1.0, kTimeoutMs);
-		this.forkliftLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
+		this.forkliftRight.configNominalOutputForward(0.0, forkliftData.kTimeoutMs);
+		this.forkliftRight.configNominalOutputReverse(0.0, forkliftData.kTimeoutMs);
+		this.forkliftRight.configPeakOutputForward(1.0, forkliftData.kTimeoutMs);
+		this.forkliftRight.configPeakOutputReverse(-1.0, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configNominalOutputForward(0.0, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configNominalOutputReverse(0.0, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configPeakOutputForward(1.0, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configPeakOutputReverse(-1.0, forkliftData.kTimeoutMs);
         // Set Motion Magic gains in slot kSlotIdx
-		this.forkliftRight.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
-		this.forkliftRight.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
-		this.forkliftRight.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
-		this.forkliftRight.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
-		this.forkliftRight.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
-		this.forkliftLeft.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
-		this.forkliftLeft.config_kF(kSlotIdx, kGainskF, kTimeoutMs);
-		this.forkliftLeft.config_kP(kSlotIdx, kGainskP, kTimeoutMs);
-		this.forkliftLeft.config_kI(kSlotIdx, kGainskI, kTimeoutMs);
-		this.forkliftLeft.config_kD(kSlotIdx, kGainskD, kTimeoutMs);
+		this.forkliftRight.selectProfileSlot(forkliftData.kSlotIdx, forkliftData.kPIDLoopIdx);
+		this.forkliftRight.config_kF(forkliftData.kSlotIdx, forkliftData.kGainskF, forkliftData.kTimeoutMs);
+		this.forkliftRight.config_kP(forkliftData.kSlotIdx, forkliftData.kGainskP, forkliftData.kTimeoutMs);
+		this.forkliftRight.config_kI(forkliftData.kSlotIdx, forkliftData.kGainskI, forkliftData.kTimeoutMs);
+		this.forkliftRight.config_kD(forkliftData.kSlotIdx, forkliftData.kGainskD, forkliftData.kTimeoutMs);
+		this.forkliftLeft.selectProfileSlot(forkliftData.kSlotIdx, forkliftData.kPIDLoopIdx);
+		this.forkliftLeft.config_kF(forkliftData.kSlotIdx, forkliftData.kGainskF, forkliftData.kTimeoutMs);
+		this.forkliftLeft.config_kP(forkliftData.kSlotIdx, forkliftData.kGainskP, forkliftData.kTimeoutMs);
+		this.forkliftLeft.config_kI(forkliftData.kSlotIdx, forkliftData.kGainskI, forkliftData.kTimeoutMs);
+		this.forkliftLeft.config_kD(forkliftData.kSlotIdx, forkliftData.kGainskD, forkliftData.kTimeoutMs);
         // Set acceleration and vcruise velocity - see documentation
-		this.forkliftLeft.configMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
-		this.forkliftLeft.configMotionAcceleration(acceleration, kTimeoutMs);
-		this.forkliftRight.configMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
-		this.forkliftRight.configMotionAcceleration(acceleration, kTimeoutMs);
+		this.forkliftLeft.configMotionCruiseVelocity(forkliftData.cruiseVelocity.data, forkliftData.kTimeoutMs);
+		this.forkliftLeft.configMotionAcceleration(forkliftData.acceleration.data, forkliftData.kTimeoutMs);
+		this.forkliftRight.configMotionCruiseVelocity(forkliftData.cruiseVelocity.data, forkliftData.kTimeoutMs);
+		this.forkliftRight.configMotionAcceleration(forkliftData.acceleration.data, forkliftData.kTimeoutMs);
         ResetEncoders()
     }
 
     fun ResetEncoders()
     {
-        forkliftLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
-        forkliftRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
+        forkliftLeft.setSelectedSensorPosition(0, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs)
+        forkliftRight.setSelectedSensorPosition(0, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs)
     }
     
     fun lift(speed: Double) 
@@ -124,8 +107,8 @@ public object Forklift : Subsystem()
         forkliftState = state
         if (forkliftState == false)
         {
-            forkliftLeft.set(ControlMode.MotionMagic, height)
-            forkliftRight.set(ControlMode.MotionMagic, height)
+            forkliftLeft.set(ControlMode.MotionMagic, forkliftData.height)
+            forkliftRight.set(ControlMode.MotionMagic, forkliftData.height)
         }
         if (forkliftState == true)
         {
