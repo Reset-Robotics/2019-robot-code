@@ -1,45 +1,40 @@
-# Require correct version of cmake
-cmake_minimum_required (VERSION 3.5.1)
-
-# Set CMake CUDA compiler
+#=========================================================================
+cmake_minimum_required(VERSION 3.5.1)
 set(CMAKE_CUDA_COMPILER  /usr/local/cuda-9.0/bin/nvcc)
 
-# Set project name
-project (OrthusVision LANGUAGES CUDA CXX)
-
-# Enable CUDA language
-enable_language(CUDA)
-
-# Include/Find/Check libraries
+project(OrthusVision)
 include(FindCUDA)
-include(CheckLanguage)
-find_package(OpenCV REQUIRED)
-find_package(CUDA REQUIRED)
-check_language(CUDA)
 
-# Set flags for C++ standard libraries
+set(CMAKE_CXX_STANDARD 14)
+find_package( OpenCV REQUIRED )
+find_package(CUDA REQUIRED)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -gencode arch=compute_30,code=sm_30)
+
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+
 if(NOT DEFINED CMAKE_CUDA_STANDARD)
     set(CMAKE_CUDA_STANDARD 11)
     set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 endif()
 
-# Include directories
-include_directories(${OpenCV_INCLUDE_DIRS})
-include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-include_directories(${allwpilib/wpilibc/athena/include})
-#include_directories(${orthusVision.h})
 include_directories(${WPILib.h})
 include_directories(/usr/local/include)
 include_directories(/usr/local/lib)
 
-# Disabling unneeded CUDA stuff
+include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+include_directories(${allwpilib/wpilibc/athena/include})
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+
+
 unset(CUDA_USE_STATIC_CUDA_RUNTIME CACHE)
 option(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
 
-# Creating executable
-add_executable(OrthusVision orthusVision.cpp)
+add_executable(OrthusVisionTest orthusVision.cpp)
 
-# Link libraries to executable
-target_link_libraries(OrthusVision ${OpenCV_LIBS})
-target_link_libraries(OrthusVision ${allwpilib/wpilibc/athena/include})
-target_link_libraries(OrthusVision ${WPILib.h})
+target_link_libraries(OrthusVisionTest ${OpenCV_LIBS} )
+target_link_libraries(OrthusVisionTest ${OpenCV_LIBS})
+target_link_libraries(OrthusVisionTest ${allwpilib/wpilibc/athena/include})
+target_link_libraries(OrthusVisionTest ${WPILib.h})
+#====================================================
+
+

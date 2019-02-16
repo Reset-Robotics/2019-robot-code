@@ -4,22 +4,24 @@
 // Libraries
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include "opencv2/gpu/gpu.hpp"
-#include 
+#include <iostream>
+#include "opencv2/opencv.hpp"
+#include "opencv2/core.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/cudaarithm.hpp"
 
 
-// Main
 int main()
 {
-    cv::gpu::printShortCudaDeviceInfo(cv::gpu::getDevice());
+    cv::cuda::printShortCudaDeviceInfo(cv::cuda::getDevice());
 
     printf("Current exposure settings:\n");
-    system("v4l2-ctl -d /dev/video0 -C exposure_auto");
-    system("v4l2-ctl -d /dev/video0 -C exposure_absolute");
+    system("v4l2 -ctl -d /dev/video0 -C exposure_auto");
+    system("v4l2 -ctl -d /dev/video0 -C exposure_absolute");
 
     // Set exposure
-    system("v4l2-ctl -d /dev/video0 -c exposure_auto=1");
-    system("v4l2-ctl -d /dev/video0 -c exposure_absolute=5");
+    system("v4l2 -ctl -d /dev/video0 -c exposure_auto=1");
+    system("v4l2 -ctl -d /dev/video0 -c exposure_absolute=5");
 
     // Print the exposures settings of the cameras
     printf("New exposure settings:\n");
@@ -37,7 +39,15 @@ int main()
     cv::Mat imgContour; //finding countours messes up the threshold image
     cv::Mat imgOutput; //final image
 
-    cv::gpu::GpuMat src, resize, blur, hsv, threshold;
+    cv::cuda::GpuMat src, resize, blur, hsv, threshold;
+	
+    //HSV Thresholding Defaults (green LED ring and Exposure of 5 on camera)
+    int h_lowerb = 97;
+    int h_upperb = 179;
+    int s_lowerb = 185;
+    int s_upperb = 255;
+    int v_lowerb = 52;
+    int v_upperb = 255;
 
     // HSV Threshold Sliders (currently commented out cause unnecessary)
     cv::namedWindow("HSV Thresholding");
@@ -51,7 +61,7 @@ int main()
     std::vector<std::vector<cv::Point> > contours; // array of contours (which are each an array of points)
 
     // Start video stream
-    cv::VideoCapture input(0);
+    cv::VideoCapture input(1);
     cv::VideoWriter output;
 
     // Loop for each frame
@@ -59,16 +69,16 @@ int main()
 	{
         // Checks for video feed
         if (!input.read(imgRaw))
-          break;
-    }
+           break;
+        }
 
     src.upload(imgRaw);
 
     // Gpu accelerated image transformations
-    cv::gpu::resize(src, resize, cv::Size(input.get(CV_CAP_PROP_FRAME_WIDTH) / img_scale_factor, input.get(CV_CAP_PROP_FRAME_HEIGHT) / img_scale_factor), CV_INTER_CUBIC);
+    cv::cuda::resize(src, resize, cv::Size(input.get(CV_CAP_PROP_FRAME_WIDTH) / img_scale_factor, input.get(CV_CAP_PROP_FRAME_HEIGHT) / img_scale_factor), CV_INTER_CUBIC);
     resize.download(imgResize);
 
-    cv::gpu::cvtColor(resize, hsv, CV_BGR2HSV);
+    cv::cuda::cvtColor(resize, hsv, CV_BGR2HSV);
 
     // Download GpuMat from the GPU
     hsv.download(imgHSV);

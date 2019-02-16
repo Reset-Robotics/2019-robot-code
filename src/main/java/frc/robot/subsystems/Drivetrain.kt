@@ -36,10 +36,10 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // Misc Variables/Objects
     var deltaT: Long = 0.0.toLong()
-    val ultrasonic1: UltrasonicBase = UltrasonicBase(0)
+    //val ultrasonic1: UltrasonicBase = UltrasonicBase(0)
     var isPulsed: Boolean = false
     var prevSysTime: Long = 0.0.toLong()
-    var ultrasonicDistance: Long = 0.0.toLong()
+    //var ultrasonicDistance: Long = 0.0.toLong()
     val navx: AHRS = AHRS(SPI.Port.kMXP) // "the robot knows where it is at all times."
     var turnController: PIDController = PIDController(driveData.pidP, driveData.pidI, driveData.pidD, driveData.pidF, navx, this, 0.05)
     var isFieldOriented: Boolean = false
@@ -95,8 +95,8 @@ public object Drivetrain : Subsystem(), PIDOutput
         System.err.println(ultrasonicDistance)
         return ultrasonic1.get()
         */
-        ultrasonic1.requestInterrupts()
-        ((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
+        //ultrasonic1.requestInterrupts()
+        //((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
         return 0.0
         
 

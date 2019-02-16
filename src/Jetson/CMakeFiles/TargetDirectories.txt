@@ -1,0 +1,3 @@
+/home/nvidia/Jetson/CMakeFiles/edit_cache.dir
+/home/nvidia/Jetson/CMakeFiles/rebuild_cache.dir
+/home/nvidia/Jetson/CMakeFiles/OrthusVisionTest.dir
