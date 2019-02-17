@@ -23,7 +23,7 @@ public class ArcadeJoystickDrive : Command()
         val driveData: DrivetrainData = DrivetrainData()
 
         var yDirection: Double = OI().joystickRight.getY()
-        var xDirection: Double = -OI().joystickRight.getX()
+        var xDirection: Double = OI().joystickRight.getX()
         var spin: Double = OI().joystickRight.getTwist() * .75
         var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2// Replace with slider throttle later
 
