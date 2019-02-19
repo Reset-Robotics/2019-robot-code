@@ -15,9 +15,14 @@ public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
     
+    
     //importing ids
     val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
     val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
+
+    elevatorLeft.configForwardLimitSwitchSource(1, LimitSwitchNormal.NormallyOpen, elevator.rightMotot)
+    elevatorRight.configForwardLimitSwitchSource(1, LimitSwitchNormal.NormallyOpen, elevator.rightMotot)
+
     //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
     //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 
