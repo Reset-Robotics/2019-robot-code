@@ -7,6 +7,7 @@ import org.sertain.command.and
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.I2C
+import edu.wpi.first.wpilibj.PWM 
 
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
@@ -27,6 +28,9 @@ public class Mag : Robot()
 
     // Miscellaneous objects/variables
     //public var compressor: Compressor = Compressor(0)
+    public var fanController1: PWM = PWM(8)
+    public var fanController2: PWM = PWM(9)
+
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
@@ -46,6 +50,8 @@ public class Mag : Robot()
     override fun onCreate()
     {
         drivetrain.onCreate()
+        fanController1.setSpeed(0.0)
+        fanController2.setSpeed(0.0)
         //rbrake.onCreate()
         //elevator.onCreate()
         

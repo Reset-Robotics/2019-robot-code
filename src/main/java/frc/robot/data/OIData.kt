@@ -6,7 +6,7 @@ public data class OIData(val isCteative: Boolean = true)
     public data class NamedIDs(val name: String, val id: Int)
 
     // Driver Controls/OI
-    val leftUSBID = NamedIDs("Left-Joystick-USB-ID", 1)
+    val leftUSBID = NamedIDs("Left-Joystick-USB-ID", 0)
     val leftXAxis = NamedIDs("Left-Joystick-X-Axis", 0)
     val leftYAxis = NamedIDs("Left-Joystick-Y-Axis", 1)
     val leftZAxis = NamedIDs("Left-Joystick-Z-Axis", 2)
@@ -18,7 +18,7 @@ public data class OIData(val isCteative: Boolean = true)
     val leftTopButtonTopRight = NamedIDs("Left-Joystick-Top-Button-Top-Right", 6)
     val leftSliderAxis = NamedIDs("Left-Joystick-SliderAxis", 3)
 
-    val rightUSBID = NamedIDs("Right-Joystick-USB-ID", 0)
+    val rightUSBID = NamedIDs("Right-Joystick-USB-ID", 1)
     val rightXAxis = NamedIDs("Right-Joystick-X-Axis", 0)
     val rightYAxis = NamedIDs("Right-Joystick-Y-Axis", 1)
     val rightZAxis = NamedIDs("Right-Joystick-Z-Axis", 2)

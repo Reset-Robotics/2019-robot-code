@@ -7,7 +7,7 @@ public data class RBrakeData(val isPhillipGay: Boolean = true)
     val deadzone: Double = 0.1
     
     // Motors
-    val motor: Int = 2
+    val motor: Int = 20
 
     // Solenoids
     val solenoid: IntArray = intArrayOf(0, 1)

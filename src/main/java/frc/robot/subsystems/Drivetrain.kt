@@ -162,9 +162,10 @@ public object Drivetrain : Subsystem(), PIDOutput
         var localDriftMode: Boolean = getDriftMode()
 
         val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), 
-        ((-yVal + xVal + spinVal) * throttleVal), 
-        (-((-yVal - xVal - spinVal) * throttleVal)), 
-        (-((-yVal + xVal - spinVal) * throttleVal)))
+        (-((-yVal + xVal + spinVal) * throttleVal)), 
+        ((-yVal + xVal - spinVal) * throttleVal), 
+        (-((-yVal - xVal - spinVal) * throttleVal)))
+
         var max: Double = 0.0
         for(v: Double in wheels)
             if(Math.abs(v) > max) max = Math.abs(v)
@@ -179,15 +180,15 @@ public object Drivetrain : Subsystem(), PIDOutput
         if(localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[1])
-            driveBackLeft.set(yVal)
+            driveFrontRight.set(-wheels[1])
+            driveBackLeft.set(-yVal)
             driveBackRight.set(yVal)
         }
         if(!localDriftMode)
         {
             driveFrontLeft.set(wheels[0])
-            driveFrontRight.set(wheels[1])
-            driveBackLeft.set(wheels[2])
+            driveFrontRight.set(-wheels[1])
+            driveBackLeft.set(-wheels[2])
             driveBackRight.set(wheels[3])
         }
     }
