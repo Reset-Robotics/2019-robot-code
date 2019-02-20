@@ -20,18 +20,18 @@ public object RBrake : Subsystem()
     // Variables/Objects
     var rBrakeData: RBrakeData = RBrakeData()
     var deploySolenoid: DoubleSolenoid = DoubleSolenoid(rBrakeData.solenoid[0], rBrakeData.solenoid[1])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(rBrakeData.motor)
+    val rBrakeMotor: WPI_VictorSPX = WPI_VictorSPX(rBrakeData.motor)
     var isDeployed: Boolean = false 
     var antiMode: Boolean = false
     val deadzone: Double = 0.1
   
     override fun onCreate()
     {
-        rBrakeMotor.configFactoryDefault()
+        /*rBrakeMotor.configFactoryDefault()
         rBrakeMotor.configContinuousCurrentLimit(40,0) // Desired current after limit
 		rBrakeMotor.configPeakCurrentLimit(35, 0) // Max current
 		rBrakeMotor.configPeakCurrentDuration(100, 0) // How long after max current to be limited (ms)
-		rBrakeMotor.enableCurrentLimit(true)
+		rBrakeMotor.enableCurrentLimit(true)*/
     }
 
     fun rBrake() { resetEncoders() }

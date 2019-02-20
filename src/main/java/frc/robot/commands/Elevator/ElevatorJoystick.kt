@@ -15,6 +15,7 @@ public class ElevatorJoystick: Command ()
     var rightCorrection: Double = 1.0
     override fun execute(): Boolean
     {
+        
        
         //joystick input
          var joystickInput: Double = OI().joystickLeft.getY()
@@ -39,7 +40,8 @@ public class ElevatorJoystick: Command ()
         }
 
        
-        Elevator.lift(leftCorrection*joystickInput, rightCorrection*joystickInput)
+        Elevator.lift(leftCorrection*joystickInput, -rightCorrection*joystickInput)
+        
         
         return false; 
     }

@@ -12,20 +12,20 @@ import frc.robot.data.ForkliftData
 public object Forklift : Subsystem()
  {
     val forkliftData: ForkliftData = ForkliftData()
-    val forkliftLeft: WPI_TalonSRX = WPI_TalonSRX(forkliftData.leftMotor)
-    val forkliftRight: WPI_TalonSRX = WPI_TalonSRX(forkliftData.rightMotor)
+    val forkliftLeft: WPI_VictorSPX = WPI_VictorSPX(forkliftData.leftMotor)
+    val forkliftRight: WPI_VictorSPX = WPI_VictorSPX(forkliftData.rightMotor)
 
     fun Forklift()
     {
         //current limiting 
-        this.forkliftLeft.configContinuousCurrentLimit(40,0) // Desired current after limit
+        /*this.forkliftLeft.configContinuousCurrentLimit(40,0) // Desired current after limit
         this.forkliftLeft.configPeakCurrentLimit(35,0) // Max current
         this.forkliftLeft.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         this.forkliftLeft.enableCurrentLimit(true) 
         this.forkliftRight.configContinuousCurrentLimit(40,0)
         this.forkliftRight.configPeakCurrentLimit(35,0)
         this.forkliftRight.configPeakCurrentDuration(100,0)
-        this.forkliftRight.enableCurrentLimit(true) 
+        this.forkliftRight.enableCurrentLimit(true) */
 
         //set Talon Mode
         this.forkliftLeft.setNeutralMode(NeutralMode.Brake)
@@ -34,6 +34,7 @@ public object Forklift : Subsystem()
 
     override fun onCreate()
     {
+        /* 
         // Setting up talons to ensure no unexpected behavior
         this.forkliftLeft.configFactoryDefault()
         this.forkliftRight.configFactoryDefault()
@@ -46,6 +47,7 @@ public object Forklift : Subsystem()
 		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
 		 * Phase sensor to have positive increment when driving Talon Forward (Green LED)
 		 */
+         
         this.forkliftLeft.setSensorPhase(true)
         this.forkliftRight.setSensorPhase(true)
         this.forkliftLeft.setInverted(false)
@@ -81,12 +83,15 @@ public object Forklift : Subsystem()
 		this.forkliftRight.configMotionCruiseVelocity(forkliftData.cruiseVelocity.data, forkliftData.kTimeoutMs);
 		this.forkliftRight.configMotionAcceleration(forkliftData.acceleration.data, forkliftData.kTimeoutMs);
         ResetEncoders()
+        */
     }
 
     fun ResetEncoders()
     {
+        /* 
         forkliftLeft.setSelectedSensorPosition(0, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs)
         forkliftRight.setSelectedSensorPosition(0, forkliftData.kPIDLoopIdx, forkliftData.kTimeoutMs)
+        */
     }
     
     fun lift(speed: Double) 
