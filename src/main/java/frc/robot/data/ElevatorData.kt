@@ -11,10 +11,11 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     val rightMotor: Int = 8
 
     // Limit Switches
-    val bottomSwitchRight: DigitalInput = DigitalInput(2)
+    /* val bottomSwitchRight: DigitalInput = DigitalInput(2)
     val bottomSwitchLeft: DigitalInput = DigitalInput(2)
     val topSwitchRight: DigitalInput = DigitalInput(2)
     val topSwitchLeft: DigitalInput = DigitalInput(2)
+    */
 
     // Motion Magic
     data class MMData(val name: String, val data: Double)

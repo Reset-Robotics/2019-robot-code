@@ -15,9 +15,12 @@ public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
     
+    
     //importing ids
-    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
-    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
+    var elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
+    var elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
+
+
     //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
     //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 
@@ -100,6 +103,13 @@ public object Elevator : Subsystem()
 		elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
 		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
 		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+
+        //limit switches
+        elevatorLeft.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        elevatorRight.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        
+        elevatorLeft.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        elevatorRight.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
         
         ResetEncoders()
     }

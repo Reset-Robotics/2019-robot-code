@@ -15,7 +15,7 @@ public class ForkliftJoystick : Command ()
 
     override fun execute(): Boolean
     {
-        var joystickInput: Double = OI().xboxJoystickLeft.getY()
+     var joystickInput: Double = OI().joystickLeft.getY()
         //var forkliftToggle: Double = OI().
         if (Math.abs(joystickInput) < forkliftData.deadzone)
             joystickInput = 0.0

@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
-//import frc.robot.subsystems.Elevator
+import frc.robot.subsystems.Elevator
+import frc.robot.subsystems.Forklift
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
 import frc.robot.subsystems.AutoController
 import frc.robot.commands.Drive.Auto.DriveByTime
 import frc.robot.commands.Drive.ToggleFieldOriented
+import frc.robot.commands.RBrake.Deploy
 //import frc.robot.commands.Drive.InertialGuidance
 
 
@@ -35,7 +37,7 @@ public class Mag : Robot()
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
     public val rbrake: RBrake = RBrake
-    //public var elevator: Elevator = Elevator
+    public var elevator: Elevator = Elevator
     public val autocontroller: AutoController = AutoController
     public var camera0 = CameraServer.getInstance().startAutomaticCapture("Heck you Ben", 0)
    
@@ -50,6 +52,7 @@ public class Mag : Robot()
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
+        Deploy()
         drivetrain.onCreate()
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
@@ -64,7 +67,7 @@ public class Mag : Robot()
     override fun executeDisabled()
     {
         //drivetrain.unlockAngle()
-        //compressor.setClosedLoopControl(false)
+        compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
 
@@ -108,8 +111,8 @@ public class Mag : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
-        //drivetrain.onCreate()
-        //compressor.setClosedLoopControl(true)
+        drivetrain.onCreate()
+        compressor.setClosedLoopControl(true)
         //ResetForkliftSensor()
         //frc.robot.commands.Drive.ResetGyro()
         //frc.robot.commands.Drive.ResetEncoders()
@@ -122,7 +125,7 @@ public class Mag : Robot()
     override fun executeTeleop()
     {
         oi.OI()
-        System.err.println(Drivetrain.ultrasonicTest())
+        //System.err.println(Drivetrain.ultrasonicTest())
 
         // put dashboard data here
     }
