@@ -7,7 +7,9 @@ import org.sertain.command.and
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.I2C
-import edu.wpi.first.wpilibj.PWM 
+import edu.wpi.first.wpilibj.PWM
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
@@ -28,8 +30,6 @@ public class Mag : Robot()
 
     // Miscellaneous objects/variables
     //public var compressor: Compressor = Compressor(0)
-    public var fanController1: PWM = PWM(8)
-    public var fanController2: PWM = PWM(9)
 
 
     // Initialize subsystem instance objects for this script
@@ -37,6 +37,7 @@ public class Mag : Robot()
     public val rbrake: RBrake = RBrake
     //public var elevator: Elevator = Elevator
     public val autocontroller: AutoController = AutoController
+    public var camera0 = CameraServer.getInstance().startAutomaticCapture("Heck you Ben", 0)
    
     // Initialize I2C object for the Arduino
     //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
@@ -50,8 +51,9 @@ public class Mag : Robot()
     override fun onCreate()
     {
         drivetrain.onCreate()
-        fanController1.setSpeed(0.0)
-        fanController2.setSpeed(0.0)
+    	//camera0.setResolution(320, 240)
+        //camera0.setFPS(30)
+    
         //rbrake.onCreate()
         //elevator.onCreate()
         
