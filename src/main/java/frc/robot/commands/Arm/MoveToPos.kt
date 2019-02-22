@@ -4,16 +4,12 @@ import org.sertain.command.Command
 import frc.robot.subsystems.Arm
 import frc.robot.OI
 
-
-import frc.robot.IDs
-
 public class MoveToPos(position: String): Command()
 {
-    var ids: IDs = IDs()
-    var position: String = "Null"
+    var localPos = position
     override fun execute(): Boolean
     {
-        Arm.armMotionMagic(position)
+        Arm.armMotionMagic(localPos)
         
         return true;
     }

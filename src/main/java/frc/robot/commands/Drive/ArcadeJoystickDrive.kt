@@ -2,6 +2,7 @@ package frc.robot.commands.Drive
 
 import org.sertain.command.Command
 import frc.robot.subsystems.Drivetrain
+import frc.robot.data.DrivetrainData
 import frc.robot.OI
 
 
@@ -19,17 +20,23 @@ public class ArcadeJoystickDrive : Command()
     {
         // TODO: implement throttle slider
                 
+        val driveData: DrivetrainData = DrivetrainData()
+
         var yDirection: Double = OI().joystickRight.getY()
-        var xDirection: Double = -OI().joystickRight.getX()
-        var spin: Double = OI().joystickRight.getTwist() * .75
-        var throttle: Double = 1.0 // Replace with slider throttle later
+        var xDirection: Double = OI().joystickRight.getX()
+        var spin: Double = OI().joystickRight.getTwist()
+        var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2// Replace with slider throttle later
 
-        if (Math.abs(yDirection) < Drivetrain.deadzone) yDirection = 0.0
-        if (Math.abs(xDirection) < Drivetrain.deadzone) xDirection = 0.0
-        if (Math.abs(spin) < Drivetrain.deadzone) spin = 0.0
-
-        Drivetrain.drive(yDirection, xDirection, spin, throttle)
-
+        if (Math.abs(yDirection) < driveData.deadzone) yDirection = 0.0 
+        if (Math.abs(xDirection) < driveData.deadzone) xDirection = 0.0 
+        if (Math.abs(spin) < driveData.deadzone) 
+        {
+            spin = 0.0 
+            Drivetrain.lockAngle()
+        }
+        else Drivetrain.unlockAngle()
+        
+        Drivetrain.drive(xDirection, yDirection, spin, throttle)
         return false;
     }
 

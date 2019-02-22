@@ -6,20 +6,23 @@ import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.wpilibj.DigitalInput
 
-
-import frc.robot.IDs
+import frc.robot.data.ElevatorData
 import frc.robot.commands.Elevator.ElevatorJoystick
 
 public object Elevator : Subsystem()
  {
+    val elevatorData: ElevatorData = ElevatorData()
+    
     
     //importing ids
-    val ids: IDs = IDs()
-    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Left"))?: 2) //temp    
-   // val elevatorRight: WPI_TalonSRX = WPI_TalonSRX((ids.elevatorMotorIDs.get("Right"))?: 3) //temp
-    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
-    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
+    var elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
+    var elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
+
+
+    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
+    //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
 
     //setting controller deadzone
     var deadzone: Double = 0.1
@@ -100,11 +103,18 @@ public object Elevator : Subsystem()
 		elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
 		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
 		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+
+        //limit switches
+        elevatorLeft.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        elevatorRight.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
         
-        ResetEnconder()
+        elevatorLeft.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        elevatorRight.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
+        
+        ResetEncoders()
     }
 
-    fun ResetEnconder()
+    fun ResetEncoders()
     {
         elevatorLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
         elevatorRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)

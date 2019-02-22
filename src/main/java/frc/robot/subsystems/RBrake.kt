@@ -8,43 +8,46 @@ import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
-
+import edu.wpi.first.wpilibj.DigitalInput
 import frc.robot.Mag
-import frc.robot.IDs
 import frc.robot.commands.RBrake.RBrakeSlave
 import frc.robot.OI
+import frc.robot.data.RBrakeData
 
 
 public object RBrake : Subsystem()
 {
-    // Constants 
-    val ids: IDs = IDs()
-    
-    // Local instance of OI
-    val oi: OI = OI()
-
     // Variables/Objects
-    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(ids.rBrakeSolenoid[0], ids.rBrakeSolenoid[1])
-    val rBrakeMotor: WPI_TalonSRX = WPI_TalonSRX(11) // 3
+    var rBrakeData: RBrakeData = RBrakeData()
+    var deploySolenoid: DoubleSolenoid = DoubleSolenoid(rBrakeData.solenoid[0], rBrakeData.solenoid[1])
+    val rBrakeMotor: WPI_VictorSPX = WPI_VictorSPX(rBrakeData.motor)
     var isDeployed: Boolean = false 
-    val deadzone: Double = ids.deadzones.get("R-Brake") ?: 0.1
-    
-
+    var antiMode: Boolean = false
+    val deadzone: Double = 0.1
+  
     override fun onCreate()
     {
-        rBrakeMotor.configFactoryDefault()
+        /*rBrakeMotor.configFactoryDefault()
         rBrakeMotor.configContinuousCurrentLimit(40,0) // Desired current after limit
 		rBrakeMotor.configPeakCurrentLimit(35, 0) // Max current
 		rBrakeMotor.configPeakCurrentDuration(100, 0) // How long after max current to be limited (ms)
-		rBrakeMotor.enableCurrentLimit(true)
+		rBrakeMotor.enableCurrentLimit(true)*/
     }
 
     fun rBrake() { resetEncoders() }
 
     fun driveRBrake(pow: Double) { rBrakeMotor.set(pow) }
     
-    fun deployIn(){ deploySolenoid.set(Value.kForward) }
-    fun deployOut(){ deploySolenoid.set(Value.kReverse) }
+    fun deployIn()
+    { 
+        deploySolenoid.set(Value.kForward) 
+        isDeployed = false
+    }
+    fun deployOut()
+    { 
+        deploySolenoid.set(Value.kReverse) 
+        isDeployed = true
+    }
 
     fun deploy()
     {
@@ -62,12 +65,50 @@ public object RBrake : Subsystem()
         }
     }
 
+    fun antilockModeEnable()
+    {  
+        antiMode = true
+        runAntilockMode()
+    }
+    fun antilockModeDisable(){ antiMode = false }
+
+    fun runAntilockMode()
+    {
+        var startTime = System.currentTimeMillis()
+
+        if (antiMode && isDeployed == false)
+            deployOut()
+
+        when(antiMode)
+        {
+            true -> { driveRBrake(1.0)
+                if (System.currentTimeMillis() - startTime > 0.05 ) 
+                {// arbitrary delay; needs testing
+                    killMotors()
+                }
+            }
+        }
+
+        if (antiMode == false)
+        {
+            killMotors()
+        }
+    }
+
+    /* fun isLimitSwitchTriggered(): Boolean
+    {
+        return limitSwitch.get()
+    }*/
+    
+
     fun killMotors() { rBrakeMotor.set(0.0) }
     fun resetMotorPositions() { rBrakeMotor.set(0.0) }
     fun resetEncoders() { this.rBrakeMotor.setSelectedSensorPosition(0, 0, 0) }
     fun getEncoder(): Int { return rBrakeMotor.getSelectedSensorPosition(0); }
     fun getSpeed(): Double { return rBrakeMotor.get(); }
+    fun getAntilockMode(): Boolean { return antiMode }
     fun getRBrakeStatus(): Boolean { return isDeployed }
+    
     
     override val defaultCommand = RBrakeSlave()
 }

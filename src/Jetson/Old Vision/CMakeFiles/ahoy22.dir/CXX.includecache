@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nvidia/Jetson/ahoy22.cpp
+opencv2/highgui/highgui.hpp
+-
+opencv2/imgproc/imgproc.hpp
+-
+opencv2/gpu/gpu.hpp
+/home/nvidia/Jetson/opencv2/gpu/gpu.hpp
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+time.h
+-
+sys/time.h
+-
+cstdio
+-
+cmath
+-
+cstdlib
+-
+sstream
+-
+iostream
+-
+iomanip
+-
+atomic
+-
+unistd.h
+-
+

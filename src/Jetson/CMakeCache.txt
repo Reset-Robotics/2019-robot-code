@@ -17,6 +17,10 @@
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
+//For backwards compatibility, what version of CMake commands and
+// syntax should this version of CMake try to support.
+CMAKE_BACKWARDS_COMPATIBILITY:STRING=2.4
+
 //Choose the type of build, options are: None(CMAKE_CXX_FLAGS or
 // CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel.
 CMAKE_BUILD_TYPE:STRING=
@@ -114,7 +118,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=ahoy
+CMAKE_PROJECT_NAME:STATIC=OrthusVision
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -179,7 +183,7 @@ CUDA_BUILD_CUBIN:BOOL=OFF
 CUDA_BUILD_EMULATION:BOOL=OFF
 
 //"cudart" library
-CUDA_CUDART_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcudart.so
+CUDA_CUDART_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcudart.so
 
 //"cuda" library (older versions only).
 CUDA_CUDA_LIBRARY:FILEPATH=/usr/lib/aarch64-linux-gnu/libcuda.so
@@ -192,10 +196,10 @@ CUDA_GENERATED_OUTPUT_DIR:PATH=
 CUDA_HOST_COMPILATION_CPP:BOOL=ON
 
 //Host side compiler used by NVCC
-CUDA_HOST_COMPILER:FILEPATH=/usr/bin/cc
+CUDA_HOST_COMPILER:FILEPATH=
 
 //Path to a program.
-CUDA_NVCC_EXECUTABLE:FILEPATH=/usr/local/cuda-8.0/bin/nvcc
+CUDA_NVCC_EXECUTABLE:FILEPATH=/usr/local/cuda-9.0/bin/nvcc
 
 //Semi-colon delimit multiple arguments.
 CUDA_NVCC_FLAGS:STRING=
@@ -227,13 +231,13 @@ CUDA_SEPARABLE_COMPILATION:BOOL=OFF
 CUDA_TARGET_CPU_ARCH:STRING=
 
 //Path to a file.
-CUDA_TOOLKIT_INCLUDE:PATH=/usr/local/cuda-8.0/include
+CUDA_TOOLKIT_INCLUDE:PATH=/usr/local/cuda-9.0/include
 
 //Toolkit location.
-CUDA_TOOLKIT_ROOT_DIR:PATH=/usr/local/cuda-8.0
+CUDA_TOOLKIT_ROOT_DIR:PATH=/usr/local/cuda-9.0
 
 //Toolkit target location.
-CUDA_TOOLKIT_TARGET_DIR:PATH=/usr/local/cuda-8.0
+CUDA_TOOLKIT_TARGET_DIR:PATH=/usr/local/cuda-9.0
 
 //OFF
 CUDA_USE_STATIC_CUDA_RUNTIME:BOOL=OFF
@@ -245,69 +249,61 @@ CUDA_USE_STATIC_CUDA_RUNTIME:BOOL=OFF
 CUDA_VERBOSE_BUILD:BOOL=OFF
 
 //Version of CUDA as computed from nvcc.
-CUDA_VERSION:STRING=8.0
+CUDA_VERSION:STRING=9.0
 
 //"cublas" library
-CUDA_cublas_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcublas.so
+CUDA_cublas_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcublas.so
 
 //static CUDA runtime library
-CUDA_cudart_static_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcudart_static.a
+CUDA_cudart_static_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcudart_static.a
 
 //"cufft" library
-CUDA_cufft_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcufft.so
+CUDA_cufft_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcufft.so
 
 //"cupti" library
-CUDA_cupti_LIBRARY:FILEPATH=/usr/local/cuda-8.0/extras/CUPTI/lib64/libcupti.so
+CUDA_cupti_LIBRARY:FILEPATH=/usr/local/cuda-9.0/extras/CUPTI/lib64/libcupti.so
 
 //"curand" library
-CUDA_curand_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcurand.so
+CUDA_curand_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcurand.so
 
 //"cusolver" library
-CUDA_cusolver_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcusolver.so
+CUDA_cusolver_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcusolver.so
 
 //"cusparse" library
-CUDA_cusparse_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libcusparse.so
+CUDA_cusparse_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libcusparse.so
 
 //"nppc" library
-CUDA_nppc_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libnppc.so
+CUDA_nppc_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libnppc.so
 
 //"nppi" library
-CUDA_nppi_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libnppi.so
+CUDA_nppi_LIBRARY:FILEPATH=CUDA_nppi_LIBRARY-NOTFOUND
 
 //"npps" library
-CUDA_npps_LIBRARY:FILEPATH=/usr/local/cuda-8.0/lib64/libnpps.so
+CUDA_npps_LIBRARY:FILEPATH=/usr/local/cuda-9.0/lib64/libnpps.so
 
 //Path to a library.
 CUDA_rt_LIBRARY:FILEPATH=/usr/lib/aarch64-linux-gnu/librt.so
 
-//Path to a library.
-LibNT:FILEPATH=LibNT-NOTFOUND
+//Single output directory for building all executables.
+EXECUTABLE_OUTPUT_PATH:PATH=
 
-//Path where debug 3rdpaty OpenCV dependencies are located
-OpenCV_3RDPARTY_LIB_DIR_DBG:PATH=
-
-//Path where release 3rdpaty OpenCV dependencies are located
-OpenCV_3RDPARTY_LIB_DIR_OPT:PATH=
-
-OpenCV_CONFIG_PATH:FILEPATH=/usr/share/OpenCV
+//Single output directory for building all libraries.
+LIBRARY_OUTPUT_PATH:PATH=
 
 //The directory containing a CMake configuration file for OpenCV.
-OpenCV_DIR:PATH=/usr/share/OpenCV
-
-//Path where debug OpenCV libraries are located
-OpenCV_LIB_DIR_DBG:PATH=
-
-//Path where release OpenCV libraries are located
-OpenCV_LIB_DIR_OPT:PATH=
-
-//The directory containing a CMake configuration file for ZeroMQ.
-ZeroMQ_DIR:PATH=/usr/local/share/cmake/ZeroMQ
+OpenCV_DIR:PATH=/usr/local/share/OpenCV
 
 //Value Computed by CMake
-ahoy_BINARY_DIR:STATIC=/home/nvidia/Jetson
+OrthusVision,_BINARY_DIR:STATIC=/home/nvidia/Jetson
 
 //Value Computed by CMake
-ahoy_SOURCE_DIR:STATIC=/home/nvidia/Jetson
+OrthusVision,_SOURCE_DIR:STATIC=/home/nvidia/Jetson/OrthusVision
+
+//Value Computed by CMake
+OrthusVision_BINARY_DIR:STATIC=/home/nvidia/Jetson
+
+//Value Computed by CMake
+OrthusVision_SOURCE_DIR:STATIC=/home/nvidia/Jetson/OrthusVision
 
 
 ########################
@@ -388,7 +384,7 @@ CMAKE_HAVE_PTHREAD_CREATE:INTERNAL=1
 CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/nvidia/Jetson
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/nvidia/Jetson/OrthusVision
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
@@ -449,6 +445,9 @@ CMAKE_UNAME:INTERNAL=/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_64_BIT_DEVICE_CODE
 CUDA_64_BIT_DEVICE_CODE-ADVANCED:INTERNAL=1
+//List of intermediate files that are part of the cuda dependency
+// scanning.
+CUDA_ADDITIONAL_CLEAN_FILES:INTERNAL=/home/nvidia/Jetson/CMakeFiles/orthusVision.dir//orthusVision_generated_orthusVision.cu.o.depend
 //ADVANCED property for variable: CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE
 CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_BUILD_CUBIN
@@ -488,12 +487,12 @@ CUDA_TARGET_CPU_ARCH-ADVANCED:INTERNAL=1
 CUDA_TOOLKIT_INCLUDE-ADVANCED:INTERNAL=1
 //This is the value of the last time CUDA_TOOLKIT_ROOT_DIR was
 // set successfully.
-CUDA_TOOLKIT_ROOT_DIR_INTERNAL:INTERNAL=/usr/local/cuda-8.0
+CUDA_TOOLKIT_ROOT_DIR_INTERNAL:INTERNAL=/usr/local/cuda-9.0
 //ADVANCED property for variable: CUDA_TOOLKIT_TARGET_DIR
 CUDA_TOOLKIT_TARGET_DIR-ADVANCED:INTERNAL=1
 //This is the value of the last time CUDA_TOOLKIT_TARGET_DIR was
 // set successfully.
-CUDA_TOOLKIT_TARGET_DIR_INTERNAL:INTERNAL=/usr/local/cuda-8.0
+CUDA_TOOLKIT_TARGET_DIR_INTERNAL:INTERNAL=/usr/local/cuda-9.0
 //ADVANCED property for variable: CUDA_VERBOSE_BUILD
 CUDA_VERBOSE_BUILD-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_VERSION
@@ -525,17 +524,9 @@ CUDA_parse_cubin:INTERNAL=/usr/share/cmake-3.5/Modules/FindCUDA/parse_cubin.cmak
 //Location of run_nvcc.cmake
 CUDA_run_nvcc:INTERNAL=/usr/share/cmake-3.5/Modules/FindCUDA/run_nvcc.cmake
 //Details about finding CUDA
-FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr/local/cuda-8.0][/usr/local/cuda-8.0/bin/nvcc][/usr/local/cuda-8.0/include][/usr/local/cuda-8.0/lib64/libcudart.so][v8.0(8.0)]
+FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr/local/cuda-9.0][/usr/local/cuda-9.0/bin/nvcc][/usr/local/cuda-9.0/include][/usr/local/cuda-9.0/lib64/libcudart.so][v9.0()]
+//Details about finding OpenCV
+FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/usr/local][v3.4.1()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-//ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_DBG
-OpenCV_3RDPARTY_LIB_DIR_DBG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_OPT
-OpenCV_3RDPARTY_LIB_DIR_OPT-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenCV_CONFIG_PATH
-OpenCV_CONFIG_PATH-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenCV_LIB_DIR_DBG
-OpenCV_LIB_DIR_DBG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenCV_LIB_DIR_OPT
-OpenCV_LIB_DIR_OPT-ADVANCED:INTERNAL=1
 

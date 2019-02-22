@@ -3,8 +3,14 @@ package frc.robot.commands.Arm
 import org.sertain.command.Command
 import frc.robot.subsystems.Arm
 import frc.robot.OI
+import frc.robot.data.ArmData
+
+
 public class ArmJoystick: Command()
 {
+    var armData: ArmData = ArmData()
+
+
     // Make sure we require any necessary objects/classes
     init 
     {
@@ -17,7 +23,7 @@ public class ArmJoystick: Command()
     {              
         var yDirection: Double = OI().xboxJoystickLeft.getY()
 
-        if (Math.abs(yDirection) < Arm.deadzone) yDirection = 0.0
+        if (Math.abs(yDirection) < armData.deadzone) yDirection = 0.0
 
         Arm.move(yDirection)
 

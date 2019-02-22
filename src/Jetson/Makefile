@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/ahoy
+CMAKE_SOURCE_DIR = /home/nvidia/Jetson/OrthusVision
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/ahoy
+CMAKE_BINARY_DIR = /home/nvidia/Jetson
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/ahoy/CMakeFiles /home/ubuntu/ahoy/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nvidia/Jetson/CMakeFiles /home/nvidia/Jetson/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/ahoy/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nvidia/Jetson/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ahoy22
+# Target rules for targets named OrthusVisionTest
 
 # Build rule for target.
-ahoy22: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ahoy22
-.PHONY : ahoy22
+OrthusVisionTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 OrthusVisionTest
+.PHONY : OrthusVisionTest
 
 # fast build rule for target.
-ahoy22/fast:
-	$(MAKE) -f CMakeFiles/ahoy22.dir/build.make CMakeFiles/ahoy22.dir/build
-.PHONY : ahoy22/fast
+OrthusVisionTest/fast:
+	$(MAKE) -f CMakeFiles/OrthusVisionTest.dir/build.make CMakeFiles/OrthusVisionTest.dir/build
+.PHONY : OrthusVisionTest/fast
 
-ahoy22.o: ahoy22.cpp.o
+orthusVision.o: orthusVision.cpp.o
 
-.PHONY : ahoy22.o
+.PHONY : orthusVision.o
 
 # target to build an object file
-ahoy22.cpp.o:
-	$(MAKE) -f CMakeFiles/ahoy22.dir/build.make CMakeFiles/ahoy22.dir/ahoy22.cpp.o
-.PHONY : ahoy22.cpp.o
+orthusVision.cpp.o:
+	$(MAKE) -f CMakeFiles/OrthusVisionTest.dir/build.make CMakeFiles/OrthusVisionTest.dir/orthusVision.cpp.o
+.PHONY : orthusVision.cpp.o
 
-ahoy22.i: ahoy22.cpp.i
+orthusVision.i: orthusVision.cpp.i
 
-.PHONY : ahoy22.i
+.PHONY : orthusVision.i
 
 # target to preprocess a source file
-ahoy22.cpp.i:
-	$(MAKE) -f CMakeFiles/ahoy22.dir/build.make CMakeFiles/ahoy22.dir/ahoy22.cpp.i
-.PHONY : ahoy22.cpp.i
+orthusVision.cpp.i:
+	$(MAKE) -f CMakeFiles/OrthusVisionTest.dir/build.make CMakeFiles/OrthusVisionTest.dir/orthusVision.cpp.i
+.PHONY : orthusVision.cpp.i
 
-ahoy22.s: ahoy22.cpp.s
+orthusVision.s: orthusVision.cpp.s
 
-.PHONY : ahoy22.s
+.PHONY : orthusVision.s
 
 # target to generate assembly for a file
-ahoy22.cpp.s:
-	$(MAKE) -f CMakeFiles/ahoy22.dir/build.make CMakeFiles/ahoy22.dir/ahoy22.cpp.s
-.PHONY : ahoy22.cpp.s
+orthusVision.cpp.s:
+	$(MAKE) -f CMakeFiles/OrthusVisionTest.dir/build.make CMakeFiles/OrthusVisionTest.dir/orthusVision.cpp.s
+.PHONY : orthusVision.cpp.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ahoy22"
-	@echo "... ahoy22.o"
-	@echo "... ahoy22.i"
-	@echo "... ahoy22.s"
+	@echo "... OrthusVisionTest"
+	@echo "... orthusVision.o"
+	@echo "... orthusVision.i"
+	@echo "... orthusVision.s"
 .PHONY : help
 
 

@@ -3,10 +3,12 @@ package frc.robot.commands.Wrist
 import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
 import frc.robot.OI
+import frc.robot.data.WristData
 
 
 public class WristJoystick : Command()
 {
+    val wristData: WristData = WristData()
     // Make sure we require any necessary objects/classes
     init 
     {
@@ -19,7 +21,7 @@ public class WristJoystick : Command()
     {              
         var yDirection: Double = OI().xboxJoystickRight.getY()
 
-        if (Math.abs(yDirection) < Wrist.deadzone) yDirection = 0.0
+        if (Math.abs(yDirection) < wristData.deadzone) yDirection = 0.0
 
         Wrist.move(yDirection)
 

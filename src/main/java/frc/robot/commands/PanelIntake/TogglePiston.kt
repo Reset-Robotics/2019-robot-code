@@ -13,10 +13,6 @@ class TogglePiston(param: String = "Null") : Command()
 		requires(PanelIntake)
 	}
 
-	fun Deploy() 
-    {
-	}
-
 	override fun execute(): Boolean
     {
 		if(localParam == "Null") PanelIntake.deploy() else if(localParam == "Out") PanelIntake.deployOut() else PanelIntake.deployIn()

@@ -3,18 +3,16 @@ package frc.robot.commands.Wrist
 import org.sertain.command.Command
 import frc.robot.subsystems.Wrist
 import frc.robot.OI
+import frc.robot.data.WristData
 
 
-import frc.robot.IDs
-
-public class MoveToPos(position: String): Command()
+public class MoveToPos(position: WristData.MMData): Command()
 {
-    var ids: IDs = IDs()
-    var position: String = "Null"
+    var localPos = position
 
     override fun execute(): Boolean
     {
-        Wrist.wristMotionMagic(position)
+        Wrist.wristMotionMagic(localPos)
         
         return true;
     }

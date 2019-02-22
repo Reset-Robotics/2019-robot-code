@@ -3,16 +3,25 @@ package frc.robot
 
 import org.sertain.*
 import org.sertain.command.Command
+import org.sertain.command.and
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.command.Scheduler
+import edu.wpi.first.wpilibj.I2C
+import edu.wpi.first.wpilibj.PWM
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 
-// import commands
-import frc.robot.IDs
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.RBrake
 import frc.robot.subsystems.Elevator
-import frc.robot.commands.Drive.ResetGyro
-import frc.robot.commands.Forklift.ResetForkliftSensor
+import frc.robot.subsystems.Forklift
+//import frc.robot.commands.Drive.ResetGyro
+//import frc.robot.commands.Forklift.ResetForkliftSensor
+import frc.robot.subsystems.AutoController
+import frc.robot.commands.Drive.Auto.DriveByTime
+import frc.robot.commands.Drive.ToggleFieldOriented
+import frc.robot.commands.RBrake.Deploy
+//import frc.robot.commands.Drive.InertialGuidance
 
 
 public class Mag : Robot()
@@ -22,13 +31,18 @@ public class Mag : Robot()
     }
 
     // Miscellaneous objects/variables
-    public var compressor: Compressor = Compressor(0)
+    //public var compressor: Compressor = Compressor(0)
+
 
     // Initialize subsystem instance objects for this script
     public val drivetrain: Drivetrain = Drivetrain
     public val rbrake: RBrake = RBrake
     public var elevator: Elevator = Elevator
+    public val autocontroller: AutoController = AutoController
+    public var camera0 = CameraServer.getInstance().startAutomaticCapture("Heck you Ben", 0)
    
+    // Initialize I2C object for the Arduino
+    //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
 
     // auto command/chooser initilization goes here later?
 
@@ -38,9 +52,13 @@ public class Mag : Robot()
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
+        Deploy()
         drivetrain.onCreate()
-        rbrake.onCreate()
-        elevator.onCreate()
+    	//camera0.setResolution(320, 240)
+        //camera0.setFPS(30)
+    
+        //rbrake.onCreate()
+        //elevator.onCreate()
         
         // put any data to dashboard here
     }
@@ -48,7 +66,7 @@ public class Mag : Robot()
     // Runs periodically when the robot is disabled; WPILib disabledPeriodic() equivalent
     override fun executeDisabled()
     {
-        drivetrain.unlockAngle()
+        //drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
         // any dashboard data population here too
     }
@@ -57,7 +75,13 @@ public class Mag : Robot()
     override fun onAutoStart()
     {
         drivetrain.onCreate()
+        autocontroller.onCreate()
+        //InertialGuidance(2.0, 2.0).start()
+        //ToggleFieldOriented()
+        //DriveByTime(-1.0, 0.0, 0.25, 1.0, 2.0).start()
+        //DriveByTime
         
+
         /* auto code goes here later. for now, have a banana
         
          _
@@ -87,10 +111,11 @@ public class Mag : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
+        drivetrain.onCreate()
         compressor.setClosedLoopControl(true)
-        ResetForkliftSensor()
-        frc.robot.commands.Drive.ResetGyro()
-        frc.robot.commands.Drive.ResetEncoders()
+        //ResetForkliftSensor()
+        //frc.robot.commands.Drive.ResetGyro()
+        //frc.robot.commands.Drive.ResetEncoders()
         // reset elevator encoders
         // any other starting configurations
         // nullcheck auto command and cancel it since telop is starting; this can eventually be replaced with smoother transition optimization to allow for a few seconds longer in auto control to allow for the sandstorm barrier to be fully up before drivers take control
@@ -100,6 +125,7 @@ public class Mag : Robot()
     override fun executeTeleop()
     {
         oi.OI()
+        //System.err.println(Drivetrain.ultrasonicTest())
 
         // put dashboard data here
     }

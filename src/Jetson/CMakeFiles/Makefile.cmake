@@ -10,13 +10,11 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.5.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeSystem.cmake"
-  "CMakeLists.txt"
-  "/usr/local/share/cmake/ZeroMQ/ZeroMQConfig.cmake"
-  "/usr/local/share/cmake/ZeroMQ/ZeroMQConfigVersion.cmake"
-  "/usr/share/OpenCV/OpenCVConfig-version.cmake"
-  "/usr/share/OpenCV/OpenCVConfig.cmake"
-  "/usr/share/OpenCV/OpenCVModules-release.cmake"
-  "/usr/share/OpenCV/OpenCVModules.cmake"
+  "OrthusVision/CMakeLists.txt"
+  "/usr/local/share/OpenCV/OpenCVConfig-version.cmake"
+  "/usr/local/share/OpenCV/OpenCVConfig.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules-release.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules.cmake"
   "/usr/share/cmake-3.5/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.5/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.5/Modules/CMakeCommonLanguageInclude.cmake"
@@ -51,5 +49,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/ahoy22.dir/DependInfo.cmake"
+  "CMakeFiles/OrthusVisionTest.dir/DependInfo.cmake"
   )

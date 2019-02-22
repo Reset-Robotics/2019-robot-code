@@ -15,10 +15,6 @@ class TimedPiston() : Command()
 		requires(PanelIntake)
 	}
 
-	fun TimedPiston() 
-    {
-	}
-
 	override fun execute(): Boolean
     {
         PanelIntake.deployIn()
