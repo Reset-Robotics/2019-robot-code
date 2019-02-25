@@ -1,4 +1,3 @@
-// Rename to <robotname>.kt once we pick a robot name
 package frc.robot
 
 import org.sertain.*
@@ -31,7 +30,7 @@ public class Mag : Robot()
     }
 
     // Miscellaneous objects/variables
-    //public var compressor: Compressor = Compressor(0)
+    public var compressor: Compressor = Compressor(0)
 
 
     // Initialize subsystem instance objects for this script
@@ -80,25 +79,6 @@ public class Mag : Robot()
         //ToggleFieldOriented()
         //DriveByTime(-1.0, 0.0, 0.25, 1.0, 2.0).start()
         //DriveByTime
-        
-
-        /* auto code goes here later. for now, have a banana
-        
-         _
-        //\
-        V  \
-         \  \_
-          \,'.`-.
-           |\ `. `.
-           ( \  `. `-.                        _,.-:\
-            \ \   `.  `-._             __..--' ,-';/
-             \ `.   `-.   `-..___..---'   _.--' ,'/
-              `. `.    `-._        __..--'    ,' /
-                `. `-_     ``--..''       _.-' ,'
-                  `-_ `-.___        __,--'   ,'
-                     `-.__  `----"""    __.-'
-        hh                `--..____..--'
-         */
     }
 
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
