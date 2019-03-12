@@ -16,6 +16,7 @@ public data class ArmData(val isBenGay: Boolean = true)
     val topHeight = MMData("Top", 72000.0)
     val middleHeight = MMData("Middle", 35000.0)
     val bottomHeight = MMData("Bottom", 0.0)
+    val scoringHeight = MMData("Scoring", 45000.0)
 
     // PID
     var kPIDLoopIdx: Int = 0

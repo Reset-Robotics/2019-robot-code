@@ -22,8 +22,14 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     val cruiseVelocity = MMData("Cruise-Velocity", 19000.0)
     val acceleration = MMData("Acceleration", 11000.0)
     val topHeight = MMData("Top", 72000.0)
+    var topCargoPos: MMData("TopCargo", 0.0) // temp
+    var topPanelPos: MMData("TopPanel", 0.0) // temp
     val middleHeight = MMData("Middle", 35000.0)
+    var middleCargoPos: MMData("MiddleCargo", 0.0) // temp
+    var middlePanelPos: MMData("MiddlePanel", 0.0) // temp
     val bottomHeight = MMData("Bottom", 0.0)
+    var bottomCargoPos: MMData("BotomCargo", 0.0) // temp
+    var bottomPanelPos: MMData("BottomPanel", 0.0) // temp
 
     // PID
     var kPIDLoopIdx: Int = 0

@@ -20,10 +20,6 @@ public object Elevator : Subsystem()
     var elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
     var elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
 
-
-    //val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(1) //temp    
-    //val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(3) //temp
-
     //setting controller deadzone
     var deadzone: Double = 0.1
 
@@ -33,9 +29,17 @@ public object Elevator : Subsystem()
     //configuring motion magic
     var cruiseVelocity: Double = 19000.0  //temp
     var acceleration: Double = 11000.0  //temp
+    
+    // elevator encoder positioning
     var topHeight: Double = 72000.0 //temp
+    var topCargoPos: Double = 0.0 // temp
+    var topPanelPos: Double = 0.0 // temp
     var middleHeight: Double = 35000.0//temp
-    var bottomHeight: Double = 0.0//temp
+    var middleCargoPos: Double = 0.0 // temp
+    var middlePanelPos: Double = 0.0 // temp
+    var bottomHeight: Double = 0.0 // temp
+    var bottomCargoPos: Double = 0.0 // temp
+    var bottomPanelPos: Double = 0.0 // temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     var kPIDLoopIdx: Int = 0
@@ -157,38 +161,54 @@ public object Elevator : Subsystem()
     fun elevatorMM (newElevatorState: String = "Null")
     {
         var targetPos = newElevatorState
-        if(targetPos=="Bottom" && targetPos != elevatorState )
+        when(targetPos)
         {
-            elevatorLeft.set(ControlMode.MotionMagic, bottomHeight)
-            elevatorRight.set(ControlMode.MotionMagic, bottomHeight)
-            elevatorState="Bottom"
-        }
-        if(targetPos=="Middle" && targetPos !=elevatorState)
-        {
-            elevatorLeft.set(ControlMode.MotionMagic, middleHeight)
-            elevatorRight.set(ControlMode.MotionMagic, middleHeight)
-            elevatorState="Middle"
-        }
-        if(targetPos=="Top" && targetPos != elevatorState)
-        {
-            elevatorLeft.set(ControlMode.MotionMagic, topHeight)
-            elevatorRight.set(ControlMode.MotionMagic, topHeight)
-            elevatorState="Bottom"
-        }
-
-        /* elevatorState = state
-        if (elevatorState == false)
-        {
-            elevatorLeft.set(ControlMode.MotionMagic, height)
-            elevatorRight.set(ControlMode.MotionMagic, height)
-        }
-        if (elevatorState == true)
-        {
-            elevatorLeft.set(ControlMode.MotionMagic, 0.0)
-            elevatorRight.set(ControlMode.MotionMagic, 0.0)
-        }
-        */
-        
+            "Top" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.topHeight.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.topHeight.data)
+                elevatorState="Top"
+            }
+            "TopCargo" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.topCargoPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.topCargoPos.data)
+                elevatorState="TopCargo"
+            }      
+            "TopPanel" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.topPanelPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.topPanelPos.data)
+                elevatorState="TopPanel"
+            }    
+            "Middle" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.middleHeight.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.middleHeight.data)
+                elevatorState="Middle"
+            }
+            "MiddleCargo" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.middleCargoPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.middleCargoPos.data)
+                elevatorState="MiddleCargo"
+            }
+            "MiddlePanel" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.middlePanelPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.middlePanelPos.data)
+                elevatorState="MiddlePanel"
+            }
+            "Bottom" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.bottomHeight.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.bottomHeight.data)
+                elevatorState="Bottom"
+            }
+            "BottomCargo" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.bottomCargoPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.bottomCargoPos.data)
+                elevatorState="BottomCargo"
+            }
+            "BottomPanel" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.bottomPanelPos.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.bottomPanelPos.data)
+                elevatorState="BottomPanel"
+            }
+        }           
     }
     fun isElevatorLevel():Boolean
     {
