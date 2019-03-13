@@ -10,14 +10,20 @@ import edu.wpi.first.wpilibj.PWM
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 
+
+//Subsystems
+import frc.robot.subsystems.Arm
+import frc.robot.subsystems.AutoController
+import frc.robot.subsystems.CargoIntake
 import frc.robot.subsystems.Drivetrain
-import frc.robot.subsystems.RBrake
 import frc.robot.subsystems.Elevator
 import frc.robot.subsystems.Forklift
-import frc.robot.subsystems.Arm
+import frc.robot.subsystems.PanelIntake
+import frc.robot.subsystems.RBrake
+import frc.robot.subsystems.Wrist
+
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
-import frc.robot.subsystems.AutoController
 import frc.robot.commands.Drive.Auto.DriveByTime
 import frc.robot.commands.Drive.ToggleFieldOriented
 import frc.robot.commands.RBrake.Deploy
@@ -35,11 +41,16 @@ public class Mag : Robot()
 
 
     // Initialize subsystem instance objects for this script
-    public val drivetrain: Drivetrain = Drivetrain
-    public val forklift: Forklift = Forklift
-    public val rbrake: RBrake = RBrake
-    public var elevator: Elevator = Elevator
+    public val arm: Arm = Arm
     public val autocontroller: AutoController = AutoController
+    public val cargoIntake: CargoIntake = CargoIntake
+    public val drivetrain: Drivetrain = Drivetrain
+    public var elevator: Elevator = Elevator
+    public val forklift: Forklift = Forklift
+    public val panelIntake: PanelIntake = PanelIntake
+    public val rbrake: RBrake = RBrake
+    public val wrist: Wrist = Wrist
+    //camera Server
     public var camera0 = CameraServer.getInstance().startAutomaticCapture("Heck you Ben", 0)
    
     // Initialize I2C object for the Arduino
