@@ -59,45 +59,42 @@ public object Wrist : Subsystem()
     fun killMotors(){ wristMotor.set(0.0) }
 
     //elevator Motion Magic
-    fun wristMotionMagic (newWristState: WristData.MMData)
+    fun wristMotionMagic (newWristState: String)
     {
         var targetPos = newWristState
-        when(targetPos.name)
+        when(targetPos)
         {
             "TopPanel" -> {
-                wristMotor.set(ControlMode.MotionMagic, wristData.topHeightPanel.data)
                 wristMotor.set(ControlMode.MotionMagic, wristData.topHeightPanel.data)
                 wristData.wristState = "TopPanel"
             }
             "MiddlePanel" -> {
                 wristMotor.set(ControlMode.MotionMagic, wristData.middleHeightPanel.data)
-                wristMotor.set(ControlMode.MotionMagic, wristData.middleHeightPanel.data)
                 wristData.wristState = "MiddlePanel"
             }
             "BottomPanel" -> {
-                wristMotor.set(ControlMode.MotionMagic, wristData.bottomHeightPanel.data)
                 wristMotor.set(ControlMode.MotionMagic, wristData.bottomHeightPanel.data)
                 wristData.wristState = "BottomPanel"
             }
             "FloorPanel" -> {
                 wristMotor.set(ControlMode.MotionMagic, wristData.floorPanel.data)
-                wristMotor.set(ControlMode.MotionMagic, wristData.floorPanel.data)
                 wristData.wristState = "FloorPanel"
             }
             "TopCargo" -> {
-                wristMotor.set(ControlMode.MotionMagic, wristData.topHeightCargo.data)
                 wristMotor.set(ControlMode.MotionMagic, wristData.topHeightCargo.data)
                 wristData.wristState = "TopCargo"
             }
             "MiddleCargo" -> {
                 wristMotor.set(ControlMode.MotionMagic, wristData.middleHeightCargo.data)
-                wristMotor.set(ControlMode.MotionMagic, wristData.middleHeightCargo.data)
                 wristData.wristState = "MiddleCargo"
             }
             "BottomCargo" -> {
                 wristMotor.set(ControlMode.MotionMagic, wristData.bottomHeightCargo.data)
-                wristMotor.set(ControlMode.MotionMagic, wristData.bottomHeightCargo.data)
                 wristData.wristState = "BottomCargo"
+            }
+            "CargoshipCargo" -> {
+                wristMotor.set(ControlMode.MotionMagic, wristData.cargoshipCargo.data)
+                wristData.wristState = "CargoshipCargo"
             }
         }  
     }

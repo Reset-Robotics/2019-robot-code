@@ -6,7 +6,7 @@ import frc.robot.OI
 import frc.robot.data.WristData
 
 
-public class MoveToPos(position: WristData.MMData): Command()
+public class MoveToPos(position: String): Command()
 {
     var localPos = position
 

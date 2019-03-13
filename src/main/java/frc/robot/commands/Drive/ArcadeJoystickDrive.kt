@@ -32,7 +32,7 @@ public class ArcadeJoystickDrive : Command()
         if (Math.abs(spin) < driveData.deadzone) 
         {
             spin = 0.0 
-            Drivetrain.lockAngle()
+            //Drivetrain.lockAngle()
         }
         else Drivetrain.unlockAngle()
         

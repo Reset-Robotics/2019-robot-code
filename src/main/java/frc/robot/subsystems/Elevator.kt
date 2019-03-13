@@ -208,6 +208,11 @@ public object Elevator : Subsystem()
                 elevatorRight.set(ControlMode.MotionMagic, elevatorData.bottomPanelPos.data)
                 elevatorState="BottomPanel"
             }
+            "CargoshipCargo" -> {
+                elevatorLeft.set(ControlMode.MotionMagic, elevatorData.cargoshipCargo.data)
+                elevatorRight.set(ControlMode.MotionMagic, elevatorData.cargoshipCargo.data)
+                elevatorState="CargoshipCargo"
+            }
         }           
     }
     fun isElevatorLevel():Boolean

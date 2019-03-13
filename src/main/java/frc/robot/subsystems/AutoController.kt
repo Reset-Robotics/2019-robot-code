@@ -65,7 +65,7 @@ object AutoController : RobotLifecycle
         CARGO2("Two Cargo. One in the desired position, and one in the nearest scoring position", "TwoCargo"),
         PANEL1("One Hatch in the desired position", "OneHatch"),
         PANEL2("Two Hatches. One in the desired position, and one in the nearest scoring position", "TwoHatch"),
-        PANEL1CARGO1("One Hatch, One Cargo. One Hatch in the desired position, and a cargo in the same scoring position")
+        PANEL1CARGO1("One Hatch, One Cargo. One Hatch in the desired position, and a cargo in the same scoring position", "OnePanelOneCargo")
     }
 
     override fun onAutoStart() 
@@ -75,8 +75,8 @@ object AutoController : RobotLifecycle
         when (selectedAuto) 
         {
             "AutoDriveTest" -> AutoDriveTest() //xdir, ydir, angle, throttle, time
-            "L1L-LeaveHabForward" -> Level1Left.LeaveHabForwardFacing()
-            "L1R-LeaveHabBackward" -> Level1Right.LeaveHabBackwardFacing()
+            //"L1L-LeaveHabForward" -> StartPos.Level1Left.LeaveHabForwardFacing()
+            //"L1R-LeaveHabBackward" -> StartPos.Level1Right.LeaveHabBackwardFacing()
 
             else -> DriveByTime(0.0, -1.0, 0.0, 1.0, 2.0)
 

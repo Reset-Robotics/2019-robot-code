@@ -17,7 +17,10 @@ import frc.robot.commands.Drive.*
 //import frc.robot.subsystems.RBrake
 import frc.robot.data.OIData
 import frc.robot.commands.RBrake.*
-import frc.robot.DriverAssist.*
+import frc.robot.commands.DriverAssist.CargoScoring.*
+import frc.robot.commands.DriverAssist.FloorPanelScoring.*
+import frc.robot.commands.DriverAssist.PanelScoring.*
+import frc.robot.commands.PanelIntake.*
 
 // Util classes
 import frc.robot.util.toggleOnButtonPress
@@ -44,6 +47,9 @@ public class OI
         joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
         joystickRight.whenActive(5, Deploy())
+
+        joystickLeft.whenActive(6, TogglePiston())
+
         //joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
@@ -72,5 +78,6 @@ public class OI
         joystickLeft.whenActive(11, ScoreLevel1FloorPanel())
         joystickLeft.whenActive(9, ScoreLevel2FloorPanel())
         joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
+        joystickLeft.whenActive(12, ScoreCargoShipCargo())
    }
 }

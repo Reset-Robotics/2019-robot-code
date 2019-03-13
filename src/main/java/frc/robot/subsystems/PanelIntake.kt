@@ -12,7 +12,7 @@ public object PanelIntake: Subsystem()
 {
      val panelIntakeData : PanelIntakeData = PanelIntakeData()
      var solenoidTop: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodTopInPort, panelIntakeData.soleniodTopOutPort)
-     var solenoidBottom: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodBottomInPort, panelIntakeData.soleniodBottomOutPort)
+     //var solenoidBottom: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodBottomInPort, panelIntakeData.soleniodBottomOutPort)
      
      
      fun panelIntake() { }
@@ -20,12 +20,12 @@ public object PanelIntake: Subsystem()
      fun deployIn()
      { 
           solenoidTop.set(Value.kForward) 
-          solenoidBottom.set(Value.kForward) 
+          //solenoidBottom.set(Value.kForward) 
      }
      fun deployOut()
      {
           solenoidTop.set(Value.kReverse) 
-          solenoidBottom.set(Value.kReverse)
+          //solenoidBottom.set(Value.kReverse)
      }
 
      fun deploy()
@@ -33,13 +33,13 @@ public object PanelIntake: Subsystem()
           if (panelIntakeData.isDeployed)
           {
                solenoidTop.set(Value.kReverse) 
-               solenoidBottom.set(Value.kReverse)
+               //solenoidBottom.set(Value.kReverse)
                panelIntakeData.isDeployed = !panelIntakeData.isDeployed
 		}
 		else 
           {
 			solenoidTop.set(Value.kForward) 
-               solenoidBottom.set(Value.kForward) 
+               //solenoidBottom.set(Value.kForward) 
 			panelIntakeData.isDeployed = !panelIntakeData.isDeployed
           }
      }

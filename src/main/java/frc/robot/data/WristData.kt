@@ -20,6 +20,7 @@ public data class WristData(val teamNumber: Int = 6325)
     var topHeightCargo = MMData("Cargo-Top", 72000.0)
     var middleHeightCargo = MMData("Cargo-Middle", 35000.0)
     var bottomHeightCargo = MMData("Cargo-Bottom", 0.0) 
+    var cargoshipCargo = MMData("CargoshipCargo", 0.0) // temp
 
     // PID
     var kPIDLoopIdx: Int = 0
