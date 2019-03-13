@@ -79,6 +79,11 @@ public object Wrist : Subsystem()
                 wristMotor.set(ControlMode.MotionMagic, wristData.bottomHeightPanel.data)
                 wristData.wristState = "BottomPanel"
             }
+            "FloorPanel" -> {
+                wristMotor.set(ControlMode.MotionMagic, wristData.floorPanel.data)
+                wristMotor.set(ControlMode.MotionMagic, wristData.floorPanel.data)
+                wristData.wristState = "FloorPanel"
+            }
             "TopCargo" -> {
                 wristMotor.set(ControlMode.MotionMagic, wristData.topHeightCargo.data)
                 wristMotor.set(ControlMode.MotionMagic, wristData.topHeightCargo.data)
