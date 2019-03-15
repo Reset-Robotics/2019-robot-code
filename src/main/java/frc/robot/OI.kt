@@ -44,13 +44,13 @@ public class OI
 
    fun OI() 
    {
-        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
+        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left resets field orientated Gyro
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
-        joystickRight.whenActive(5, Deploy())
+        joystickRight.whenActive(5, Deploy())//Deploys R BRake
 
-        joystickLeft.whenActive(6, TogglePiston())
+        joystickLeft.whenActive(6, TogglePiston())// Toggles Panel Intake
 
-        //joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
+        joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
@@ -66,7 +66,12 @@ public class OI
         
         //if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
 
+
+        // Auto controls
+
+
         // Encoder Positions for normal Cargo/Panels
+        /* 
         joystickRight.whenActive(11, ScoreLevel1Cargo())
         joystickRight.whenActive(9, ScoreLevel2Cargo())
         joystickRight.whenActive(7, ScoreLevel3Cargo())
@@ -79,5 +84,6 @@ public class OI
         joystickLeft.whenActive(9, ScoreLevel2FloorPanel())
         joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
         joystickLeft.whenActive(12, ScoreCargoShipCargo())
+        */
    }
 }
