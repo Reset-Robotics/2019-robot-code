@@ -7,13 +7,21 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.data.ArmData
 import frc.robot.commands.Arm.ArmJoystick
+import frc.robot.Util.AlbanyTestFile
+import edu.wpi.first.wpilibj.PIDController
+import frc.robot.Util.AlbanyTestPidLoops.*
 
 
 public object Arm : Subsystem()
 { 
     val armData : ArmData = ArmData()
     val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
+    //PID Loop
+    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
+    var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
 
+    //MotionMagic
+    var armTargetPosistionJoystick: Double = 0.0
     override fun onCreate()
     {
         armMotor.configFactoryDefault()
@@ -41,6 +49,8 @@ public object Arm : Subsystem()
 		armMotor.config_kP(armData.leftKSlotIdx, armData.kGainskP, armData.kTimeoutMs);
 		armMotor.config_kI(armData.leftKSlotIdx, armData.kGainskI, armData.kTimeoutMs);
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
+        armMotor.configMotionCruiseVelocity(albanyTestFile.cruiseVelocityArm)
+        armMotor.configMotionAcceleration(albanyTestFile.accelerationArm)
         
         ResetEncoder()
     }
@@ -56,7 +66,19 @@ public object Arm : Subsystem()
         armMotor.enableCurrentLimit(true) 
     }
 
-    fun move(speed: Double){ armMotor.set(ControlMode.PercentOutput, speed) }
+    fun move(speed: Double)
+    {
+        if (albanyTestFile.armMotionMagicJoystickEnabled)
+        {
+            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* albanyTestFile.joystickArmDx
+            armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
+        }
+        else
+        {
+        armMotor.set(ControlMode.PercentOutput, speed) 
+
+        }
+    }
     fun killMotors(){ armMotor.set(0.0) }
 
     //elevator Motion Magic
@@ -88,7 +110,7 @@ public object Arm : Subsystem()
     fun returnArmState(): String { return armData.armState; }
 
     // Functions for getting encoder values
-    fun getEncoderRawArm(): Int { return armMotor.getSelectedSensorPosition(0); }
+    fun getEncoderRawArm(): Double { return armMotor.getSelectedSensorPosition(0).toDouble(); }
 
     override val defaultCommand = ArmJoystick()
 }

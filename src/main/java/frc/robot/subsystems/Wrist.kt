@@ -7,11 +7,24 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.commands.Wrist.WristJoystick
 import frc.robot.data.WristData
+import frc.robot.Util.AlbanyTestFile
+import edu.wpi.first.wpilibj.PIDController
+import frc.robot.Util.AlbanyTestPidLoops.*
 
 public object Wrist : Subsystem()
 {
     var wristData: WristData = WristData()
     val wristMotor: WPI_TalonSRX = WPI_TalonSRX(wristData.motor) //temp    
+    //var isHoldPosistion : Boolean = false
+
+    //PID LOOP
+    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
+    var turnController: PIDController = PIDController(albanyTestFile.pidPWrist, albanyTestFile.pidIWrist, albanyTestFile.pidDWrist, albanyTestFile.pidFWrist, WristPidSource , WristPidWrite, 0.05)
+
+    //MotionMagic Joystick 
+
+    var joystickTarget = 0.0
+
 
     override fun onCreate()
     {
@@ -55,7 +68,19 @@ public object Wrist : Subsystem()
         wristMotor.enableCurrentLimit(true) 
     }
 
-    fun move(speed: Double){ wristMotor.set(ControlMode.PercentOutput, speed) }
+    fun move(speed: Double)
+    { 
+        if (albanyTestFile.wristMotionMagicJoystickEnabled)
+        {
+            joystickTarget = joystickTarget + (speed*albanyTestFile.joystickWristDx)
+            wristMotor.set(ControlMode.MotionMagic, joystickTarget)
+        }
+        else
+        {
+            wristMotor.set(ControlMode.PercentOutput, speed) 
+        }
+    }
+
     fun killMotors(){ wristMotor.set(0.0) }
 
     //elevator Motion Magic
@@ -103,7 +128,26 @@ public object Wrist : Subsystem()
     fun returnWristState(): String { return wristData.wristState; }
 
     // Functions for getting encoder values
-    fun getEncoderRawWrist(): Int { return wristMotor.getSelectedSensorPosition(0); }
+    fun getEncoderRawWrist(): Double { return (wristMotor.getSelectedSensorPosition(0)).toDouble(); }
+
+    /* 
+    fun brake(): Boolean
+    {
+        if (isHoldPosistion)
+        {
+            turnController.enable()
+            turnController.setSetpoint(getEncoderRawWrist())
+            isHoldPosistion = true
+        }
+        return isHoldPosistion;
+    }
+    fun unBrake(): Boolean
+    {
+        isHoldPosistion = false
+        return isHoldPosistion;
+    }
+    */
+    
 
     override val defaultCommand = WristJoystick()
 }
