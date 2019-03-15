@@ -20,12 +20,13 @@ public class ArmJoystick: Command()
 
     // Run all our code here
     override fun execute(): Boolean
-    {              
+    {   
+        var throttle: Double = ((OI().joystickLeft.getThrottle()*-1)+1)/2             
         var yDirection: Double = OI().xboxJoystickLeft.getY()
 
         if (Math.abs(yDirection) < armData.deadzone) yDirection = 0.0
 
-        Arm.move(yDirection)
+        Arm.move(yDirection*throttle)
 
         return false;
     }

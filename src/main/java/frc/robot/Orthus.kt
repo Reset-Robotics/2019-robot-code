@@ -92,12 +92,9 @@ public class Mag : Robot()
     // Runs on autonomous(sandstorm) initialization; WPILib autonomousInit() equivalent
     override fun onAutoStart()
     {
-        drivetrain.onCreate()
+        ///drivetrain.onCreate()
         autocontroller.onCreate()
-        //InertialGuidance(2.0, 2.0).start()
-        //ToggleFieldOriented()
-        //DriveByTime(-1.0, 0.0, 0.25, 1.0, 2.0).start()
-        //DriveByTime
+        
     }
 
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
