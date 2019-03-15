@@ -64,13 +64,19 @@ public class Mag : Robot()
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
-        Deploy()
+        
+        arm.onCreate()
+        cargoIntake.onCreate()
         drivetrain.onCreate()
+        elevator.onCreate()
+        forklift.onCreate()
+        panelIntake.onCreate()
+        rbrake.onCreate()
+        wrist.onCreate()
+
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
-    
-        //rbrake.onCreate()
-        //elevator.onCreate()
+   
         
         // put any data to dashboard here
     }

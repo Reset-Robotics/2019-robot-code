@@ -18,7 +18,7 @@ public object Arm : Subsystem()
     val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
     //PID Loop
     val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
-    var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
+    //var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
 
     //MotionMagic
     var armTargetPosistionJoystick: Double = 0.0

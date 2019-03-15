@@ -19,7 +19,7 @@ public object Wrist : Subsystem()
 
     //PID LOOP
     val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
-    var turnController: PIDController = PIDController(albanyTestFile.pidPWrist, albanyTestFile.pidIWrist, albanyTestFile.pidDWrist, albanyTestFile.pidFWrist, WristPidSource , WristPidWrite, 0.05)
+    //var turnController: PIDController = PIDController(albanyTestFile.pidPWrist, albanyTestFile.pidIWrist, albanyTestFile.pidDWrist, albanyTestFile.pidFWrist, WristPidSource , WristPidWrite, 0.05)
 
     //MotionMagic Joystick 
 
