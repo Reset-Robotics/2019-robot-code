@@ -42,8 +42,7 @@ public class OI
     var kLeft: Int = 0
     var kRight: Int = 1
 
-   fun OI() 
-   {
+   fun OI()    {
         //Driver 1
             joystickRight.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
             joystickRight.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
