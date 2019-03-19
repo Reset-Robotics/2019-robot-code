@@ -6,11 +6,11 @@ import frc.robot.OI
 
 public class MoveByPow(speed: Double): Command()
 {
-    var speed: Double = 1.0
+    var throttle : Double = .33
     override fun execute(): Boolean
     {
 
-        Wrist.move(speed)
+        Wrist.move(speed*throttle)
         
         return true;
     }

@@ -42,7 +42,8 @@ public class OI
     var kLeft: Int = 0
     var kRight: Int = 1
 
-   fun OI()    {
+   fun OI()    
+   {
         //Driver 1
             joystickRight.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
             joystickRight.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
@@ -55,27 +56,7 @@ public class OI
                 rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
             //Panel Intake
                 if (xboxController.getBumperPressed(GenericHID.Hand.kRight))
-                {
                     TogglePiston()
-                }
-             
-
-       
-
-        /* 
-        // Encoder Positions for normal Cargo/Panels
-        joystickRight.whenActive(11, ScoreLevel1Cargo())
-        joystickRight.whenActive(9, ScoreLevel2Cargo())
-        joystickRight.whenActive(7, ScoreLevel3Cargo())
-        joystickRight.whenActive(12, ScoreLevel1Panel())
-        joystickRight.whenActive(10, ScoreLevel2Panel())
-        joystickRight.whenActive(8, ScoreLevel3Panel())
-
-        // Encoder Positions for floor panels
-        joystickLeft.whenActive(11, ScoreLevel1FloorPanel())
-        joystickLeft.whenActive(9, ScoreLevel2FloorPanel())
-        joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
-        joystickLeft.whenActive(12, ScoreCargoShipCargo())
-        */
+        // Auto controls
    }
 }
