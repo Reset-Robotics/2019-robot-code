@@ -7,8 +7,8 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     val deadzone: Double = 0.1
     
     // Motors
-    val leftMotor: Int = 7
-    val rightMotor: Int = 8
+    val leftMotor: Int = 16
+    val rightMotor: Int = 17
 
     // Limit Switches
     /* val bottomSwitchRight: DigitalInput = DigitalInput(2)

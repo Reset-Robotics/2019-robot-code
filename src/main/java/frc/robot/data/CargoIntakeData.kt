@@ -6,7 +6,7 @@ public data class CargoIntakeData (val areWe254Yet: Boolean = false)
     val deadzone: Double = 0.1
     
     // Motors
-    val motor: Int = 3
+    val motor: Int = 32
     val minimumSpeed: Int = 10
     var talonVoltage: Double = 0.0 // Initializing the variable for the voltage of the talon
     var minimumMotorOutputPercent: Double = 50.0 // The value for the voltage above which the autostop will initialize

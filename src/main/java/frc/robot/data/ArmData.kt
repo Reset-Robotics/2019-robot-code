@@ -7,7 +7,7 @@ public data class ArmData(val isBenGay: Boolean = true)
     val deadzone: Double = 0.1
     
     // Motors
-    val motor: Int = 1
+    val motor: Int = 14
 
     // Motion Magic
     data class MMData(val name: String, val data: Double)

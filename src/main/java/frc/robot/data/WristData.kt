@@ -7,7 +7,7 @@ public data class WristData(val teamNumber: Int = 6325)
     val deadzone: Double = 0.1
     
     // Motors
-    val motor: Int = 4
+    val motor: Int = 15
 
     // Motion Magic
     data class MMData(val name: String, val data: Double)

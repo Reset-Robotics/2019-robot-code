@@ -7,10 +7,10 @@ public data class DrivetrainData(val paramDeadzone: Double = 0.1)
     val deadzone: Double = 0.3
     
     // Motors
-    val motorFrontLeft: Int = 0
-    val motorFrontRight: Int = 1
-    val motorBackLeft: Int = 2
-    val motorBackRight: Int = 3
+    val motorFrontLeft: Int = 10
+    val motorFrontRight: Int = 11
+    val motorBackLeft: Int = 12
+    val motorBackRight: Int = 13
 
     // PID
     val pidP: Double = 0.006

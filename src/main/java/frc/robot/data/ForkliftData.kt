@@ -7,8 +7,8 @@ public data class ForkliftData(var MorepheusWasCool: Boolean = true)
     val deadzone: Double = 0.1
     
     // Motors
-    val leftMotor: Int = 11
-    val rightMotor: Int = 12
+    val leftMotor: Int = 30
+    val rightMotor: Int = 31
 
     // Limit Switches
     /*val bottomSwitchRight: DigitalInput = DigitalInput(2)
