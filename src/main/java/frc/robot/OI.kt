@@ -42,6 +42,7 @@ public class OI
     var kLeft: Int = 0
     var kRight: Int = 1
 
+<<<<<<< HEAD
    fun OI() 
    {
         joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
@@ -81,5 +82,23 @@ public class OI
         joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
         joystickLeft.whenActive(12, ScoreCargoShipCargo())
         */
+=======
+   fun OI()    
+   {
+        //Driver 1
+            joystickRight.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
+            joystickRight.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
+            joystickRight.whenActive(5, Deploy()) //Deploys R-Brake
+            joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
+    
+        //Driver 2
+            //Ball intake Controls
+                leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
+                rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
+            //Panel Intake
+                if (xboxController.getBumperPressed(GenericHID.Hand.kRight))
+                    TogglePiston()
+        // Auto controls
+>>>>>>> dev
    }
 }
