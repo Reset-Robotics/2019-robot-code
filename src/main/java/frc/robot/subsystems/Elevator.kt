@@ -18,8 +18,7 @@ public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
     //PID LOOP
-    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
-    //var turnController: PIDController = PIDController(albanyTestFile.pidPElevator, albanyTestFile.pidIElevator, albanyTestFile.pidDElevator, albanyTestFile.pidFElevator, ElevatorPidSource , ElevatorPidWrite , 0.05)
+    var turnController: PIDController = PIDController(elevatorData.pidP, elevatorData.pidI, elevatorData.pidD, elevatorData.pidF, ElevatorPidSource , ElevatorPidWrite , 0.05)
     
     
     //importing ids
@@ -33,8 +32,8 @@ public object Elevator : Subsystem()
     override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
-    val cruiseVelocity = albanyTestFile.cruiseVelocityElevator  //temp
-    val acceleration = albanyTestFile.accelerationElevator  //temp
+    val cruiseVelocity = elevatorData.cruiseVelocity
+    val acceleration = elevatorData.acceleration
 
     var leftTarget: Double = 0.0
     var rightTarget: Double = 0.0
@@ -55,10 +54,10 @@ public object Elevator : Subsystem()
     val kTimeoutMs: Int = 0
     val rightKSlotIdx: Int = 0
     val leftKSlotIdx: Int = 1
-    val kGainskI: Double = albanyTestFile.pidIElevator
-    val kGainskD: Double = albanyTestFile.pidDElevator 
-    val kGainskP: Double = albanyTestFile.pidPElevator
-    val kGainskF: Double = albanyTestFile.pidFElevator
+    val kGainskI: Double = elevatorData.pidI
+    val kGainskD: Double = elevatorData.pidD
+    val kGainskP: Double = elevatorData.pidP
+    val kGainskF: Double = elevatorData.pidF
 
     //var elevatorState: Boolean = true //elevator starts in down position
     var elevatorState: String = "Bottom"
@@ -72,12 +71,8 @@ public object Elevator : Subsystem()
         elevatorRight.configFactoryDefault()
         
         //set up for encoders
-        elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											kPIDLoopIdx, 
-											kTimeoutMs)
-        elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											kPIDLoopIdx, 
-											kTimeoutMs)
+        elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs)
+        elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs)
 
         //sets Talons to hold posistion when pow = 0
         elevatorLeft.setNeutralMode(NeutralMode.Brake)
@@ -152,20 +147,20 @@ public object Elevator : Subsystem()
     //lifting the elevator as a single entity
     fun lift(speedLeft: Double, speedRight: Double) 
     {
-        if (albanyTestFile.elevatorMotionMagicJoystickEnable)
+        /*if (albanyTestFile.elevatorMotionMagicJoystickEnable)
         {
-            leftTarget = leftTarget +speedLeft*albanyTestFile.joystickElevatorDx
-            rightTarget = rightTarget +speedRight*albanyTestFile.joystickElevatorDx
+            leftTarget = leftTarget + speedLeft * albanyTestFile.joystickElevatorDx
+            rightTarget = rightTarget + speedRight * albanyTestFile.joystickElevatorDx
             elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
             elevatorRight.set(ControlMode.MotionMagic, rightTarget)
         }
         else 
-        {
+        {*/
             var localSpeedLeft = speedLeft
             var localSpeedRight = speedRight
             elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
             elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
-        }
+        //}
     }
     //joystick input function
     /*  fun manualLift(inputValue: Double)

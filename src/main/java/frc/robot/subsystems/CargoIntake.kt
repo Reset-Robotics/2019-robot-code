@@ -21,7 +21,7 @@ public object CargoIntake : Subsystem()
         this.intakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, cargoIntakeData.kTimeoutMs);
         this.intakeMotor.setSensorPhase(true)
         this.intakeMotor.setInverted(false)
-        this.intakeMotor.setNeutralMode(NeutralMode.Coast)
+        this.intakeMotor.setNeutralMode(NeutralMode.Brake)
     }
     
     fun spin(input: Double) 

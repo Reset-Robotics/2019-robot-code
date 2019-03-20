@@ -22,10 +22,10 @@ public object Drivetrain : Subsystem(), PIDOutput
     val driveData: DrivetrainData = DrivetrainData()
 
     // Drive motors
-    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontLeft) // 3
-    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontRight) // 4
-    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackLeft) // 2
-    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackRight) // 1
+    val driveFrontLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontLeft)
+    val driveFrontRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorFrontRight)
+    val driveBackLeft: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackLeft)
+    val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackRight)
 
     // PID values for turning to angles
     var turnRate: Double = driveData.turnThreshold
@@ -106,10 +106,10 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun Drivetrain()
     {
         // Set Talon Mode
-        this.driveFrontLeft.setNeutralMode(NeutralMode.Brake)
-        this.driveFrontRight.setNeutralMode(NeutralMode.Brake)
-        this.driveBackLeft.setNeutralMode(NeutralMode.Brake)
-        this.driveBackRight.setNeutralMode(NeutralMode.Brake)
+        this.driveFrontLeft.setNeutralMode(NeutralMode.Coast)
+        this.driveFrontRight.setNeutralMode(NeutralMode.Coast)
+        this.driveBackLeft.setNeutralMode(NeutralMode.Coast)
+        this.driveBackRight.setNeutralMode(NeutralMode.Coast)
 		
         // Current Limiting
 		this.driveFrontLeft.configContinuousCurrentLimit(40,0) // desired current after limit

@@ -17,8 +17,7 @@ public object Arm : Subsystem()
     val armData : ArmData = ArmData()
     val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
     //PID Loop
-    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
-    //var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
+    var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
 
     //MotionMagic
     var armTargetPosistionJoystick: Double = 0.0
@@ -28,11 +27,6 @@ public object Arm : Subsystem()
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, armData.kPIDLoopIdx, armData.kTimeoutMs)
 
         armMotor.setNeutralMode(NeutralMode.Brake)
-        /*
-		 * Configure Talon SRX Output and Sesnor direction accordingly
-		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
-		 * Phase sensor to have positive increment when driving Talon Forward (Green LED)
-		 */
         armMotor.setSensorPhase(true)
         armMotor.setInverted(false)
         /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -49,8 +43,8 @@ public object Arm : Subsystem()
 		armMotor.config_kP(armData.leftKSlotIdx, armData.kGainskP, armData.kTimeoutMs);
 		armMotor.config_kI(armData.leftKSlotIdx, armData.kGainskI, armData.kTimeoutMs);
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
-        armMotor.configMotionCruiseVelocity(albanyTestFile.cruiseVelocityArm)
-        armMotor.configMotionAcceleration(albanyTestFile.accelerationArm)
+        armMotor.configMotionCruiseVelocity(armData.cruiseVelocity)
+        armMotor.configMotionAcceleration(armData.acceleration)
         
         ResetEncoder()
     }
@@ -74,10 +68,7 @@ public object Arm : Subsystem()
             armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
         }
         else
-        {
-        armMotor.set(ControlMode.PercentOutput, speed) 
-
-        }
+            armMotor.set(ControlMode.PercentOutput, speed) 
     }
     fun killMotors(){ armMotor.set(0.0) }
 
