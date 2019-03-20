@@ -7,6 +7,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.DigitalInput
+import frc.robot.Util.AlbanyTestFile
+import edu.wpi.first.wpilibj.PIDController
+import frc.robot.Util.AlbanyTestPidLoops.*
 
 import frc.robot.data.ElevatorData
 import frc.robot.commands.Elevator.ElevatorJoystick
@@ -14,6 +17,9 @@ import frc.robot.commands.Elevator.ElevatorJoystick
 public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
+    //PID LOOP
+    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
+    //var turnController: PIDController = PIDController(albanyTestFile.pidPElevator, albanyTestFile.pidIElevator, albanyTestFile.pidDElevator, albanyTestFile.pidFElevator, ElevatorPidSource , ElevatorPidWrite , 0.05)
     
     
     //importing ids
@@ -27,29 +33,32 @@ public object Elevator : Subsystem()
     override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
-    var cruiseVelocity: Double = 19000.0  //temp
-    var acceleration: Double = 11000.0  //temp
+    val cruiseVelocity = albanyTestFile.cruiseVelocityElevator  //temp
+    val acceleration = albanyTestFile.accelerationElevator  //temp
+
+    var leftTarget: Double = 0.0
+    var rightTarget: Double = 0.0
     
     // elevator encoder positioning
-    var topHeight: Double = 72000.0 //temp
-    var topCargoPos: Double = 0.0 // temp
-    var topPanelPos: Double = 0.0 // temp
-    var middleHeight: Double = 35000.0//temp
-    var middleCargoPos: Double = 0.0 // temp
-    var middlePanelPos: Double = 0.0 // temp
-    var bottomHeight: Double = 0.0 // temp
-    var bottomCargoPos: Double = 0.0 // temp
-    var bottomPanelPos: Double = 0.0 // temp
+    val topHeight: Double = 72000.0 //temp
+    val topCargoPos: Double = 0.0 // temp
+    val topPanelPos: Double = 0.0 // temp
+    val middleHeight: Double = 35000.0//temp
+    val middleCargoPos: Double = 0.0 // temp
+    val middlePanelPos: Double = 0.0 // temp
+    val bottomHeight: Double = 0.0 // temp
+    val bottomCargoPos: Double = 0.0 // temp
+    val bottomPanelPos: Double = 0.0 // temp
 
     //configuring PID Loop for motion magic to do- move to IDS
-    var kPIDLoopIdx: Int = 0
-    var kTimeoutMs: Int = 0
-    var rightKSlotIdx: Int = 0
-    var leftKSlotIdx: Int = 1
-    var kGainskF: Double = 0.0
-    var kGainskP: Double = 0.0
-    var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0 
+    val kPIDLoopIdx: Int = 0
+    val kTimeoutMs: Int = 0
+    val rightKSlotIdx: Int = 0
+    val leftKSlotIdx: Int = 1
+    val kGainskI: Double = albanyTestFile.pidIElevator
+    val kGainskD: Double = albanyTestFile.pidDElevator 
+    val kGainskP: Double = albanyTestFile.pidPElevator
+    val kGainskF: Double = albanyTestFile.pidFElevator
 
     //var elevatorState: Boolean = true //elevator starts in down position
     var elevatorState: String = "Bottom"
@@ -63,12 +72,12 @@ public object Elevator : Subsystem()
         elevatorRight.configFactoryDefault()
         
         //set up for encoders
-        //elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											//kPIDLoopIdx, 
-											//kTimeoutMs)
-        //elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-											//kPIDLoopIdx, 
-											//kTimeoutMs)
+        elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+											kPIDLoopIdx, 
+											kTimeoutMs)
+        elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+											kPIDLoopIdx, 
+											kTimeoutMs)
 
         //sets Talons to hold posistion when pow = 0
         elevatorLeft.setNeutralMode(NeutralMode.Brake)
@@ -107,6 +116,10 @@ public object Elevator : Subsystem()
 		elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
 		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
 		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+        elevatorRight.configMotionCruiseVelocity(cruiseVelocity)
+        elevatorLeft.configMotionCruiseVelocity(cruiseVelocity)
+        elevatorRight.configMotionAcceleration(acceleration)
+        elevatorLeft.configMotionAcceleration(acceleration)
 
         //limit switches
         elevatorLeft.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
@@ -139,10 +152,20 @@ public object Elevator : Subsystem()
     //lifting the elevator as a single entity
     fun lift(speedLeft: Double, speedRight: Double) 
     {
-        var localSpeedLeft = speedLeft
-        var localSpeedRight = speedRight
-        elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
-        elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
+        if (albanyTestFile.elevatorMotionMagicJoystickEnable)
+        {
+            leftTarget = leftTarget +speedLeft*albanyTestFile.joystickElevatorDx
+            rightTarget = rightTarget +speedRight*albanyTestFile.joystickElevatorDx
+            elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
+            elevatorRight.set(ControlMode.MotionMagic, rightTarget)
+        }
+        else 
+        {
+            var localSpeedLeft = speedLeft
+            var localSpeedRight = speedRight
+            elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
+            elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
+        }
     }
     //joystick input function
     /*  fun manualLift(inputValue: Double)
@@ -227,6 +250,7 @@ public object Elevator : Subsystem()
     // finding the error in the elevator leveling pos->left is too high neg->right is to high
     fun getElevatorError():Int{return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()}
     //functions for getting encoder values
-    fun getEncoderRawLeftelevator(): Int { return elevatorLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawRightelevator(): Int { return elevatorRight.getSelectedSensorPosition(0); }
+    fun getEncoderRawLeftElevator(): Double { return (elevatorLeft.getSelectedSensorPosition(0)).toDouble(); }
+    fun getEncoderRawRightElevator(): Double { return (elevatorRight.getSelectedSensorPosition(0)).toDouble(); }
+    fun getAverageEncoderPosistion(): Double { return ((getEncoderRawLeftElevator()-getEncoderRawLeftElevator())/2.0)}
 }

@@ -24,8 +24,8 @@ public class ArcadeJoystickDrive : Command()
 
         var yDirection: Double = OI().joystickRight.getY()
         var xDirection: Double = OI().joystickRight.getX()
-        var spin: Double = OI().joystickRight.getTwist()
-        var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2// Replace with slider throttle later
+        var spin: Double = OI().joystickLeft.getTwist()
+        var throttle: Double = ((OI().joystickLeft.getThrottle()*-1)+1)/2// Replace with slider throttle later
 
         if (Math.abs(yDirection) < driveData.deadzone) yDirection = 0.0 
         if (Math.abs(xDirection) < driveData.deadzone) xDirection = 0.0 

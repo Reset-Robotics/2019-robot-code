@@ -23,7 +23,7 @@ import frc.robot.commands.DriverAssist.PanelScoring.*
 import frc.robot.commands.PanelIntake.*
 
 // Util classes
-import frc.robot.util.toggleOnButtonPress
+import frc.robot.Util.toggleOnButtonPress
 
 public class OI 
 {
@@ -42,48 +42,21 @@ public class OI
     var kLeft: Int = 0
     var kRight: Int = 1
 
-   fun OI() 
+   fun OI()    
    {
-        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left resets field orientated Gyro
-        joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
-        joystickRight.whenActive(5, Deploy())//Deploys R BRake
-
-        joystickLeft.whenActive(6, TogglePiston())// Toggles Panel Intake
-
-        joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
-        //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
-        
-        // TODO: Change to require being held down for a few seconds before triggering
-        //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Side-Thumb")) ?: 2, DeployForks()) // deploys the forklift
-
-        //Ball intake Controls
-        leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
-        rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
-
-        //if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kLeft)) < CargoIntake.deadzone) leftTrigger = 0.0
-        //if (Math.abs(xboxController.getTriggerAxis(GenericHID.Hand.kRight)) < CargoIntake.deadzone) rightTrigger = 0.0
-        //SpinIntake(leftTrigger, rightTrigger)
-        
-        //if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
-
-
+        //Driver 1
+            joystickRight.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
+            joystickRight.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
+            joystickRight.whenActive(5, Deploy()) //Deploys R-Brake
+            joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
+    
+        //Driver 2
+            //Ball intake Controls
+                leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
+                rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
+            //Panel Intake
+                if (xboxController.getBumperPressed(GenericHID.Hand.kRight))
+                    TogglePiston()
         // Auto controls
-
-
-        // Encoder Positions for normal Cargo/Panels
-        /* 
-        joystickRight.whenActive(11, ScoreLevel1Cargo())
-        joystickRight.whenActive(9, ScoreLevel2Cargo())
-        joystickRight.whenActive(7, ScoreLevel3Cargo())
-        joystickRight.whenActive(12, ScoreLevel1Panel())
-        joystickRight.whenActive(10, ScoreLevel2Panel())
-        joystickRight.whenActive(8, ScoreLevel3Panel())
-
-        // Encoder Positions for floor panels
-        joystickLeft.whenActive(11, ScoreLevel1FloorPanel())
-        joystickLeft.whenActive(9, ScoreLevel2FloorPanel())
-        joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
-        joystickLeft.whenActive(12, ScoreCargoShipCargo())
-        */
    }
 }

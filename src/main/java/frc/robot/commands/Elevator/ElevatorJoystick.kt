@@ -18,7 +18,7 @@ public class ElevatorJoystick: Command ()
         
        
         //joystick input
-         var joystickInput: Double = OI().joystickLeft.getY()
+         var joystickInput: Double = OI().joystickRight.getY()
         if (Math.abs(joystickInput) < Elevator.deadzone)
             joystickInput = 0.0
 
