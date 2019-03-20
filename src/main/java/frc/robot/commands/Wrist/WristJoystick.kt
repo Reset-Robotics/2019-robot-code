@@ -18,8 +18,13 @@ public class WristJoystick : Command()
 
     // Run all our code here
     override fun execute(): Boolean
+<<<<<<< HEAD
     {
         var throttle: Double = ((OI().joystickLeft.getThrottle()*-1)+1)/2             
+=======
+    {   
+        var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2            
+>>>>>>> AlbanySuperDev
         var yDirection: Double = OI().xboxJoystickRight.getY()
 
         if (Math.abs(yDirection) < wristData.deadzone) yDirection = 0.0

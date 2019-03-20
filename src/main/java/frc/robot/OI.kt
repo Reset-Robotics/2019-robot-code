@@ -23,7 +23,7 @@ import frc.robot.commands.DriverAssist.PanelScoring.*
 import frc.robot.commands.PanelIntake.*
 
 // Util classes
-import frc.robot.util.toggleOnButtonPress
+import frc.robot.Util.toggleOnButtonPress
 
 public class OI 
 {
@@ -44,13 +44,13 @@ public class OI
 
    fun OI() 
    {
-        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left resets field orientated Gyro
+        joystickRight.whenActive(4, ResetGyro())//Top-Button-Bottom-Left
         joystickRight.whenActive(3, ToggleAngleLock())//Top-Button-Bottom-Right
-        joystickRight.whenActive(5, Deploy())//Deploys R BRake
+        joystickRight.whenActive(5, Deploy())
 
-        joystickLeft.whenActive(6, TogglePiston())// Toggles Panel Intake
+        joystickLeft.whenActive(6, TogglePiston())
 
-        joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        //joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
         //joystickLeft.whenActive((IDs().joystickLeftIDs.get("Trigger")) ?: 1, Deploy()) // deploys the R-Brake in/out
         
         // TODO: Change to require being held down for a few seconds before triggering
@@ -65,10 +65,6 @@ public class OI
         //SpinIntake(leftTrigger, rightTrigger)
         
         //if(xboxController.getAButtonPressed()) ToggleAutoStop() // checks for auto interupt.
-
-
-        // Auto controls
-
 
         // Encoder Positions for normal Cargo/Panels
         /* 

@@ -263,6 +263,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
+        resetGyro()
         //System.err.println(isFieldOriented)
         return isFieldOriented;
     }
@@ -279,6 +280,10 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         navx.reset()
         navx.zeroYaw()
+        if (isAngleLocked)
+        {
+            unlockAngle()
+        }
     }
 
     fun resetMotorPositions()

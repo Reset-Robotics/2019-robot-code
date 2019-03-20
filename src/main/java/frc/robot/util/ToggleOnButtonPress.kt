@@ -1,4 +1,4 @@
-package frc.robot.util
+package frc.robot.Util
 
 import edu.wpi.first.wpilibj.GenericHID
 import edu.wpi.first.wpilibj.Joystick
