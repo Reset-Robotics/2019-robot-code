@@ -18,7 +18,7 @@ public data class DrivetrainData(val paramDeadzone: Double = 0.1)
     val pidD: Double = 0.0
     val pidF: Double = 0.0
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
-    var turnRate: Double = 0.0
+    var turnRate: Double = 1.0
     var driveAngle: Double = 0.0
 
     // Encoders

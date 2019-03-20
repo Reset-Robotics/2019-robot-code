@@ -28,11 +28,11 @@ public object Drivetrain : Subsystem(), PIDOutput
     val driveBackRight: WPI_TalonSRX = WPI_TalonSRX(driveData.motorBackRight)
 
     // PID values for turning to angles
-    var turnRate: Double = driveData.turnThreshold
+    var turnRate: Double = driveData.turnRate
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
     var driveAngle: Double = driveData.driveAngle
     val wheelCircumference: Double = 18.8495559215
-    val wheelRadius: Double = 0.1524/2   //6 inch mecanuk wheel diamter in meters
+    val wheelRadius: Double = 0.1524/2   //6 inch mecanum wheel diamter in meters
 
     // Misc Variables/Objects
     var deltaT: Long = 0.0.toLong()
@@ -76,32 +76,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         // Zero gyro yaw
         resetGyro() 
     }
-    fun ultrasonicTest(): Double
-    {
-      
-      /* 
-        if(ultrasonic1.get()&&!isPulsed)
-        {
-            isPulsed = true
-            prevSysTime = System.currentTimeMillis()
-        }
-        if(!ultrasonic1.get()&&isPulsed)
-        {
-            isPulsed = false
-            deltaT = System.currentTimeMillis()-prevSysTime
-            ultrasonicDistance = (deltaT*(Math.pow(10.0,3.0)).toLong()).toLong()
 
-        }
-        System.err.println(ultrasonicDistance)
-        return ultrasonic1.get()
-        */
-        //ultrasonic1.requestInterrupts()
-        //((ultrasonic1.readRisingTimestamp())*(Math.pow(10.0,3.0).toLong()))
-        return 0.0
-        
-
-        
-    }
 
     fun Drivetrain()
     {
@@ -151,6 +126,7 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
         
+        // POTENTIAL ERROR
         if(isAngleLocked && !isDriftMode) 
             localSpinVal = turnRate
 
@@ -161,6 +137,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         var localDriftMode: Boolean = getDriftMode()
 
+        // POTENTIAL ERROR
         val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), 
         (-((-yVal + xVal + spinVal) * throttleVal)), 
         ((-yVal + xVal - spinVal) * throttleVal), 
@@ -186,6 +163,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         }
         if(!localDriftMode)
         {
+            // POTENTIAL ERROR
             driveFrontLeft.set(wheels[0])
             driveFrontRight.set(-wheels[1])
             driveBackLeft.set(-wheels[2])
