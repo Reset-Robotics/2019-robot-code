@@ -155,12 +155,12 @@ public object Elevator : Subsystem()
             elevatorRight.set(ControlMode.MotionMagic, rightTarget)
         }
         else 
-        {*/
+        {
             var localSpeedLeft = speedLeft
             var localSpeedRight = speedRight
             elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
             elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
-        //}
+        }
     }
     //joystick input function
     /*  fun manualLift(inputValue: Double)
