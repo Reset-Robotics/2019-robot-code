@@ -21,6 +21,7 @@ import frc.robot.subsystems.Forklift
 import frc.robot.subsystems.PanelIntake
 import frc.robot.subsystems.RBrake
 import frc.robot.subsystems.Wrist
+import frc.robot.subsystems.CameraController
 
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
@@ -50,8 +51,7 @@ public class Mag : Robot()
     public val panelIntake: PanelIntake = PanelIntake
     public val rbrake: RBrake = RBrake
     public val wrist: Wrist = Wrist
-    //camera Server
-    public var camera0 = CameraServer.getInstance().startAutomaticCapture("Heck you Ben", 0)
+    public val cameraController: CameraController = CameraController
    
     // Initialize I2C object for the Arduino
     //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
