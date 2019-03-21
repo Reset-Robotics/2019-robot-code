@@ -32,8 +32,8 @@ public object Elevator : Subsystem()
     override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
-    val cruiseVelocity = elevatorData.cruiseVelocity
-    val acceleration = elevatorData.acceleration
+    val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
+    val acceleration = elevatorData.acceleration.data.toInt()
 
     var leftTarget: Double = 0.0
     var rightTarget: Double = 0.0

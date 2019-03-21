@@ -17,19 +17,9 @@ public object Forklift : Subsystem()
 
     fun Forklift()
     {
-        //current limiting 
-        this.forkliftLeft.configContinuousCurrentLimit(35,0) // Desired current after limit
-        this.forkliftLeft.configPeakCurrentLimit(40,0) // Max current
-        this.forkliftLeft.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
-        this.forkliftLeft.enableCurrentLimit(true) 
-        this.forkliftRight.configContinuousCurrentLimit(35,0)
-        this.forkliftRight.configPeakCurrentLimit(40,0)
-        this.forkliftRight.configPeakCurrentDuration(100,0)
-        this.forkliftRight.enableCurrentLimit(true)
-
         //set Talon Mode
-        this.forkliftLeft.setNeutralMode(NeutralMode.Brake)
-        this.forkliftRight.setNeutralMode(NeutralMode.Brake)
+        forkliftLeft.setNeutralMode(NeutralMode.Brake)
+        forkliftRight.setNeutralMode(NeutralMode.Brake)
     }
 
     override fun onCreate()

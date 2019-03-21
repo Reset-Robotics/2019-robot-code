@@ -27,11 +27,7 @@ public object RBrake : Subsystem()
   
     override fun onCreate()
     {
-        rBrakeMotor.configFactoryDefault()
-        rBrakeMotor.configContinuousCurrentLimit(35,0) // Desired current after limit
-		rBrakeMotor.configPeakCurrentLimit(40, 0) // Max current
-		rBrakeMotor.configPeakCurrentDuration(100, 0) // How long after max current to be limited (ms)
-		rBrakeMotor.enableCurrentLimit(true)
+        
     }
 
     fun rBrake() { resetEncoders() }

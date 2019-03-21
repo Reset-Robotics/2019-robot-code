@@ -15,9 +15,11 @@ import frc.robot.Util.AlbanyTestPidLoops.*
 public object Arm : Subsystem()
 { 
     val armData : ArmData = ArmData()
-    val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
+    val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor) 
+    val intCruiseVelocity: Int = armData.cruiseVelocity.data.toInt()
+    val intAcceleration: Int = armData.acceleration.data.toInt()
     //PID Loop
-    var turnController: PIDController = PIDController(albanyTestFile.pidPArm, albanyTestFile.pidIArm, albanyTestFile.pidDArm, albanyTestFile.pidFArm, ArmPidSource , ArmPidWrite , 0.05)
+    var turnController: PIDController = PIDController(armData.pidP, armData.pidI, armData.pidD, armData.pidF, ArmPidSource , ArmPidWrite , 0.05)
 
     //MotionMagic
     var armTargetPosistionJoystick: Double = 0.0
@@ -43,8 +45,8 @@ public object Arm : Subsystem()
 		armMotor.config_kP(armData.leftKSlotIdx, armData.kGainskP, armData.kTimeoutMs);
 		armMotor.config_kI(armData.leftKSlotIdx, armData.kGainskI, armData.kTimeoutMs);
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
-        armMotor.configMotionCruiseVelocity(armData.cruiseVelocity)
-        armMotor.configMotionAcceleration(armData.acceleration)
+        armMotor.configMotionCruiseVelocity(intCruiseVelocity)
+        armMotor.configMotionAcceleration(intAcceleration)
         
         ResetEncoder()
     }
@@ -62,13 +64,13 @@ public object Arm : Subsystem()
 
     fun move(speed: Double)
     {
-        if (albanyTestFile.armMotionMagicJoystickEnabled)
+        /*if (albanyTestFile.armMotionMagicJoystickEnabled)
         {
             armTargetPosistionJoystick = armTargetPosistionJoystick+speed* albanyTestFile.joystickArmDx
             armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
         }
-        else
-            armMotor.set(ControlMode.PercentOutput, speed) 
+        else*/
+        armMotor.set(ControlMode.PercentOutput, speed) 
     }
     fun killMotors(){ armMotor.set(0.0) }
 

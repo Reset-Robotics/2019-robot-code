@@ -40,6 +40,10 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var kGainskP: Double = 0.0
     var kGainskI: Double = 0.0
     var kGainskD: Double = 0.0 
+    var pidP: Double = 0.0
+    var pidI: Double = 0.0
+    var pidD: Double = 0.0
+    var pidF: Double = 0.0
 
     // Encoders
     val leftEncoder: Int = 7
