@@ -1,7 +1,7 @@
 package frc.robot.commands.Drive
 
 import org.sertain.command.Command
-import frc.robot.Mag
+import frc.robot.Orthus
 import frc.robot.subsystems.Drivetrain
 
 

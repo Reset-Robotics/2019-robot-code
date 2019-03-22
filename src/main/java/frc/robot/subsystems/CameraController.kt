@@ -12,17 +12,22 @@ object CameraController : RobotLifecycle
 
         when (selectedStream) 
         {
-            "ElevatorPOV" -> public var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
-            "ForkliftPOV" -> public var camera0 = CameraServer.getInstance().startAutomaticCapture("ForkliftPOV", 1)
+            "ElevatorPOV" -> {
+                var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
+            } 
+            "ForkliftPOV" -> {
+                var camera0 = CameraServer.getInstance().startAutomaticCapture("ForkliftPOV", 1)
+            }
             "Elevator&Forklift" -> {
-                public var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
-                public var camera1 = CameraServer.getInstance().startAutomaticCapture("ForkliftPOV", 1)
+                var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
+                var camera1 = CameraServer.getInstance().startAutomaticCapture("ForkliftPOV", 1)
             }
 
-            else -> public var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
-        }
+            else -> {
+                var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
+            }
     }
 
     fun setStream(stream: String){ selectedStream = stream }
-    fun getStream(){ return selectedStream }
+    fun getStream(): String { return selectedStream; }
 }

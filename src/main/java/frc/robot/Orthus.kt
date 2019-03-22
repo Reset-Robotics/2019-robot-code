@@ -31,7 +31,7 @@ import frc.robot.commands.RBrake.Deploy
 //import frc.robot.commands.Drive.InertialGuidance
 
 
-public class Mag : Robot()
+public class Orthus : Robot()
 {
     public fun main(args: String)
     {

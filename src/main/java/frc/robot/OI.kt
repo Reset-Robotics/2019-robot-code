@@ -21,7 +21,7 @@ import frc.robot.commands.DriverAssist.CargoScoring.*
 import frc.robot.commands.DriverAssist.FloorPanelScoring.*
 import frc.robot.commands.DriverAssist.PanelScoring.*
 import frc.robot.commands.PanelIntake.*
-import frc.robot.DriverAssist.* 
+import frc.robot.commands.DriverAssist.* 
 
 // Util classes
 import frc.robot.Util.toggleOnButtonPress

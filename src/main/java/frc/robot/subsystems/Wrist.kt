@@ -7,9 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import frc.robot.commands.Wrist.WristJoystick
 import frc.robot.data.WristData
-import frc.robot.Util.AlbanyTestFile
 import edu.wpi.first.wpilibj.PIDController
-import frc.robot.Util.AlbanyTestPidLoops.*
 
 public object Wrist : Subsystem()
 {
@@ -18,7 +16,6 @@ public object Wrist : Subsystem()
     //var isHoldPosistion : Boolean = false
 
     //PID LOOP
-    val albanyTestFile : AlbanyTestFile = AlbanyTestFile()
     //var turnController: PIDController = PIDController(albanyTestFile.pidPWrist, albanyTestFile.pidIWrist, albanyTestFile.pidDWrist, albanyTestFile.pidFWrist, WristPidSource , WristPidWrite, 0.05)
 
     //MotionMagic Joystick 
@@ -70,15 +67,15 @@ public object Wrist : Subsystem()
 
     fun move(speed: Double)
     { 
-        if (albanyTestFile.wristMotionMagicJoystickEnabled)
+        /*if (albanyTestFile.wristMotionMagicJoystickEnabled)
         {
             joystickTarget = joystickTarget + (speed*albanyTestFile.joystickWristDx)
             wristMotor.set(ControlMode.MotionMagic, joystickTarget)
         }
         else
-        {
+        {*/
             wristMotor.set(ControlMode.PercentOutput, speed) 
-        }
+        //}
     }
 
     fun killMotors(){ wristMotor.set(0.0) }

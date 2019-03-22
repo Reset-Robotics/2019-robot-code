@@ -5,10 +5,11 @@ import frc.robot.subsystems.CameraController
 
 public class SetFeed(feed: String): Command()
 {
-    var localFeed: Double = feed;
+    var localFeed: String = feed;
     override fun execute(): Boolean
     {
-        CameraController.setStream(localFeed)
+        var localCameraController: CameraController = CameraController
+        localCameraController.setStream(localFeed)
         
         return true;
     }

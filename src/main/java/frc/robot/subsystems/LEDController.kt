@@ -2,7 +2,7 @@ package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
 import edu.wpi.first.wpilibj.I2C
-import frc.robot.Mag
+import frc.robot.Orthus
 
 public object LEDController : Subsystem() 
 {

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.DigitalInput
-import frc.robot.Mag
+import frc.robot.Orthus
 import frc.robot.commands.RBrake.RBrakeSlave
 import frc.robot.OI
 import frc.robot.data.RBrakeData

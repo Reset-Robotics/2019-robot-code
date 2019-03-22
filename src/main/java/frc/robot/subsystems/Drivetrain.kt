@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.PWM
 import edu.wpi.first.wpilibj.DigitalInput
 
-import frc.robot.Mag
+import frc.robot.Orthus
 import frc.robot.data.DrivetrainData
 import frc.robot.commands.Drive.ArcadeJoystickDrive
 import frc.robot.Util.UltrasonicBase
