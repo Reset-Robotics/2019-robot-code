@@ -17,7 +17,7 @@ public object Arm : Subsystem()
     val intCruiseVelocity: Int = armData.cruiseVelocity.data.toInt()
     val intAcceleration: Int = armData.acceleration.data.toInt()
     //PID Loop
-    var turnController: PIDController = PIDController(armData.pidP, armData.pidI, armData.pidD, armData.pidF, ArmPidSource , ArmPidWrite , 0.05)
+    //var turnController: PIDController = PIDController(armData.pidP, armData.pidI, armData.pidD, armData.pidF, ArmPidSource , ArmPidWrite , 0.05)
 
     //MotionMagic
     var armTargetPosistionJoystick: Double = 0.0

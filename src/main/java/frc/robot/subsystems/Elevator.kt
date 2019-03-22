@@ -16,7 +16,7 @@ public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
     //PID LOOP
-    var turnController: PIDController = PIDController(elevatorData.pidP, elevatorData.pidI, elevatorData.pidD, elevatorData.pidF, ElevatorPidSource , ElevatorPidWrite , 0.05)
+    //var turnController: PIDController = PIDController(elevatorData.pidP, elevatorData.pidI, elevatorData.pidD, elevatorData.pidF, ElevatorPidSource , ElevatorPidWrite , 0.05)
     
     
     //importing ids
