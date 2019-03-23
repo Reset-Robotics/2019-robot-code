@@ -54,9 +54,9 @@ public object Arm : Subsystem()
     fun Arm()
     {
         //current limiting
-        armMotor.configContinuousCurrentLimit(25,0) // desired current after limit
-        armMotor.configPeakCurrentLimit(24,0)//max current
-        armMotor.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        armMotor.configContinuousCurrentLimit(10,10) // desired current after limit
+        armMotor.configPeakCurrentLimit(10,10)//max current
+        armMotor.configPeakCurrentDuration(100,10)  // how long after max current to be limited (ms)
         armMotor.enableCurrentLimit(true) 
     }
 

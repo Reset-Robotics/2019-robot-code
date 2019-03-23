@@ -2,6 +2,8 @@ package frc.robot.subsystems
 
 import org.sertain.command.Subsystem
 import org.sertain.RobotLifecycle
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 
 
 object CameraController : RobotLifecycle 
@@ -30,4 +32,5 @@ object CameraController : RobotLifecycle
 
     fun setStream(stream: String){ selectedStream = stream }
     fun getStream(): String { return selectedStream; }
+    }
 }

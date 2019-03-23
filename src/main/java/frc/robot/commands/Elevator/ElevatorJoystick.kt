@@ -20,7 +20,7 @@ public class ElevatorJoystick: Command ()
         //joystick input
          var joystickInput: Double = OI().joystickRight.getY()
         if (Math.abs(joystickInput) < Elevator.deadzone)
-            joystickInput = 0.0
+            joystickInput = -.1
 
          //auto leveling when using the joystick
         /*if (!Elevator.isElevatorLevel()){
@@ -41,7 +41,7 @@ public class ElevatorJoystick: Command ()
 
        
         //Elevator.lift(leftCorrection*joystickInput, -rightCorrection*joystickInput)
-        Elevator.lift(joystickInput, joystickInput)
+        //Elevator.lift(joystickInput, joystickInput)
         
         return false; 
     }

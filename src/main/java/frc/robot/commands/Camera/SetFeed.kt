@@ -9,7 +9,7 @@ public class SetFeed(feed: String): Command()
     override fun execute(): Boolean
     {
         var localCameraController: CameraController = CameraController
-        localCameraController.setStream(localFeed)
+        //localCameraController.setStream(localFeed)
         
         return true;
     }

@@ -30,6 +30,8 @@ import frc.robot.commands.Drive.ToggleFieldOriented
 import frc.robot.commands.RBrake.Deploy
 //import frc.robot.commands.Drive.InertialGuidance
 
+import frc.robot.commands.Elevator.ResetElevatorSensor
+
 
 public class Orthus : Robot()
 {
@@ -47,7 +49,7 @@ public class Orthus : Robot()
     public val cargoIntake: CargoIntake = CargoIntake
     public val drivetrain: Drivetrain = Drivetrain
     public var elevator: Elevator = Elevator
-    public val forklift: Forklift = Forklift
+    //public val forklift: Forklift = Forklift
     public val panelIntake: PanelIntake = PanelIntake
     public val rbrake: RBrake = RBrake
     public val wrist: Wrist = Wrist
@@ -69,7 +71,7 @@ public class Orthus : Robot()
         cargoIntake.onCreate()
         drivetrain.onCreate()
         elevator.onCreate()
-        forklift.onCreate()
+        //forklift.onCreate()
         panelIntake.onCreate()
         rbrake.onCreate()
         wrist.onCreate()
@@ -120,6 +122,7 @@ public class Orthus : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
+        ResetElevatorSensor()
         oi.OI()
         //System.err.println(Drivetrain.ultrasonicTest())
 

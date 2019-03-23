@@ -4,6 +4,7 @@ import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import frc.robot.data.CargoIntakeData
+import frc.robot.commands.CargoIntake.SpinIntake
 
 
 public object CargoIntake : Subsystem()
@@ -59,4 +60,6 @@ public object CargoIntake : Subsystem()
         autoStopEnabled = !autoStopEnabled
         return autoStopEnabled;
     }
+    
+   override val defaultCommand = SpinIntake()
 }

@@ -27,7 +27,7 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    override val defaultCommand = ElevatorJoystick()
+    //override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
     val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
@@ -133,11 +133,11 @@ public object Elevator : Subsystem()
     {
         
         //current limiting
-        elevatorLeft.configContinuousCurrentLimit(40,0) // desired current after limit
+        elevatorLeft.configContinuousCurrentLimit(30,0) // desired current after limit
         elevatorLeft.configPeakCurrentLimit(35,0)//max current
         elevatorLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
         elevatorLeft.enableCurrentLimit(true) 
-        elevatorRight.configContinuousCurrentLimit(40,0) // desired current after limit
+        elevatorRight.configContinuousCurrentLimit(30,0) // desired current after limit
         elevatorRight.configPeakCurrentLimit(35,0)//max current
         elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
         elevatorRight.enableCurrentLimit(true)  
@@ -145,21 +145,24 @@ public object Elevator : Subsystem()
     //lifting the elevator as a single entity
     fun lift(speedLeft: Double, speedRight: Double) 
     {
-        /*if (albanyTestFile.elevatorMotionMagicJoystickEnable)
-        {
-            leftTarget = leftTarget + speedLeft * albanyTestFile.joystickElevatorDx
-            rightTarget = rightTarget + speedRight * albanyTestFile.joystickElevatorDx
+        /* 
+        val joystickElevatorDx = 1
+      
+            leftTarget = %leftTarget + speedLeft * joystickElevatorDx
+            rightTarget = rightTarget + speedRight * joystickElevatorDx
             elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
             elevatorRight.set(ControlMode.MotionMagic, rightTarget)
-        }
-        else 
-        {
+            */
+      
+      
             var localSpeedLeft = speedLeft
             var localSpeedRight = speedRight
             elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
             elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
-        }
+            
+        
     }
+    
     //joystick input function
     /*  fun manualLift(inputValue: Double)
     {
@@ -167,12 +170,13 @@ public object Elevator : Subsystem()
     }
     */
     //checking to see if the elevator is even or not- not yet implemented
-    /* // checking to see if elevator is moving due to Motion Magic-not implemented yet
+     // checking to see if elevator is moving due to Motion Magic-not implemented yet
+    
     fun isElevatorInMM ():Boolean 
     {
         return false
     }
-    */
+    
     //elevator Motion Magic
     fun elevatorMM (newElevatorState: String = "Null")
     {

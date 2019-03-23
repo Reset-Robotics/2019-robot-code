@@ -25,8 +25,8 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var topCargoPos = MMData("TopCargo", 0.0) // temp
     var topPanelPos = MMData("TopPanel", 0.0) // temp
     val middleHeight = MMData("Middle", 35000.0)
-    var middleCargoPos = MMData("MiddleCargo", 0.0) // temp
-    var middlePanelPos = MMData("MiddlePanel", 0.0) // temp
+    var middleCargoPos = MMData("MiddleCargo", -21000.0) // temp
+    var middlePanelPos = MMData("MiddlePanel", -21000.0) // temp
     val bottomHeight = MMData("Bottom", 0.0)
     var bottomCargoPos = MMData("BotomCargo", 0.0) // temp
     var bottomPanelPos = MMData("BottomPanel", 0.0) // temp
@@ -36,18 +36,18 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var kPIDLoopIdx: Int = 0
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
-    var kGainskF: Double = 0.0
-    var kGainskP: Double = 0.0
+    var kGainskF: Double = 0.38
+    var kGainskP: Double = 0.006
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0 
-    var pidP: Double = 0.0
+    var kGainskD: Double = 0.05 
+    var pidP: Double = 0.006
     var pidI: Double = 0.0
-    var pidD: Double = 0.0
-    var pidF: Double = 0.0
+    var pidD: Double = 0.05
+    var pidF: Double = 0.38
 
     // Encoders
-    val leftEncoder: Int = 7
-    val rightEncoder: Int = 8
+    val leftEncoder: Int = 0
+    val rightEncoder: Int = 0
     var kTimeoutMs: Int = 0
 
     // Misc
