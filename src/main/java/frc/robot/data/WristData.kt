@@ -11,8 +11,7 @@ public data class WristData(val teamNumber: Int = 6325)
 
     // Motion Magic
     data class MMData(val name: String, val data: Double)
-    val cruiseVelocity = MMData("Cruise-Velocity", 19000.0)
-    var acceleration = MMData("Acceleration", 11000.0)
+   
     var topHeightPanel = MMData("Panel-Top", 72000.0)
     var middleHeightPanel = MMData("Panel-Middle", 35000.0)
     var bottomHeightPanel = MMData("Panel-Bottom", 0.0)
@@ -22,17 +21,20 @@ public data class WristData(val teamNumber: Int = 6325)
     var bottomHeightCargo = MMData("Cargo-Bottom", 0.0) 
     var cargoshipCargo = MMData("CargoshipCargo", 0.0) // temp
 
+    val cruiseVelocity = 19000
+    var acceleration = 11000
+
     // PID
     var kPIDLoopIdx: Int = 0
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
-    var kGainskF: Double = 0.0
-    var kGainskP: Double = 0.0
+    var kGainskF: Double = 0.38
+    var kGainskP: Double = 0.010
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.0
+    var kGainskD: Double = 0.005
 
     // Encoders
-    val encoder: Int = 14
+    val encoder: Int = 0
     var kTimeoutMs: Int = 0
 
     // Misc

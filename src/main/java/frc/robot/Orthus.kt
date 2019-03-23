@@ -44,7 +44,7 @@ public class Orthus : Robot()
 
 
     // Initialize subsystem instance objects for this script
-    public val arm: Arm = Arm
+    //public val arm: Arm = Arm
     public val autocontroller: AutoController = AutoController
     public val cargoIntake: CargoIntake = CargoIntake
     public val drivetrain: Drivetrain = Drivetrain
@@ -67,7 +67,7 @@ public class Orthus : Robot()
     override fun onCreate()
     {
         
-        arm.onCreate()
+        //arm.onCreate()
         cargoIntake.onCreate()
         drivetrain.onCreate()
         elevator.onCreate()
@@ -124,6 +124,8 @@ public class Orthus : Robot()
     {
         ResetElevatorSensor()
         oi.OI()
+        //arm.ResetEncoder()
+        wrist.ResetEncoder()
         //System.err.println(Drivetrain.ultrasonicTest())
 
         // put dashboard data here

@@ -23,7 +23,7 @@ public class SpinIntake : Command()
         if(leftTriggerAxis > 0.0 + deadzone) shoot() // If the left trigger is pressed more than the deadzone, shoot the cargo
         if(leftTriggerAxis == 0.0 && rightTriggerAxis == 0.0) killMotor() // If neither triggers are pressed, kill motors
         if(leftTriggerAxis > 0.0 + deadzone && rightTriggerAxis > 0.0 + deadzone) killMotor()
-        intake() // If both triggers are pressed, kill motors to prevent unwanted behavior
+        // If both triggers are pressed, kill motors to prevent unwanted behavior
         
         return true;
     }

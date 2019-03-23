@@ -50,6 +50,9 @@ public object Wrist : Subsystem()
 		wristMotor.config_kP(wristData.leftKSlotIdx, wristData.kGainskP, wristData.kTimeoutMs);
 		wristMotor.config_kI(wristData.leftKSlotIdx, wristData.kGainskI, wristData.kTimeoutMs);
 		wristMotor.config_kD(wristData.leftKSlotIdx, wristData.kGainskD, wristData.kTimeoutMs);
+        wristMotor.configMotionCruiseVelocity(wristData.cruiseVelocity)
+        wristMotor.configMotionAcceleration(wristData.acceleration)
+        
         
         ResetEncoder()
     }
@@ -67,15 +70,15 @@ public object Wrist : Subsystem()
 
     fun move(speed: Double)
     { 
-        /*if (albanyTestFile.wristMotionMagicJoystickEnabled)
+        if (true)
         {
-            joystickTarget = joystickTarget + (speed*albanyTestFile.joystickWristDx)
+            joystickTarget = getEncoderRawWrist() + (speed*10)
             wristMotor.set(ControlMode.MotionMagic, joystickTarget)
         }
         else
-        {*/
+        {
             wristMotor.set(ControlMode.PercentOutput, speed) 
-        //}
+        }
     }
 
     fun killMotors(){ wristMotor.set(0.0) }

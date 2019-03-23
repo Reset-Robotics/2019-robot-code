@@ -24,9 +24,9 @@ public data class ArmData(val isBenGay: Boolean = true)
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
     var kGainskF: Double = 0.38
-    var kGainskP: Double = 0.006
+    var kGainskP: Double = 0.010
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.05 
+    var kGainskD: Double = 0.005
     var pidP: Double = 0.006
     var pidI: Double = 0.0
     var pidD: Double = 0.05
@@ -34,7 +34,7 @@ public data class ArmData(val isBenGay: Boolean = true)
 
     // Encoders
     val encoder: Int = 0
-    var kTimeoutMs: Int = 0
+    var kTimeoutMs: Int = 10
 
     // Misc
     var armState: String = "Bottom"

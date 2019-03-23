@@ -62,12 +62,12 @@ public object Arm : Subsystem()
 
     fun move(speed: Double)
     {
-        /*if (albanyTestFile.armMotionMagicJoystickEnabled)
+        if (true)
         {
-            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* albanyTestFile.joystickArmDx
+            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* 10
             armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
         }
-        else*/
+        else
         armMotor.set(ControlMode.PercentOutput, speed) 
     }
     fun killMotors(){ armMotor.set(0.0) }
