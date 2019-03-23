@@ -90,9 +90,13 @@ public object Arm : Subsystem()
                 armMotor.set(ControlMode.MotionMagic, armData.bottomHeight.data)
                 armData.armState = "Bottom"
             }
-            "Scoring" -> {
-                armMotor.set(ControlMode.MotionMagic, armData.scoringHeight.data) 
-                armData.armState = "Scoring"
+            "ScoringUp" -> {
+                armMotor.set(ControlMode.MotionMagic, armData.scoringHeightUp.data) 
+                armData.armState = "ScoringUp"
+            }
+            "ScoringDown" -> {
+                armMotor.set(ControlMode.MotionMagic, armData.scoringHeightDown.data) 
+                armData.armState = "ScoringDown"
             }
         } 
     }

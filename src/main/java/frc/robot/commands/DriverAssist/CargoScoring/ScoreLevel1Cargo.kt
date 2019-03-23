@@ -12,7 +12,7 @@ public class ScoreLevel1Cargo : Command()
 	override fun execute(): Boolean
 	{
 		Elevator.elevatorMM("BottomCargo")
-		Arm.armMotionMagic("Scoring")
+		Arm.armMotionMagic("ScoringDown")
 		Wrist.wristMotionMagic("BottomCargo")
 		return true;
 	}

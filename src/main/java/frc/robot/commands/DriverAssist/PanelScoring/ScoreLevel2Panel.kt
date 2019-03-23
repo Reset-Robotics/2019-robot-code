@@ -12,7 +12,7 @@ public class ScoreLevel2Panel : Command()
 	override fun execute(): Boolean
 	{
 		Elevator.elevatorMM("MiddlePanel")
-		Arm.armMotionMagic("Scoring")
+		Arm.armMotionMagic("ScoringUp")
 		Wrist.wristMotionMagic("MiddlePanel")
 		return true;
 	}

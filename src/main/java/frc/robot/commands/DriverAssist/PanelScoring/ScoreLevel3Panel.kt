@@ -12,7 +12,7 @@ public class ScoreLevel3Panel : Command()
 	override fun execute(): Boolean
 	{
 		Elevator.elevatorMM("TopPanel")
-		Arm.armMotionMagic("Scoring")
+		Arm.armMotionMagic("ScoringUp")
 		Wrist.wristMotionMagic("TopPanel")
 		return true;
 	}
