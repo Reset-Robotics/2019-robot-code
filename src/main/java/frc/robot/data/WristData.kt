@@ -35,7 +35,7 @@ public data class WristData(val teamNumber: Int = 6325)
 
     // Encoders
     val encoder: Int = 0
-    var kTimeoutMs: Int = 0
+    var kTimeoutMs: Int = 10
 
     // Misc
     var wristState: String = "Bottom"

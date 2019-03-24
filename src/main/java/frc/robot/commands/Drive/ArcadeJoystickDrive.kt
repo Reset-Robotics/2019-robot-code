@@ -36,7 +36,7 @@ public class ArcadeJoystickDrive : Command()
         }
         else Drivetrain.unlockAngle()
         
-        System.out.println("[ArcadeJoystickDrive]My spin value is: " + spin)
+        //System.out.println("[ArcadeJoystickDrive]My spin value is: " + spin)
         Drivetrain.drive(xDirection, yDirection, spin, throttle)
         return false;
     }
