@@ -45,26 +45,31 @@ public object Arm : Subsystem()
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
         armMotor.configMotionCruiseVelocity(intCruiseVelocity)
         armMotor.configMotionAcceleration(intAcceleration)
+        armMotor.configContinuousCurrentLimit(20,15) // desired current after limit
+        armMotor.configPeakCurrentLimit(20, 20)//max current
+        armMotor.configPeakCurrentDuration(100,10)  // how long after max current to be limited (ms)
+        armMotor.enableCurrentLimit(true) 
         
         ResetEncoder()
     }
 
-    fun ResetEncoder(){ armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) }
+    fun ResetEncoder()
+    {
+         armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) 
+    //armMotor.set(ControlMode.MotionMagic, 0.0)
+    }
 
     fun Arm()
     {
         //current limiting
-        armMotor.configContinuousCurrentLimit(10,10) // desired current after limit
-        armMotor.configPeakCurrentLimit(10,10)//max current
-        armMotor.configPeakCurrentDuration(100,10)  // how long after max current to be limited (ms)
-        armMotor.enableCurrentLimit(true) 
+        
     }
 
     fun move(speed: Double)
     {
-        if (true)
+        if (false)
         {
-            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* 10
+            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* 100
             armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
         }
         else

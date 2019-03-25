@@ -52,6 +52,11 @@ public object Wrist : Subsystem()
 		wristMotor.config_kD(wristData.leftKSlotIdx, wristData.kGainskD, wristData.kTimeoutMs);
         wristMotor.configMotionCruiseVelocity(wristData.cruiseVelocity)
         wristMotor.configMotionAcceleration(wristData.acceleration)
+        //current limiting
+        wristMotor.configContinuousCurrentLimit(10,0) // desired current after limit
+        wristMotor.configPeakCurrentLimit(15,0)//max current
+        wristMotor.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        wristMotor.enableCurrentLimit(true) 
         
         
         ResetEncoder()
@@ -61,18 +66,14 @@ public object Wrist : Subsystem()
 
     fun Wrist()
     {
-        //current limiting
-        wristMotor.configContinuousCurrentLimit(40,0) // desired current after limit
-        wristMotor.configPeakCurrentLimit(35,0)//max current
-        wristMotor.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
-        wristMotor.enableCurrentLimit(true) 
+        
     }
 
     fun move(speed: Double)
     { 
         if (true)
         {
-            joystickTarget = getEncoderRawWrist() + (speed*10)
+            joystickTarget = joystickTarget + (speed*10)
             wristMotor.set(ControlMode.MotionMagic, joystickTarget)
         }
         else

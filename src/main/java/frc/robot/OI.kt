@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID
 import frc.robot.commands.Drive.*
 import frc.robot.commands.RBrake.*
 import frc.robot.commands.Forklift.*
+import frc.robot.commands.PanelIntake.TogglePiston
 import frc.robot.commands.CargoIntake.*
 import frc.robot.subsystems.CargoIntake
 import frc.robot.subsystems.RBrake
@@ -48,7 +49,7 @@ public class OI
         //Driver 1
         joystickLeft.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
         joystickLeft.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
-        joystickLeft.whenActive(5, Deploy()) //Deploys R-Brake
+        joystickLeft.whenActive(5, TogglePiston()) //Deploys R-Brake
         joystickLeft.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
     
         //Driver 2

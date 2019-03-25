@@ -29,9 +29,9 @@ public data class WristData(val teamNumber: Int = 6325)
     var rightKSlotIdx: Int = 0
     var leftKSlotIdx: Int = 1
     var kGainskF: Double = 0.38
-    var kGainskP: Double = 0.010
+    var kGainskP: Double = 0.005
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.005
+    var kGainskD: Double = 0.040
 
     // Encoders
     val encoder: Int = 0
