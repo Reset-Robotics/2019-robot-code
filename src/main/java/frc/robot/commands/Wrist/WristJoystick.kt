@@ -23,8 +23,10 @@ public class WristJoystick : Command()
         var yDirection: Double = OI().xboxController.getRawAxis(5)
 
         if (Math.abs(yDirection) < wristData.deadzone) yDirection = 0.0
-
+        else 
+        {
         Wrist.move(yDirection*throttle)
+        }
 
         return false;
     }
