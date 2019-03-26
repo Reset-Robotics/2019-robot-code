@@ -14,5 +14,5 @@ void loop() {
   resetLEDs exampleStrip(12);
 
   // Calling the desired method
-  exampleStrip.strip_breathe(30, purple, 0, 1, 0.025);  
+  exampleStrip.color_bounce(1000, 5, purple, purple, 6);  
 }
