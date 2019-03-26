@@ -40,7 +40,7 @@ public class ElevatorJoystick: Command ()
         }
 
        
-        Elevator.lift(leftCorrection*joystickInput, -rightCorrection*joystickInput)
+        Elevator.lift(leftCorrection*joystickInput, rightCorrection*joystickInput)
         //Elevator.lift(joystickInput, joystickInput)
         
         return false; 
