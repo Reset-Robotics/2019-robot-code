@@ -52,7 +52,7 @@ public class Orthus : Robot()
     //public val forklift: Forklift = Forklift
     public val panelIntake: PanelIntake = PanelIntake
     public val rbrake: RBrake = RBrake
-    //public val wrist: Wrist = Wrist
+    public val wrist: Wrist = Wrist
     public val cameraController: CameraController = CameraController
    
     // Initialize I2C object for the Arduino
@@ -70,11 +70,11 @@ public class Orthus : Robot()
         //arm.onCreate()
         cargoIntake.onCreate()
         drivetrain.onCreate()
-        //elevator.onCreate()
+        elevator.onCreate()
         //forklift.onCreate()
         panelIntake.onCreate()
         //rbrake.onCreate()
-        //wrist.onCreate()
+        wrist.onCreate()
 
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
@@ -88,10 +88,7 @@ public class Orthus : Robot()
     {
         //drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
-        elevator.clearTalons()
-        elevator.ResetEncoders()
-        elevator.setElevatorStateNull()
-        // any dashboard data populatin here too
+        // any dashboard data population here too
     }
 
     // Runs on autonomous(sandstorm) initialization; WPILib autonomousInit() equivalent
@@ -99,7 +96,6 @@ public class Orthus : Robot()
     {
         ///drivetrain.onCreate()
         autocontroller.onCreate()
-        elevator.onCreate()
         
     }
 
@@ -114,7 +110,6 @@ public class Orthus : Robot()
     override fun onStart()
     {
         drivetrain.onCreate()
-        elevator.onCreate()
         compressor.setClosedLoopControl(true)
         //ResetForkliftSensor()
         //frc.robot.commands.Drive.ResetGyro()
@@ -130,9 +125,8 @@ public class Orthus : Robot()
         ResetElevatorSensor()
         oi.OI()
         //arm.ResetEncoder()
-        //wrist.ResetEncoder()
+        wrist.ResetEncoder()
         //System.err.println(Drivetrain.ultrasonicTest())
-        System.err.println(Elevator.elevatorState)
 
         // put dashboard data here
     }

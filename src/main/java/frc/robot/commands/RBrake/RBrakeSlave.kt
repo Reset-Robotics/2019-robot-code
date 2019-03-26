@@ -22,21 +22,13 @@ public class RBrakeSlave : Command()
         // implement throttle slider
                 
         var yDirection: Double = OI().joystickLeft.getY()
-        var xDirection: Double = OI().joystickLeft.getX()
         
         var throttle: Double = 1.0 // replace with slider throttle later
 
         if (Math.abs(yDirection) < rBrakeData.deadzone)
-        {
-            yDirection = 0.0;
-        }
-
-        if (Math.abs(xDirection) > 0.1)
-        {
-            RBrake.killMotors()
-            RBrake.deployIn()
-        }
-
+            {
+                yDirection = 0.0;
+            }
         RBrake.driveRBrake(yDirection)
        /*  if(!RBrake.isLimitSwitchTriggered())
         {

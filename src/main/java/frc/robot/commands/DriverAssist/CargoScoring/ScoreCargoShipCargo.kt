@@ -16,9 +16,4 @@ public class ScoreCargoShipCargo : Command()
 		Wrist.wristMotionMagic("CargoshipCargo")
 		return true;
 	}
-		override fun onDestroy()
-	{
-		Elevator.setElevatorStateNull()
-		Elevator.killMotors()
-	}
 }
