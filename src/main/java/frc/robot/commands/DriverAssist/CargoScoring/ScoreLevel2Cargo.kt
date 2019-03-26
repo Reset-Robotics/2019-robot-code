@@ -16,4 +16,10 @@ public class ScoreLevel2Cargo : Command()
 		Wrist.wristMotionMagic("MiddleCargo")
 		return true;
 	}
+
+	override fun onDestroy()
+	{
+		Elevator.setElevatorStateNull()
+		Elevator.killMotors()
+	}
 }

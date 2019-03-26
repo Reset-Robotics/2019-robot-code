@@ -71,6 +71,6 @@ public class OI
         // Encoder Positions for floor panels 
         joystickLeft.whenActive(11, ScoreLevel1FloorPanel()) 
         joystickLeft.whenActive(9, ScoreLevel2FloorPanel()) 
-        joystickLeft.whenActive(7, ScoreLevel3FloorPanel()) 
+        joystickLeft.whenActive(7, ScoreLevel3FloorPanel())
    }
 }

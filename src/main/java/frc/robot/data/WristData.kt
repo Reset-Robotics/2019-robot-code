@@ -12,12 +12,12 @@ public data class WristData(val teamNumber: Int = 6325)
     // Motion Magic
     data class MMData(val name: String, val data: Double)
    
-    var topHeightPanel = MMData("Panel-Top", 72000.0)
-    var middleHeightPanel = MMData("Panel-Middle", 35000.0)
+    var topHeightPanel = MMData("Panel-Top", 0.0)
+    var middleHeightPanel = MMData("Panel-Middle", 0.0)
     var bottomHeightPanel = MMData("Panel-Bottom", 0.0)
     var floorPanel = MMData("Panel-Floor", 0.0)
-    var topHeightCargo = MMData("Cargo-Top", 72000.0)
-    var middleHeightCargo = MMData("Cargo-Middle", 35000.0)
+    var topHeightCargo = MMData("Cargo-Top", 0.0)
+    var middleHeightCargo = MMData("Cargo-Middle", 0.0)
     var bottomHeightCargo = MMData("Cargo-Bottom", 0.0) 
     var cargoshipCargo = MMData("CargoshipCargo", 0.0) // temp
 
