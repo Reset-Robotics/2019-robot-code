@@ -20,13 +20,28 @@ public class ElevatorJoystick: Command ()
         //joystick input
          var joystickInput: Double = OI().joystickRight.getY()
         if (Math.abs(joystickInput) < Elevator.deadzone)
-        {
-            joystickInput = 0.0
+            joystickInput = -.1
+
+         //auto leveling when using the joystick
+        if (!Elevator.isElevatorLevel()){
+            var error = Elevator.getElevatorError()
+            if(error>0.0){//left side is too hgh
+                leftCorrection = 0.8
+            }
+            if (error<0.0){//right side is too high
+                rightCorrection = 0.8
+            }
+            isElevatorLevel = false
         }
-        else
-        {
-            Elevator.lift(joystickInput, joystickInput)
+        else{
+            isElevatorLevel = true
+            leftCorrection = 1.0
+            rightCorrection = 1.0
         }
+
+       
+        Elevator.lift(leftCorrection*joystickInput, -rightCorrection*joystickInput)
+        //Elevator.lift(joystickInput, joystickInput)
         
         return false; 
     }
