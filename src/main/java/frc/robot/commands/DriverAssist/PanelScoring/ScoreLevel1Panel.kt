@@ -16,10 +16,4 @@ public class ScoreLevel1Panel : Command()
 		Wrist.wristMotionMagic("BottomPanel")
 		return true;
 	}
-
-	override fun onDestroy()
-	{
-		Elevator.setElevatorStateNull()
-		Elevator.killMotors()
-	}
 }

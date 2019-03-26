@@ -19,8 +19,8 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
 
     // Motion Magic
     data class MMData(val name: String, val data: Double)
-    val cruiseVelocity = MMData("Cruise-Velocity", 19000.0)
-    val acceleration = MMData("Acceleration", 12000.0)
+    val cruiseVelocity = MMData("Cruise-Velocity", 3750.0)
+    val acceleration = MMData("Acceleration", 4200.0)
     val topHeight = MMData("Top", 72000.0)
     var topCargoPos = MMData("TopCargo", -21000.0) // temp
     var topPanelPos = MMData("TopPanel", -30000.0) // temp
@@ -29,7 +29,7 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var middlePanelPos = MMData("MiddlePanel", -24000.0) // temp
     val bottomHeight = MMData("Bottom", -2000.0)
     var bottomCargoPos = MMData("BotomCargo", -3000.0) // temp
-    var bottomPanelPos = MMData("BottomPanel", -3000.0) // temp
+    var bottomPanelPos = MMData("BottomPanel", -8000.0) // temp
     var cargoshipCargo = MMData("CargoshipCargo", 0.0) // temp
 
     // PID
@@ -39,10 +39,10 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var kGainskF: Double = 0.38
     var kGainskP: Double = 0.006
     var kGainskI: Double = 0.0
-    var kGainskD: Double = 0.10
+    var kGainskD: Double = 0.05
     var pidP: Double = 0.006
     var pidI: Double = 0.0
-    var pidD: Double = 0.005
+    var pidD: Double = 0.05
     var pidF: Double = 0.38
 
     // Encoders

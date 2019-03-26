@@ -27,7 +27,7 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    override val defaultCommand = ElevatorJoystick()
+    //override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
     val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
@@ -35,17 +35,6 @@ public object Elevator : Subsystem()
 
     var leftTarget: Double = 0.0
     var rightTarget: Double = 0.0
-    
-    // elevator encoder positioning
-    val topHeight: Double = 72000.0 //temp
-    val topCargoPos: Double = 0.0 // temp
-    val topPanelPos: Double = 0.0 // temp
-    val middleHeight: Double = 35000.0//temp
-    val middleCargoPos: Double = 0.0 // temp
-    val middlePanelPos: Double = 0.0 // temp
-    val bottomHeight: Double = 0.0 // temp
-    val bottomCargoPos: Double = 0.0 // temp
-    val bottomPanelPos: Double = 0.0 // temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     val kPIDLoopIdx: Int = 0
@@ -261,7 +250,11 @@ public object Elevator : Subsystem()
      //returning the state the elevator is in or was in last 
     fun whatIsElevatorState ():String{return elevatorState}
 
-    fun setElevatorStateNull() { elevatorState = " " }
+    fun setElevatorTargetNull() 
+    { 
+        elevatorMM() 
+        elevatorState = " "    
+    }
 
     // finding the error in the elevator leveling pos->left is too high neg->right is to high
     fun getElevatorError():Int{return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()}

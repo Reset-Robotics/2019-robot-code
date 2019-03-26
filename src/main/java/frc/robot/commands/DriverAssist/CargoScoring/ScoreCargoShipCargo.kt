@@ -18,7 +18,7 @@ public class ScoreCargoShipCargo : Command()
 	}
 		override fun onDestroy()
 	{
-		Elevator.setElevatorStateNull()
+		Elevator.setElevatorTargetNull()
 		Elevator.killMotors()
 	}
 }
