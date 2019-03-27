@@ -71,7 +71,7 @@ public object Wrist : Subsystem()
 
     fun move(speed: Double)
     { 
-        if (true)
+        if (false)
         {
             joystickTarget = joystickTarget + (speed*10)
             wristMotor.set(ControlMode.MotionMagic, joystickTarget)

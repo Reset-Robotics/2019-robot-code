@@ -47,15 +47,16 @@ public class OI
    fun OI()    
    {
         //Driver 1
-        joystickLeft.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Left
-        joystickLeft.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
-        joystickLeft.whenActive(5, TogglePiston()) //Deploys R-Brake
-        joystickLeft.toggleOnButtonPress(oiData.rightTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
+        joystickRight.whenActive(4, ToggleFieldOriented())//Toggles Field Oriented Drive ---- Top-Button-Bottom-Right
+        joystickRight.whenActive(3, ToggleAngleLock())//Toggles angle lock for linging up --- Top-Button-Bottom-Right
+        joystickRight.whenActive(5, TogglePiston()) //Deploys R-Brake
+        joystickRight.toggleOnButtonPress(oiData.rightTrigger.id, ToggleFieldOriented()) // Toggle whether the drivetrain is field oriented or normal
+        joystickLeft.toggleOnButtonPress(oiData.leftTrigger.id, Deploy()) // Toggle whether the drivetrain is field oriented or normal
     
         //Driver 2
         //Ball intake Controls
-        leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft)
-        rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight)
+        leftTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kLeft) // 2
+        rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight) // 3
         //Panel Intake
         if (xboxController.getBumperPressed(GenericHID.Hand.kRight))
             TogglePiston()

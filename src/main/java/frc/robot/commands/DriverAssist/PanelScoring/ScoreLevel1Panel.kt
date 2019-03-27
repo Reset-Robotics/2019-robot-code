@@ -12,14 +12,8 @@ public class ScoreLevel1Panel : Command()
 	override fun execute(): Boolean
 	{
 		Elevator.elevatorMM("BottomPanel")
-		Arm.armMotionMagic("ScoringDown")
-		Wrist.wristMotionMagic("BottomPanel")
+		//Arm.armMotionMagic("ScoringDown")
+		//Wrist.wristMotionMagic("BottomPanel")
 		return true;
-	}
-
-	override fun onDestroy()
-	{
-		Elevator.setElevatorStateNull()
-		Elevator.killMotors()
 	}
 }

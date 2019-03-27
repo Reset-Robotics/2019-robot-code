@@ -29,30 +29,8 @@ public object CargoIntake : Subsystem()
     
     fun spin(input: Double) 
     {
-        var localSpin: Double = 0.0
-
-        // Right trigger spinning in
-        if(input > 0)
-        {
-            localSpin = 1.0
-            cargoIntakeData.brake = false
-        }
-
-        // Left trigger spinning out
-        if(input < 0)
-        {
-            localSpin = -1.0
-            this.intakeMotor.setNeutralMode(NeutralMode.Coast)
-        }
-        // testing to see if the motor should autostop
-        if(this.intakeMotor.getSelectedSensorVelocity() < cargoIntakeData.minimumSpeed && autoStopEnabled && this.intakeMotor.getMotorOutputPercent() > cargoIntakeData.minimumMotorOutputPercent)
-            cargoIntakeData.brake = true
-            this.intakeMotor.setNeutralMode(NeutralMode.Brake)
-        
-        // setting the motor speed or disabling the motor
-        if(!cargoIntakeData.brake)
-            this.intakeMotor.set(localSpin)
-
+        var localSpin: Double = input
+        intakeMotor.set(localSpin)
     }
 
     fun isAutoStopEnabled():Boolean { return autoStopEnabled; }

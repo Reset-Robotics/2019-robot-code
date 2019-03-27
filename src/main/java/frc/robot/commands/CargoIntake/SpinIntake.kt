@@ -19,10 +19,14 @@ public class SpinIntake : Command()
 
     override fun execute(): Boolean
     {
-        if(rightTriggerAxis > 0.0 + deadzone) intake() // If the right trigger is pressed more than the deadzone, intake the cargo
-        if(leftTriggerAxis > 0.0 + deadzone) shoot() // If the left trigger is pressed more than the deadzone, shoot the cargo
-        if(leftTriggerAxis == 0.0 && rightTriggerAxis == 0.0) killMotor() // If neither triggers are pressed, kill motors
-        if(leftTriggerAxis > 0.0 + deadzone && rightTriggerAxis > 0.0 + deadzone) killMotor()
+        if(Math.abs(rightTriggerAxis) > 0.0 + deadzone) 
+            intake() // If the right trigger is pressed more than the deadzone, intake the cargo
+        if(Math.abs(leftTriggerAxis) > 0.0 + deadzone) 
+            shoot() // If the left trigger is pressed more than the deadzone, shoot the cargo
+        if(Math.abs(leftTriggerAxis) == 0.0 && Math.abs(rightTriggerAxis) == 0.0) 
+            killMotor() // If neither triggers are pressed, kill motors
+        if(Math.abs(leftTriggerAxis) > 0.0 + deadzone && Math.abs(rightTriggerAxis) > 0.0 + deadzone) 
+            killMotor()
         // If both triggers are pressed, kill motors to prevent unwanted behavior
         
         return true;

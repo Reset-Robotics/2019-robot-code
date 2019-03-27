@@ -47,9 +47,9 @@ public class Orthus : Robot()
     //public val arm: Arm = Arm
     public val autocontroller: AutoController = AutoController
     public val cargoIntake: CargoIntake = CargoIntake
-    public val drivetrain: Drivetrain = Drivetrain
+    //public val drivetrain: Drivetrain = Drivetrain
     public var elevator: Elevator = Elevator
-    //public val forklift: Forklift = Forklift
+    public val forklift: Forklift = Forklift
     public val panelIntake: PanelIntake = PanelIntake
     public val rbrake: RBrake = RBrake
     //public val wrist: Wrist = Wrist
@@ -69,9 +69,9 @@ public class Orthus : Robot()
         
         //arm.onCreate()
         cargoIntake.onCreate()
-        drivetrain.onCreate()
-        //elevator.onCreate()
-        //forklift.onCreate()
+        //drivetrain.onCreate()
+        elevator.onCreate()
+        forklift.onCreate()
         panelIntake.onCreate()
         //rbrake.onCreate()
         //wrist.onCreate()
@@ -88,7 +88,7 @@ public class Orthus : Robot()
     {
         //drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
-        elevator.clearTalons()
+        //elevator.clearTalons()
         elevator.ResetEncoders()
         elevator.setElevatorStateNull()
         // any dashboard data populatin here too
@@ -113,8 +113,9 @@ public class Orthus : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
-        drivetrain.onCreate()
+        //drivetrain.onCreate()
         elevator.onCreate()
+        elevator.ResetEncoders()
         compressor.setClosedLoopControl(true)
         //ResetForkliftSensor()
         //frc.robot.commands.Drive.ResetGyro()
@@ -127,12 +128,12 @@ public class Orthus : Robot()
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()
     {
-        ResetElevatorSensor()
+        //ResetElevatorSensor()
         oi.OI()
         //arm.ResetEncoder()
         //wrist.ResetEncoder()
         //System.err.println(Drivetrain.ultrasonicTest())
-        System.err.println(Elevator.elevatorState)
+        //System.err.println(Elevator.elevatorState)
 
         // put dashboard data here
     }

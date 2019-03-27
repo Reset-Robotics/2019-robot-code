@@ -35,23 +35,12 @@ public object Elevator : Subsystem()
 
     var leftTarget: Double = 0.0
     var rightTarget: Double = 0.0
-    
-    // elevator encoder positioning
-    val topHeight: Double = 72000.0 //temp
-    val topCargoPos: Double = 0.0 // temp
-    val topPanelPos: Double = 0.0 // temp
-    val middleHeight: Double = 35000.0//temp
-    val middleCargoPos: Double = 0.0 // temp
-    val middlePanelPos: Double = 0.0 // temp
-    val bottomHeight: Double = 0.0 // temp
-    val bottomCargoPos: Double = 0.0 // temp
-    val bottomPanelPos: Double = 0.0 // temp
 
     //configuring PID Loop for motion magic to do- move to IDS
     val kPIDLoopIdx: Int = 0
     val kTimeoutMs: Int = 0
     val rightKSlotIdx: Int = 0
-    val leftKSlotIdx: Int = 1
+    val leftKSlotIdx: Int = 0
     val kGainskI: Double = elevatorData.pidI
     val kGainskD: Double = elevatorData.pidD
     val kGainskP: Double = elevatorData.pidP
@@ -85,19 +74,19 @@ public object Elevator : Subsystem()
         elevatorLeft.setInverted(false)
         elevatorRight.setInverted(true)
         /* Set relevant frame periods to be at least as fast as periodic rate */
-		elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
-		elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, kTimeoutMs);
-	    elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, kTimeoutMs);
+		elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, kPIDLoopIdx, kTimeoutMs);
+	    elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, kPIDLoopIdx, kTimeoutMs);
+		elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, kPIDLoopIdx, kTimeoutMs);
+	    elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, kPIDLoopIdx, kTimeoutMs);
         // Set the peak and nominal voltage outputs- requires adjustment
 		elevatorRight.configNominalOutputForward(0.0, kTimeoutMs);
 		elevatorRight.configNominalOutputReverse(0.0, kTimeoutMs);
-		elevatorRight.configPeakOutputForward(1.0, kTimeoutMs);
-		elevatorRight.configPeakOutputReverse(-1.0, kTimeoutMs);
+		elevatorRight.configPeakOutputForward(12.0, kTimeoutMs);
+		elevatorRight.configPeakOutputReverse(-12.0, kTimeoutMs);
 		elevatorLeft.configNominalOutputForward(0.0, kTimeoutMs);
 		elevatorLeft.configNominalOutputReverse(0.0, kTimeoutMs);
-		elevatorLeft.configPeakOutputForward(1.0, kTimeoutMs);
-		elevatorLeft.configPeakOutputReverse(-1.0, kTimeoutMs);
+		elevatorLeft.configPeakOutputForward(12.0, kTimeoutMs);
+		elevatorLeft.configPeakOutputReverse(-12.0, kTimeoutMs);
 
         // current limiting
         elevatorLeft.configContinuousCurrentLimit(30,0) // desired current after limit
@@ -110,16 +99,16 @@ public object Elevator : Subsystem()
         elevatorRight.enableCurrentLimit(true)  
 
         /* Set Motion Magic gains in slot kSlotIdx */
-		elevatorRight.selectProfileSlot(rightKSlotIdx, kPIDLoopIdx);
-		elevatorRight.config_kF(rightKSlotIdx, kGainskF, kTimeoutMs);
-		elevatorRight.config_kP(rightKSlotIdx, kGainskP, kTimeoutMs);
-		elevatorRight.config_kI(rightKSlotIdx, kGainskI, kTimeoutMs);
-		elevatorRight.config_kD(rightKSlotIdx, kGainskD, kTimeoutMs);
-		elevatorLeft.selectProfileSlot(leftKSlotIdx, kPIDLoopIdx);
-		elevatorLeft.config_kF(leftKSlotIdx, kGainskF, kTimeoutMs);
-		elevatorLeft.config_kP(leftKSlotIdx, kGainskP, kTimeoutMs);
-		elevatorLeft.config_kI(leftKSlotIdx, kGainskI, kTimeoutMs);
-		elevatorLeft.config_kD(leftKSlotIdx, kGainskD, kTimeoutMs);
+		elevatorRight.selectProfileSlot(kPIDLoopIdx, kPIDLoopIdx);
+		elevatorRight.config_kF(kPIDLoopIdx, kGainskF, kTimeoutMs);
+		elevatorRight.config_kP(kPIDLoopIdx, kGainskP, kTimeoutMs);
+		elevatorRight.config_kI(kPIDLoopIdx, kGainskI, kTimeoutMs);
+		elevatorRight.config_kD(kPIDLoopIdx, kGainskD, kTimeoutMs);
+		elevatorLeft.selectProfileSlot(kPIDLoopIdx, kPIDLoopIdx);
+		elevatorLeft.config_kF(kPIDLoopIdx, kGainskF, kTimeoutMs);
+		elevatorLeft.config_kP(kPIDLoopIdx, kGainskP, kTimeoutMs);
+		elevatorLeft.config_kI(kPIDLoopIdx, kGainskI, kTimeoutMs);
+		elevatorLeft.config_kD(kPIDLoopIdx, kGainskD, kTimeoutMs);
         elevatorRight.configMotionCruiseVelocity(cruiseVelocity)
         elevatorLeft.configMotionCruiseVelocity(cruiseVelocity)
         elevatorRight.configMotionAcceleration(acceleration)
@@ -144,6 +133,15 @@ public object Elevator : Subsystem()
     {
         elevatorLeft.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
         elevatorRight.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs)
+        elevatorLeft.clearMotionProfileTrajectories()
+        elevatorRight.clearMotionProfileTrajectories()
+        elevatorRight.configMotionCruiseVelocity(0)
+        elevatorLeft.configMotionCruiseVelocity(0)
+        elevatorRight.configMotionAcceleration(0)
+        elevatorLeft.configMotionAcceleration(0)
+        elevatorLeft.set(ControlMode.MotionMagic, 0.0)
+        elevatorRight.set(ControlMode.MotionMagic, 0.0)
+
     }
     fun elevator()
     {
@@ -160,7 +158,7 @@ public object Elevator : Subsystem()
             elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
             elevatorRight.set(ControlMode.MotionMagic, rightTarget)
             */
-      
+
       
             var localSpeedLeft = speedLeft
             var localSpeedRight = speedRight
@@ -188,8 +186,13 @@ public object Elevator : Subsystem()
     fun elevatorMM (newElevatorState: String = "Null")
     {
         var targetPos = newElevatorState
+        elevatorRight.configMotionCruiseVelocity(cruiseVelocity)
+        elevatorLeft.configMotionCruiseVelocity(cruiseVelocity)
+        elevatorRight.configMotionAcceleration(acceleration)
+        elevatorLeft.configMotionAcceleration(acceleration)
         when(targetPos)
         {
+            
             "Top" -> {
                 elevatorLeft.set(ControlMode.MotionMagic, elevatorData.topHeight.data)
                 elevatorRight.set(ControlMode.MotionMagic, elevatorData.topHeight.data)

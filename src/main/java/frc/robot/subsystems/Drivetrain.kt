@@ -127,8 +127,8 @@ public object Drivetrain : Subsystem(), PIDOutput
         }
         
         // POTENTIAL ERROR
-        if(isAngleLocked && !isDriftMode) 
-            localSpinVal = turnRate
+        //if(isAngleLocked && !isDriftMode) 
+            //localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
