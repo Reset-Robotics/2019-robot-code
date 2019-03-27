@@ -33,7 +33,7 @@
 #define STATIC_ASSERT3(X,M,L) STATIC_ASSERT4(X, M, L)
 #define STATIC_ASSERT2(X,M,L) STATIC_ASSERT3(X,M,L)
 //#define STATIC_ASSERT(X,M)    STATIC_ASSERT2(X,M,__LINE__)
-#define STATIC_ASSERT(X,M)    
+#define STATIC_ASSERT(X,M)
 #else
 #define SA2TXT2(x) # x
 #define SA2TXT(x) SA2TXT2(x)
@@ -583,7 +583,7 @@ class avrBitbangLedStrip
 	/// Note: the array size is not used as it is expected that it will be
 	/// at least as big as the largest index in the pixel map.
 	////////////////////////////////////////////////////////////////////////
-	template <class pixelType> 
+	template <class pixelType>
 	static inline void sendPixelsRemap(
 			const uint16_t numPixels,
 			const uint16_t * pixelMap,
@@ -606,8 +606,8 @@ class avrBitbangLedStrip
 
 	////////////////////////////////////////////////////////////////////////
 	/// @brief Sends an array of 3 pixels per 16bit words to the LEDs
-	/// This yelds 32K colors, and saves 33% RAM without using a palette. 
-	/// 
+	/// This yelds 32K colors, and saves 33% RAM without using a palette.
+	///
 	/// the SRAM.
 	/// @brief Sends an array of 16-bit words to the LEDs. Each word encodes
 	/// one pixel with 64 levels (5 bits)
@@ -895,7 +895,7 @@ avrBitbangLedStrip<FAB_TVAR>::twoPortSoftwareSendBytes(const uint16_t count, con
 				const uint8_t mask = 1 << bit;
 
 				volatile bool isbitDhigh = array[pos] & mask;
-	
+
 				volatile bool isbitChigh = (protocol == TWO_PORT_SPLIT_BITBANG) ?
 					array[pos + blockSize] & mask : // split: pixel is blockSize away.
 					array[pos + bpp] & mask;        // interleaved: pixel is next one.
@@ -1142,7 +1142,7 @@ avrBitbangLedStrip<FAB_TVAR>::onePortSoftwareSendBytes(const uint16_t count, con
 		const uint8_t val = array[c];
 		for(int8_t b=7; b>=0; b--) {
 			const bool bit = (val>>b) & 0x1;
- 
+
  			if (bit) {
 				// Send a ONE
 
@@ -1419,8 +1419,8 @@ avrBitbangLedStrip<FAB_TVAR>::sendPixels (
 	uint16_t index;
 	index = 0;
 	while (1) {
-		uint8_t elem; 
-		elem = pixelArray[offset++]; 
+		uint8_t elem;
+		elem = pixelArray[offset++];
 		for (uint8_t j = 0; j < 8/bitsPerPixel; j++) {
 			if (index++ >= count) {
 				goto end;
@@ -1469,8 +1469,8 @@ avrBitbangLedStrip<FAB_TVAR>::sendPixels (
 	uint16_t index;
 	index = 0;
 	while (1) {
-		uint8_t elem; 
-		elem = pixelArray[offset++]; 
+		uint8_t elem;
+		elem = pixelArray[offset++];
 		for (uint8_t j = 0; j < 8/bitsPerPixel; j++) {
 			if (index++ >= count) {
 				goto end;
@@ -1513,8 +1513,8 @@ avrBitbangLedStrip<FAB_TVAR>::sendPixels (
 	uint16_t index;
 	index = 0;
 	while (1) {
-		uint8_t elem; 
-		elem = pixelArray[offset++]; 
+		uint8_t elem;
+		elem = pixelArray[offset++];
 		for (uint8_t j = 0; j < 8/bitsPerPixel; j++) {
 			if (index++ >= count) {
 				goto end;
@@ -1529,7 +1529,7 @@ end:
 }
 
 template<FAB_TDEF>
-template <class pixelType> 
+template <class pixelType>
 inline void
 avrBitbangLedStrip<FAB_TVAR>::sendPixelsRemap(
 		const uint16_t numPixels,
@@ -1627,7 +1627,7 @@ avrBitbangLedStrip<FAB_TVAR>::sendPixels(
 
 	bytes[3] = 0;
 	for (int i = 0; i < count; i++) {
-		const uint16_t elem = pixelArray[i]; 
+		const uint16_t elem = pixelArray[i];
 		bytes[0] = (uint8_t) elem << brightness;
 		bytes[1] = (elem >> (5 - brightness)) & mask5;
 		bytes[2] = (elem >> (10 - brightness)) & mask10;
@@ -1767,7 +1767,7 @@ class apa104 : public avrBitbangLedStrip<FAB_TVAR_APA104>
 	~apa104() {};
 };
 #undef FAB_TVAR_APA104
-#define pl9823 apa104; 
+#define pl9823 apa104;
 
 
 ////////////////////////////////////////////////////////////////////////////////

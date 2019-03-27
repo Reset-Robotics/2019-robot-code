@@ -89,8 +89,14 @@ public class Orthus : Robot()
         //drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
         //elevator.clearTalons()
+<<<<<<< HEAD
         elevator.ResetEncoders()
         elevator.setElevatorStateNull()
+=======
+        //elevator.ResetEncoders()
+        //elevator.setElevatorTargetNull()
+        ResetElevatorSensor()
+>>>>>>> dev
         // any dashboard data populatin here too
     }
 

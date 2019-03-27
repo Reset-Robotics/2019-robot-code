@@ -27,7 +27,7 @@ public object Elevator : Subsystem()
     var deadzone: Double = 0.1
 
     // setting default command
-    override val defaultCommand = ElevatorJoystick()
+    //override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
     val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
@@ -264,7 +264,11 @@ public object Elevator : Subsystem()
      //returning the state the elevator is in or was in last 
     fun whatIsElevatorState ():String{return elevatorState}
 
-    fun setElevatorStateNull() { elevatorState = " " }
+    fun setElevatorTargetNull() 
+    { 
+        elevatorMM() 
+        elevatorState = " "    
+    }
 
     // finding the error in the elevator leveling pos->left is too high neg->right is to high
     fun getElevatorError():Int{return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()}

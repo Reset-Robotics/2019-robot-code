@@ -16,10 +16,4 @@ public class ScoreLevel3Cargo : Command()
 		Wrist.wristMotionMagic("TopCargo")
 		return true;
 	}
-
-	override fun onDestroy()
-	{
-		Elevator.setElevatorStateNull()
-		Elevator.killMotors()
-	}
 }
