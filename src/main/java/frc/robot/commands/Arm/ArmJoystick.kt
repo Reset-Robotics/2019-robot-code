@@ -21,7 +21,7 @@ public class ArmJoystick: Command()
     // Run all our code here
     override fun execute(): Boolean
     {   
-        var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2             
+       // var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2             
         var yDirection: Double = -OI().xboxController.getRawAxis(1)
 
         if (Math.abs(yDirection) < .25) yDirection = 0.0

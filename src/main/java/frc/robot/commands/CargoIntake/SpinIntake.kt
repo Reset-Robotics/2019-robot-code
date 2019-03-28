@@ -7,9 +7,9 @@ import frc.robot.OI
 public class SpinIntake : Command()
 {
     var rightTriggerAxis: Double = OI().xboxController.getRawAxis(2)
-    var leftTriggerAxis: Double = -OI().xboxController.getRawAxis(3)
-    var spin: Double = 1.0 //pow applied to the ball intake motor
-    public val deadzone: Double = 0.1
+    var leftTriggerAxis: Double = OI().xboxController.getRawAxis(3)
+    var spin: Double = .5 //pow applied to the ball intake motor
+    public val deadzone: Double = 0.3
 
     // Make sure we require any necessary objects/classes
     init 
@@ -19,6 +19,8 @@ public class SpinIntake : Command()
 
     override fun execute(): Boolean
     {
+        rightTriggerAxis = OI().xboxController.getRawAxis(2)
+        leftTriggerAxis = OI().xboxController.getRawAxis(3)
         if(Math.abs(rightTriggerAxis) > 0.0 + deadzone) 
             intake() // If the right trigger is pressed more than the deadzone, intake the cargo
         if(Math.abs(leftTriggerAxis) > 0.0 + deadzone) 
@@ -29,7 +31,7 @@ public class SpinIntake : Command()
             killMotor()
         // If both triggers are pressed, kill motors to prevent unwanted behavior
         
-        return true;
+        return false;
     }
 
     fun intake(): Boolean

@@ -8,9 +8,11 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.PIDController
+import edu.wpi.first.wpilibj.PWM
 
 import frc.robot.data.ElevatorData
 import frc.robot.commands.Elevator.ElevatorJoystick
+
 
 public object Elevator : Subsystem()
  {
@@ -20,14 +22,20 @@ public object Elevator : Subsystem()
     
     
     //importing ids
-    var elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
-    var elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
+    val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
+    val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
 
+    //limitSwtiches
+
+    var rightTopSwitch: PWM = PWM(elevatorData.rightTopSwitchPort)
+    var leftTopSwitch: PWM = PWM(elevatorData.leftTopSwitchPort)
+    var rightBottomSwitch: PWM = PWM(elevatorData.leftBottomSwitchPort)
+    var leftBottomSwitch: PWM = PWM(elevatorData.rightBottomSwitchPort)
     //setting controller deadzone
-    var deadzone: Double = 0.1
+    val deadzone: Double = 0.1
 
     // setting default command
-    //override val defaultCommand = ElevatorJoystick()
+    override val defaultCommand = ElevatorJoystick()
 
     //configuring motion magic
     val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
@@ -148,7 +156,7 @@ public object Elevator : Subsystem()
 
     }
     //lifting the elevator as a single entity
-    fun lift(speedLeft: Double, speedRight: Double) 
+    fun lift(speed: Double) 
     {
         /* 
         val joystickElevatorDx = 1
@@ -158,12 +166,19 @@ public object Elevator : Subsystem()
             elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
             elevatorRight.set(ControlMode.MotionMagic, rightTarget)
             */
+            var localSpeed = speed
+            if(speed>0 && checkBottomSwitches())
+            {
+                localSpeed = 0.0
+            }
+            if(speed<0 && checkTopSwitches())
+            {
+                localSpeed = -0.11
+            }
+        
 
-      
-            var localSpeedLeft = speedLeft
-            var localSpeedRight = speedRight
-            elevatorLeft.set(ControlMode.PercentOutput, localSpeedLeft)
-            elevatorRight.set(ControlMode.PercentOutput, localSpeedRight)
+            elevatorLeft.set(ControlMode.PercentOutput, localSpeed)
+            elevatorRight.set(ControlMode.PercentOutput, localSpeed)
             
         
     }
@@ -174,6 +189,28 @@ public object Elevator : Subsystem()
         lift(inputValue,inputValue)
     }
     */
+    fun checkBottomSwitches(): Boolean
+    {
+        if(rightBottomSwitch.getRaw() > elevatorData.PWMCutoff  && leftBottomSwitch.getRaw() > elevatorData.PWMCutoff)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    fun checkTopSwitches(): Boolean
+    {
+        if(rightTopSwitch.getRaw() > elevatorData.PWMCutoff && leftTopSwitch.getRaw() > elevatorData.PWMCutoff)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     //checking to see if the elevator is even or not- not yet implemented
      // checking to see if elevator is moving due to Motion Magic-not implemented yet
     

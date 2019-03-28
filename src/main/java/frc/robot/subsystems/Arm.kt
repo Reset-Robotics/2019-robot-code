@@ -45,8 +45,8 @@ public object Arm : Subsystem()
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
         armMotor.configMotionCruiseVelocity(intCruiseVelocity)
         armMotor.configMotionAcceleration(intAcceleration)
-        armMotor.configContinuousCurrentLimit(20,15) // desired current after limit
-        armMotor.configPeakCurrentLimit(20, 20)//max current
+        armMotor.configContinuousCurrentLimit(27, 27) // desired current after limit
+        armMotor.configPeakCurrentLimit(30, 27)//max current
         armMotor.configPeakCurrentDuration(100,10)  // how long after max current to be limited (ms)
         armMotor.enableCurrentLimit(true) 
         

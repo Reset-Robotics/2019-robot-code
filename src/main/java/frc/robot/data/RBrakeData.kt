@@ -10,5 +10,5 @@ public data class RBrakeData(val isPhillipGay: Boolean = true)
     val motor: Int = 33
 
     // Solenoids
-    val solenoid: IntArray = intArrayOf(2, 3)
+    val solenoid: IntArray = intArrayOf(0, 1 )
 }

@@ -44,15 +44,15 @@ public class Orthus : Robot()
 
 
     // Initialize subsystem instance objects for this script
-    //public val arm: Arm = Arm
+    public val arm: Arm = Arm
     public val autocontroller: AutoController = AutoController
     public val cargoIntake: CargoIntake = CargoIntake
-    //public val drivetrain: Drivetrain = Drivetrain
+    public val drivetrain: Drivetrain = Drivetrain
     public var elevator: Elevator = Elevator
-    public val forklift: Forklift = Forklift
+    //public val forklift: Forklift = Forklift
     public val panelIntake: PanelIntake = PanelIntake
     public val rbrake: RBrake = RBrake
-    //public val wrist: Wrist = Wrist
+    public val wrist: Wrist = Wrist
     public val cameraController: CameraController = CameraController
    
     // Initialize I2C object for the Arduino
@@ -67,14 +67,14 @@ public class Orthus : Robot()
     override fun onCreate()
     {
         
-        //arm.onCreate()
+        arm.onCreate()
         cargoIntake.onCreate()
-        //drivetrain.onCreate()
+        drivetrain.onCreate()
         elevator.onCreate()
-        forklift.onCreate()
+        //forklift.onCreate()
         panelIntake.onCreate()
-        //rbrake.onCreate()
-        //wrist.onCreate()
+        rbrake.onCreate()
+        wrist.onCreate()
 
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
@@ -86,24 +86,18 @@ public class Orthus : Robot()
     // Runs periodically when the robot is disabled; WPILib disabledPeriodic() equivalent
     override fun executeDisabled()
     {
-        //drivetrain.unlockAngle()
+        drivetrain.unlockAngle()
         compressor.setClosedLoopControl(false)
         //elevator.clearTalons()
-<<<<<<< HEAD
         elevator.ResetEncoders()
-        elevator.setElevatorStateNull()
-=======
-        //elevator.ResetEncoders()
-        //elevator.setElevatorTargetNull()
-        ResetElevatorSensor()
->>>>>>> dev
+        //elevator.setElevatorStateNull()
         // any dashboard data populatin here too
     }
 
     // Runs on autonomous(sandstorm) initialization; WPILib autonomousInit() equivalent
     override fun onAutoStart()
     {
-        ///drivetrain.onCreate()
+        drivetrain.onCreate()
         autocontroller.onCreate()
         elevator.onCreate()
         
@@ -119,17 +113,12 @@ public class Orthus : Robot()
     // Runs on teleop initialization; WPILib teleopInit() equivalent
     override fun onStart()
     {
-        //drivetrain.onCreate()
+        drivetrain.onCreate()
         elevator.onCreate()
         elevator.ResetEncoders()
         compressor.setClosedLoopControl(true)
-        //ResetForkliftSensor()
-        //frc.robot.commands.Drive.ResetGyro()
-        //frc.robot.commands.Drive.ResetEncoders()
-        // reset elevator encoders
-        // any other starting configurations
-        // nullcheck auto command and cancel it since telop is starting; this can eventually be replaced with smoother transition optimization to allow for a few seconds longer in auto control to allow for the sandstorm barrier to be fully up before drivers take control
     }
+     
 
     // Runs periodically during teleop; WPILib teleopPeriodic() equivalent
     override fun executeTeleop()

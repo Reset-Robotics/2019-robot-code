@@ -9,10 +9,7 @@ class Deploy(param: String = "Null"): Command()
 {
 	var localParam = param
 	
-	init 
-	{
-		requires(RBrake)
-	}
+	
 
 	override fun execute(): Boolean
     {

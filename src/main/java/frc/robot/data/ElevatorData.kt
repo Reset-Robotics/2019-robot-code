@@ -29,11 +29,7 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var middlePanelPos = MMData("MiddlePanel", -26000.0) // temp
     val bottomHeight = MMData("Bottom", -2000.0)
     var bottomCargoPos = MMData("BotomCargo", -3000.0) // temp
-<<<<<<< HEAD
-    var bottomPanelPos = MMData("BottomPanel", -12000.0) // temp
-=======
     var bottomPanelPos = MMData("BottomPanel", -8000.0) // temp
->>>>>>> dev
     var cargoshipCargo = MMData("CargoshipCargo", 0.0) // temp
 
     // PID
@@ -46,11 +42,7 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     var kGainskD: Double = 0.05
     var pidP: Double = 0.006
     var pidI: Double = 0.0
-<<<<<<< HEAD
     var pidD: Double = 0.010
-=======
-    var pidD: Double = 0.05
->>>>>>> dev
     var pidF: Double = 0.38
 
     // Encoders
@@ -61,4 +53,13 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     // Misc
     var elevatorState: String = "Bottom"
     var allowableLevelError: Double = 20.0
+
+    val leftTopSwitchPort: Int = 7
+    val rightTopSwitchPort: Int = 8
+    val leftBottomSwitchPort: Int = 6
+    val rightBottomSwitchPort: Int = 9
+    val PWMCutoff : Int = 10
+
+
+    //LimitSwitchPorts
 }
