@@ -60,7 +60,10 @@ public class OI
         rightTrigger = xboxController.getTriggerAxis(GenericHID.Hand.kRight) // 3
         //Panel Intake
         if (xboxController.getBumperPressed(GenericHID.Hand.kRight))
-           Deploy()
+        {
+            TogglePiston()
+        }
+       
 
         // Encoder Positions for normal Cargo/Panels 
         joystickRight.whenActive(11, ScoreLevel1Cargo()) 
