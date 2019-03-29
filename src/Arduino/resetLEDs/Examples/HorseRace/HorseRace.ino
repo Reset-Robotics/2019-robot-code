@@ -7,7 +7,6 @@
 
 void setup() {
 }
-  resetLEDs exampleStrip(12);
 
 void loop() {
   // Decleration of colors
