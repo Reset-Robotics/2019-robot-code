@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput
 public data class ElevatorData(val polybiusIsDead: Boolean = true)
 {
     // Deadzones
-    val deadzone: Double = 0.25
+    val deadzone: Double = 0.1
     
     // Motors
     val leftMotor: Int = 16

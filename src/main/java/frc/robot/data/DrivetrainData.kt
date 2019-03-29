@@ -4,7 +4,7 @@ package frc.robot.data
 public data class DrivetrainData(val paramDeadzone: Double = 0.1)
 {
     // Deadzones
-    val deadzone: Double = 0.3
+    val deadzone: Double = 0.23
     
     // Motors
     val motorFrontLeft: Int = 10
