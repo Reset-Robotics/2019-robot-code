@@ -9,6 +9,9 @@ import frc.robot.data.ArmData
 public class ArmJoystick: Command()
 {
     var armData: ArmData = ArmData()
+    var yDirection: Double = 0.0
+    var throttle: Double = 1.0
+
 
 
     // Make sure we require any necessary objects/classes
@@ -21,8 +24,8 @@ public class ArmJoystick: Command()
     // Run all our code here
     override fun execute(): Boolean
     {   
-       // var throttle: Double = ((OI().joystickRight.getThrottle()*-1)+1)/2             
-        var yDirection: Double = -OI().xboxController.getRawAxis(1)
+        throttle= ((OI().joystickRight.getThrottle()*-1)+1)/2             
+        yDirection = -OI().xboxController.getRawAxis(1)
 
         if (Math.abs(yDirection) < .25) yDirection = 0.0
 

@@ -21,8 +21,8 @@ public class RBrakeSlave : Command()
     {
         // implement throttle slider
                 
-        var yDirection: Double = OI().joystickRight.getY()
-        var xDirection: Double = OI().joystickRight.getX()
+        var yDirection: Double = OI().joystickLeft.getY()
+        var xDirection: Double = OI().joystickLeft.getX()
         
         var throttle: Double = 1.0 // replace with slider throttle later
 
