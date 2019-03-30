@@ -23,7 +23,7 @@ class resetLEDs5 {
     void setStrip(grbw Color, double brightnessModifier = 1);
     void holdAndClear(uint16_t on_time, uint16_t off_time);
 
-	void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main, grbw Background);
+	void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t groups, uint8_t distance, grbw Main, grbw Background);
     void color_chase(uint8_t Wait, uint8_t Legnth, uint8_t offsets[], grbw Main);
 
   	void color_bounce(uint8_t Wait, uint8_t Legnth, grbw Main, grbw Background);
