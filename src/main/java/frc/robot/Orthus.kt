@@ -76,6 +76,7 @@ public class Orthus : Robot()
         rbrake.onCreate()
         wrist.onCreate()
 
+        cameraController.onCreate()
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
    
