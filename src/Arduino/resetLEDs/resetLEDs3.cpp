@@ -65,17 +65,19 @@ void resetLEDs3::holdAndClear(uint16_t on_time, uint16_t off_time) {
 }
 
 // Four Colored LEDs running up the LED strip in a color of your choice.
-void resetLEDs3::color_chase(uint8_t wait, uint8_t len, uint8_t offsets[], grbw main, grbw background) {
-  setStrip(background); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
+void resetLEDs3::color_chase(uint8_t wait, uint8_t len, uint8_t groups, uint8_t distance, grbw main, grbw Background) {
+  setStrip(Background); // uses the setStrip method we defined earlier in the code to set the whole LED strip to a background color stored in the variable 'background'
   LEDStrip3.sendPixels(_numPixels3, pixels3); // sends the setStrip method to the LEDs setting all the LEDs in the strip to the defined background color.
   // Itterates through all LEDs in the strip by comparing against the _numPixels3 constant and set an offset pixel (or pixels3 in this case) to the main color.
-  for (int led_number = -len; led_number < _numPixels3 + len - 1; led_number++) {
+  for (int led_number = -len - groups * distance; led_number < _numPixels3 + len - 1; led_number++) {
     for (int spot = 0; spot < len; spot++) {
-      setPixel(offsets[0] + led_number + spot, main);
-      setPixel(offsets[1] + led_number + spot, main);
+      for(int group = 0; group < groups * distance; group += distance){
+        setPixel(group + led_number + spot, main);
+      }
     }
-    setPixel(offsets[0] + led_number, background);
-    setPixel(offsets[1] + led_number, background);
+    for(int group = groups * distance; group >= 0; group -= distance) {
+      setPixel(group + led_number, Background);
+    }
     LEDStrip3.sendPixels(_numPixels3, pixels3);
     delay(wait);
   }
