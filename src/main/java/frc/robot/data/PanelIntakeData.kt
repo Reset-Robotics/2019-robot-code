@@ -1,4 +1,6 @@
+// Reset Robotics 2019
 package frc.robot.data
+
 
 public class PanelIntakeData(var ResetRoboticsIsTheBest: Boolean = true)
 {

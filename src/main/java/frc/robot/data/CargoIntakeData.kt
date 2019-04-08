@@ -1,4 +1,6 @@
+// Reset Robotics 2019
 package frc.robot.data
+
 
 public data class CargoIntakeData (val areWe254Yet: Boolean = false)
 {

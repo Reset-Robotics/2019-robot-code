@@ -1,5 +1,9 @@
+// Reset Robotics 2019
 package frc.robot.data
+
+// Libraries
 import edu.wpi.first.wpilibj.DigitalInput
+
 
 public data class ElevatorData(val polybiusIsDead: Boolean = true)
 {
@@ -59,7 +63,4 @@ public data class ElevatorData(val polybiusIsDead: Boolean = true)
     val leftBottomSwitchPort: Int = 6
     val rightBottomSwitchPort: Int = 9
     val PWMCutoff : Int = 10
-
-
-    //LimitSwitchPorts
 }
