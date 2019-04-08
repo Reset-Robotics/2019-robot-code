@@ -1,6 +1,9 @@
+// Reset Robotics 2019
 package frc.robot.commands.PanelIntake
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.PanelIntake
 
 

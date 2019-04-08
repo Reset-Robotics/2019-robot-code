@@ -1,15 +1,18 @@
+// Reset Robotics 2019
 package frc.robot.commands.Forklift
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.Forklift
+
 
 public class ResetForkliftSensor: Command()
 {
-    // resets all the sensors to do with the Forklist subsystem
     override fun execute(): Boolean
     {
-        Forklift.ResetEncoders() //reseting both motor encoders on the forklift to have the same "zeroed" state
-        //will reset gyro when gyro code is installed
+        Forklift.ResetEncoders()
+
         return true;
     }
 }

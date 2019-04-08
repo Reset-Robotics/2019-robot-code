@@ -1,6 +1,9 @@
+// Reset Robotics 2019
 package frc.robot.commands.Drive.Auto
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.Drivetrain
 
 
@@ -15,10 +18,7 @@ public class DriveByTime(xDir: Double, yDir: Double, angle: Double, throttleVal:
     var throttle: Double = throttleVal
 
 
-    init 
-    {
-        requires(Drivetrain)
-    }
+    init { requires(Drivetrain) } // Make sure we require the Drivetrain subsystem
 
     override fun onCreate() { startTime = System.currentTimeMillis() }
 

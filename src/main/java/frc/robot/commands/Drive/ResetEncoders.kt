@@ -1,18 +1,22 @@
+// Reset Robotics 2019
 package frc.robot.commands.Drive
 
+// Libraries
 import org.sertain.command.Command
-import frc.robot.Orthus
+// Subsystems
 import frc.robot.subsystems.Drivetrain
+// Robot Class
+import frc.robot.Orthus
 
 
 public class ResetEncoders : Command()
 {
-	public fun ResetEncoders() = requires(Drivetrain)
+	init { requires(Drivetrain) } // Make sure we require the Drivetrain subsystem
 
-	// Called just before this Command runs the first time
 	override fun execute(): Boolean
 	{
 		Drivetrain.resetEncoders()
+		
 		return true;
 	}
 }

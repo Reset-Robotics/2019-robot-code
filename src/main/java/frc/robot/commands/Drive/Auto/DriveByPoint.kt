@@ -1,19 +1,24 @@
+// Reset Robotics 2019
 package frc.robot.Drive.Auto
 
+// Libraries
 import org.sertain.command.Command
-import frc.robot.subsystems.Drivetrain
 import edu.wpi.first.wpilibj.PIDController
+// Subsystems
+import frc.robot.subsystems.Drivetrain
+// Miscellaneous Imports
 import frc.robot.Util.PIDSourceX
 import frc.robot.Util.PIDSourceY
 import frc.robot.Util.PIDWriteX
 import frc.robot.Util.PIDWriteY
 
+
 public class DriveByPoint(yLocation: Double , xLocation: Double) : Command()
 {
-    //localizing target locatin
-    val localXLocation: Double = xLocation*2//multpilied by two as the mecanumn drive train is less effecitive in this direction (probably)
+    // Localizing target location parameters
+    val localXLocation: Double = xLocation*2 // Multiplied by two as a rough correction for strafing taking nearly twice as much effort as normal movement
     val localYLocation: Double = yLocation
-    //needs tuning
+    // PID values; Needs tuning
     val pidValPX: Double = 0.006
     val pidValIX: Double = 0.0
     val pidValDX: Double = 0.0
@@ -22,52 +27,44 @@ public class DriveByPoint(yLocation: Double , xLocation: Double) : Command()
     val pidValIY: Double = 0.0
     val pidValDY: Double = 0.0
     val pidValFY: Double = 0.0
-    //drivetrain constants
-    val maxVelocity: Double = 4.23 //meters/second therotircal
+    // Drivetrain constants
+    val maxVelocity: Double = 4.23 // Theoretical meters per second; Needs tuning
     val throttle: Double = 1.0
     var distanceControllerX: PIDController = PIDController(pidValPX, pidValIX, pidValDX, pidValFX, PIDSourceX, PIDWriteX)
     var distanceControllerY: PIDController = PIDController(pidValPY, pidValIY, pidValDY, pidValFY, PIDSourceY, PIDWriteY)
         
-    init
-    {
-        requires(Drivetrain)
-    }
+    init { requires(Drivetrain) } // Make sure we require the Drivetrain subsystem
 
     override fun onCreate()
     {
         Drivetrain.resetGyro()
-        //enabling PID Loop
+        // Enabling PID Loop
         distanceControllerX.enable()    
         distanceControllerY.enable() 
-        //setting target location
+        // Setting target location
         distanceControllerX.setSetpoint(localXLocation)  
         distanceControllerY.setSetpoint(localYLocation)  
-        //setting Input Range for PID Controllers
-        distanceControllerX.setInputRange(-maxVelocity , maxVelocity)//may need to be havled 
+        // Setting input range for PID Controllers
+        distanceControllerX.setInputRange(-maxVelocity , maxVelocity) // May need to be havled; Needs tuning
         distanceControllerY.setInputRange(-maxVelocity , maxVelocity)
-        //setting Output Rangs for the PID Controllers
+        // Setting output range for PID Controllers
         distanceControllerX.setOutputRange(-1.0 , 1.0)
         distanceControllerY.setOutputRange(-1.0 , 1.0)
-        //setting the percentage tolerance of PID Loop input to SetPoint
+        // Setting the percentage tolerance of PID Loop input to SetPoint
         distanceControllerX.setAbsoluteTolerance(0.5)
         distanceControllerY.setAbsoluteTolerance(0.5)
-        //setting the PID Loops to be continuous
+        // Setting the PID Loops to be continuous
         distanceControllerX.setContinuous(true)
         distanceControllerY.setContinuous(true)
-
     }
 
     override fun execute(): Boolean
     {
-
         Drivetrain.fieldOrientedDrive(PIDWriteY.getOutput() , PIDWriteX.getOutput(), 0.0, throttle)
         if (distanceControllerX.onTarget() && distanceControllerY.onTarget())
-            return true
-        return false
+            return true;
+        return false;
     }
    
-   override fun onDestroy()
-   {
-       Drivetrain.killMotors()
-   }
+   override fun onDestroy() = Drivetrain.killMotors()
 }

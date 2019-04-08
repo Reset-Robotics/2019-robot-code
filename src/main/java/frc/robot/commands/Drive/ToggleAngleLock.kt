@@ -1,16 +1,18 @@
+// Reset Robotics 2019
 package frc.robot.commands.Drive
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.Drivetrain
 
 
 public class ToggleAngleLock: Command()
 {
-
-	// Called just before this Command runs the first time
 	override fun execute(): Boolean
 	{
 		Drivetrain.lockAngle()
+		
 		return true;
 	}
 }
