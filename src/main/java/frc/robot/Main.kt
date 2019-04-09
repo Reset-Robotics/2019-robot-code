@@ -1,6 +1,9 @@
+// Reset Robotics 2019
 package frc.robot
 
+// Libraries
 import edu.wpi.first.wpilibj.RobotBase
+
 
 /**
   * Main initialization function. Do not perform any initialization here.

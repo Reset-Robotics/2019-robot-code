@@ -1,5 +1,7 @@
+// Reset Robotics 2019
 package frc.robot
 
+// Libraries
 import org.sertain.*
 import org.sertain.command.Command
 import org.sertain.command.and
@@ -9,9 +11,7 @@ import edu.wpi.first.wpilibj.I2C
 import edu.wpi.first.wpilibj.PWM
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-
-
-//Subsystems
+// Subsystems
 import frc.robot.subsystems.Arm
 import frc.robot.subsystems.AutoController
 import frc.robot.subsystems.CargoIntake
@@ -23,13 +23,13 @@ import frc.robot.subsystems.RBrake
 import frc.robot.subsystems.Wrist
 import frc.robot.subsystems.CameraController
 
+// Miscellaneous Imports
 //import frc.robot.commands.Drive.ResetGyro
 //import frc.robot.commands.Forklift.ResetForkliftSensor
 import frc.robot.commands.Drive.Auto.DriveByTime
 import frc.robot.commands.Drive.ToggleFieldOriented
 import frc.robot.commands.RBrake.Deploy
 //import frc.robot.commands.Drive.InertialGuidance
-
 import frc.robot.commands.Elevator.ResetElevatorSensor
 
 
@@ -58,15 +58,12 @@ public class Orthus : Robot()
     // Initialize I2C object for the Arduino
     //public var arduino: I2C = I2C(Port.kOnboard, 63) // put this in a constants file
 
-    // auto command/chooser initilization goes here later?
-
     // OI Initialization
     public var oi: OI = OI()
 
     // Runs on robot initialization; WPILib robotInit() equivalent
     override fun onCreate()
     {
-        
         arm.onCreate()
         cargoIntake.onCreate()
         drivetrain.onCreate()
@@ -80,7 +77,6 @@ public class Orthus : Robot()
     	//camera0.setResolution(320, 240)
         //camera0.setFPS(30)
    
-        
         // put any data to dashboard here
     }
 
@@ -92,6 +88,7 @@ public class Orthus : Robot()
         //elevator.clearTalons()
         elevator.ResetEncoders()
         //elevator.setElevatorStateNull()
+
         // any dashboard data populatin here too
     }
 
@@ -100,15 +97,13 @@ public class Orthus : Robot()
     {
         drivetrain.onCreate()
         autocontroller.onCreate()
-        elevator.onCreate()
-        
+        elevator.onCreate() 
     }
 
     // Runs periodically during autonomous(sandstorm); WPILib autonomousPeriodic() equivalent
     override fun executeAuto()
     {
         // put any dashboard data
-        // something to allow for interruption and transition to 'teleop' either at the end of the sandstorm or as soon as the driver takes control
     }
 
     // Runs on teleop initialization; WPILib teleopInit() equivalent
@@ -128,8 +123,6 @@ public class Orthus : Robot()
         oi.OI()
         //arm.ResetEncoder()
         //wrist.ResetEncoder()
-        //System.err.println(Drivetrain.ultrasonicTest())
-        //System.err.println(Elevator.elevatorState)
 
         // put dashboard data here
     }
