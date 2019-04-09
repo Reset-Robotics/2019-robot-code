@@ -1,3 +1,4 @@
+// Reset Robotics 2019
 #include "FAB_LED.h"
 #include "resetLEDs0.h"
 #include "resetLEDs1.h"
@@ -10,10 +11,10 @@
 #include "Arduino.h"
 //#include <Wire.h>
 
-  
-grbw purple;  grbw reset_purple;  grbw white;  grbw off; uint8_t offsets[] = {0, 10, 20};
 
+grbw purple;  grbw reset_purple;  grbw white;  grbw off; uint8_t offsets[] = {0, 10, 20};
 resetLEDs0 LED_strip(36);
+
 void setup() 
 {
   //Wire.begin(63);
@@ -27,8 +28,6 @@ void setup()
   
   off.r = 0; off.g = 0; off.b = 0; off.w = 0;
 }
-
-
 
 void loop() 
 {
