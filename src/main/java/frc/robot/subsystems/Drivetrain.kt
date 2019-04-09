@@ -1,5 +1,7 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
@@ -10,8 +12,9 @@ import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.PWM
 import edu.wpi.first.wpilibj.DigitalInput
-
+// Robot Class
 import frc.robot.Orthus
+// Miscellaneous Imports
 import frc.robot.data.DrivetrainData
 import frc.robot.commands.Drive.ArcadeJoystickDrive
 import frc.robot.Util.UltrasonicBase
@@ -29,10 +32,10 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // PID values for turning to angles
     var turnRate: Double = driveData.turnRate
-    val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
+    val turnThreshold: Double = 2.0 // How many degrees the robot has to be within for it to stop looking for the required angle
     var driveAngle: Double = driveData.driveAngle
     val wheelCircumference: Double = 18.8495559215
-    val wheelRadius: Double = 0.1524/2   //6 inch mecanum wheel diamter in meters
+    val wheelRadius: Double = 0.1524/2 // 6 inch mecanum wheel diamter in meters
 
     // Misc Variables/Objects
     var deltaT: Long = 0.0.toLong()
@@ -46,7 +49,7 @@ public object Drivetrain : Subsystem(), PIDOutput
     var isAngleLocked: Boolean = false
     var isDriftMode: Boolean = false 
    
-    //deadReckon Values
+    // Dead Reckon Values
     var deadReckonX: Double = 0.0
     var deadReckonY: Double = 0.0
     val rpmToRad: Double = 9.5492965964254
@@ -126,9 +129,8 @@ public object Drivetrain : Subsystem(), PIDOutput
             localXVal = rotatedXVal
         }
         
-        // POTENTIAL ERROR
-        //if(isAngleLocked && !isDriftMode) 
-            //localSpinVal = turnRate
+        if(isAngleLocked && !isDriftMode) 
+            localSpinVal = turnRate
 
         cartesianDrive(localYVal, localXVal, localSpinVal, throttleVal)
     }
@@ -137,7 +139,6 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         var localDriftMode: Boolean = getDriftMode()
 
-        // POTENTIAL ERROR
         val wheels: DoubleArray = doubleArrayOf(((-yVal - xVal + spinVal) * throttleVal), 
         (-((-yVal + xVal + spinVal) * throttleVal)), 
         ((-yVal + xVal - spinVal) * throttleVal), 
@@ -163,7 +164,6 @@ public object Drivetrain : Subsystem(), PIDOutput
         }
         if(!localDriftMode)
         {
-            // POTENTIAL ERROR
             driveFrontLeft.set(wheels[0])
             driveFrontRight.set(-wheels[1])
             driveBackLeft.set(-wheels[2])
@@ -194,6 +194,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         cartesianDrive(yVal, xVal, spin, throttleVal)
     }
     */
+
     fun fieldOrientedDriveAtAngle(yVal: Double, xVal: Double, angle: Double, throttleVal: Double)
     {
 		val gyroAngle: Double = navx.getAngle() * Math.PI / 180 //convert degrees to radians
@@ -236,21 +237,22 @@ public object Drivetrain : Subsystem(), PIDOutput
         driveBackRight.set(0.0)
     }
 
-    fun getFieldOriented(): Boolean { return isFieldOriented; }
+    fun getFieldOriented(): Boolean = return isFieldOriented;
     
     fun toggleFieldOriented(): Boolean
     { 
         isFieldOriented = !isFieldOriented
         resetGyro()
-        //System.err.println(isFieldOriented)
+        
         return isFieldOriented;
     }
 
-    fun getDriftMode(): Boolean { return isDriftMode; }
+    fun getDriftMode(): Boolean = return isDriftMode;
 
     fun toggleDriftMode(): Boolean
     {
         isDriftMode = !isDriftMode
+
         return isDriftMode;
     }
 
@@ -259,9 +261,7 @@ public object Drivetrain : Subsystem(), PIDOutput
         navx.reset()
         navx.zeroYaw()
         if (isAngleLocked)
-        {
             unlockAngle()
-        }
     }
 
     fun resetMotorPositions()
@@ -289,6 +289,7 @@ public object Drivetrain : Subsystem(), PIDOutput
             turnController.setSetpoint(driveAngle)
             isAngleLocked = true
         }
+
         return isAngleLocked;
     }
     
@@ -296,16 +297,17 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
         if (!isAngleLocked)
         {
-        driveAngle = getAngle()
-        turnController.enable()
-        turnController.setSetpoint(driveAngle)
-        isAngleLocked = true
+            driveAngle = getAngle()
+            turnController.enable()
+            turnController.setSetpoint(driveAngle)
+            isAngleLocked = true
         }
         else 
         {
             isAngleLocked = false
             turnController.disable()
         }
+
         return isAngleLocked;
     }
 
@@ -343,25 +345,24 @@ public object Drivetrain : Subsystem(), PIDOutput
     
 
     fun getAngle(): Double { return navx.getAngle() * Math.PI / 180; } 
-    fun getEncoderRawFrontLeft(): Int { return driveFrontLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawFrontRight(): Int { return driveFrontRight.getSelectedSensorPosition(0); }
-    fun getEncoderRawBackLeft(): Int { return driveBackLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawBackRight(): Int { return driveBackRight.getSelectedSensorPosition(0); }
-    fun getEncoderVelocityFrontLeft(): Int { return driveFrontLeft.getSelectedSensorVelocity(0); }
-    fun getEncoderVelocityFrontRight(): Int { return driveFrontRight.getSelectedSensorVelocity(0); }
-    fun getEncoderVelocityBackLeft(): Int { return driveBackLeft.getSelectedSensorVelocity(0); }
-    fun getEncoderVelocityBackRight(): Int { return driveBackRight.getSelectedSensorVelocity(0); }
+    fun getEncoderRawFrontLeft(): Int = return driveFrontLeft.getSelectedSensorPosition(0);
+    fun getEncoderRawFrontRight(): Int = return driveFrontRight.getSelectedSensorPosition(0);
+    fun getEncoderRawBackLeft(): Int = return driveBackLeft.getSelectedSensorPosition(0);
+    fun getEncoderRawBackRight(): Int = return driveBackRight.getSelectedSensorPosition(0);
+    fun getEncoderVelocityFrontLeft(): Int = return driveFrontLeft.getSelectedSensorVelocity(0);
+    fun getEncoderVelocityFrontRight(): Int = return driveFrontRight.getSelectedSensorVelocity(0);
+    fun getEncoderVelocityBackLeft(): Int = return driveBackLeft.getSelectedSensorVelocity(0);
+    fun getEncoderVelocityBackRight(): Int = return driveBackRight.getSelectedSensorVelocity(0);
     //fun getEncoderVelocityFrontLeftRad(): Double { return (driveFrontLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
     //fun getEncoderVelocityFrontRightRad(): Double { return (driveFrontRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
     //fun getEncoderVelocityBackLeftRad(): Double { return (driveBackLeft.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
     //fun getEncoderVelocityBackRightRad(): Double { return (driveBackRight.getSelectedSensorVelocity(0)).toDouble / rpmToRad; }
 
-    fun getSpeedFrontLeft(): Double { return driveFrontLeft.get(); }
-    fun getSpeedFrontRight(): Double { return driveFrontRight.get(); }
-    fun getSpeedBackLeft(): Double { return driveBackLeft.get(); }
-    fun getSpeedBackRight(): Double { return driveBackRight.get(); }
-
-
+    fun getSpeedFrontLeft(): Double = return driveFrontLeft.get();
+    fun getSpeedFrontRight(): Double = return driveFrontRight.get();
+    fun getSpeedBackLeft(): Double = return driveBackLeft.get();
+    fun getSpeedBackRight(): Double = return driveBackRight.get();
+    
 
     override fun pidWrite(output: Double){ turnRate = output }
 

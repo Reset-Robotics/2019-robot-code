@@ -1,8 +1,12 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import edu.wpi.first.wpilibj.I2C
+// Robot Class
 import frc.robot.Orthus
+
 
 public object LEDController : Subsystem() 
 {
@@ -17,6 +21,7 @@ public object LEDController : Subsystem()
   fun sendToArduino(pattern: String)
   {
     var patternAddress: Int = 0
+    
     when(pattern)
     {
       "Default" -> patternAddress = defaultPattern.address

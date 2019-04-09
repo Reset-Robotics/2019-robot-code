@@ -1,8 +1,11 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
+// Miscellaneous Imports
 import frc.robot.data.CargoIntakeData
 import frc.robot.commands.CargoIntake.SpinIntake
 
@@ -15,7 +18,8 @@ public object CargoIntake : Subsystem()
 
     override fun onCreate()
     {
-        /* 
+        /* Currently commented out since the robot is using a Victor where it was originally planned to use a TalonSRX
+
         this.intakeMotor.configContinuousCurrentLimit(40,0) // desired current after limit
 		this.intakeMotor.configPeakCurrentLimit(35, 0) // max current
 		this.intakeMotor.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
@@ -33,7 +37,7 @@ public object CargoIntake : Subsystem()
         intakeMotor.set(localSpin)
     }
 
-    fun isAutoStopEnabled():Boolean { return autoStopEnabled; }
+    fun isAutoStopEnabled():Boolean = return autoStopEnabled;
     
     fun toggleAutoStop():Boolean
     {

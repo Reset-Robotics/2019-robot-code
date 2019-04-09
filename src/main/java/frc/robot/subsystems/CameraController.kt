@@ -1,5 +1,7 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import org.sertain.RobotLifecycle
 import edu.wpi.cscore.UsbCamera;
@@ -28,9 +30,9 @@ object CameraController : RobotLifecycle
             else -> {
                 var camera0 = CameraServer.getInstance().startAutomaticCapture("ElevatorPOV", 0)
             }
-    }
+        }
 
-    fun setStream(stream: String){ selectedStream = stream }
-    fun getStream(): String { return selectedStream; }
+        fun setStream(stream: String){ selectedStream = stream }
+        fun getStream(): String = return selectedStream;
     }
 }

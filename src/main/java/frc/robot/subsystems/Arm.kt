@@ -1,13 +1,16 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+import edu.wpi.first.wpilibj.PIDController
+// Miscellaneous Imports
 import frc.robot.data.ArmData
 import frc.robot.commands.Arm.ArmJoystick
-import edu.wpi.first.wpilibj.PIDController
 
 
 public object Arm : Subsystem()
@@ -19,7 +22,7 @@ public object Arm : Subsystem()
     //PID Loop
     //var turnController: PIDController = PIDController(armData.pidP, armData.pidI, armData.pidD, armData.pidF, ArmPidSource , ArmPidWrite , 0.05)
 
-    //MotionMagic
+    // Motion Magic
     var armTargetPosistionJoystick: Double = 0.0
     override fun onCreate()
     {
@@ -56,13 +59,11 @@ public object Arm : Subsystem()
     fun ResetEncoder()
     {
          armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) 
-    //armMotor.set(ControlMode.MotionMagic, 0.0)
+        //armMotor.set(ControlMode.MotionMagic, 0.0)
     }
 
     fun Arm()
     {
-        //current limiting
-        
     }
 
     fun move(speed: Double)
@@ -73,11 +74,11 @@ public object Arm : Subsystem()
             armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
         }
         else
-        armMotor.set(ControlMode.PercentOutput, speed) 
+            armMotor.set(ControlMode.PercentOutput, speed) 
     }
-    fun killMotors(){ armMotor.set(0.0) }
+    fun killMotors() = armMotor.set(0.0)
 
-    //elevator Motion Magic
+    // Arm Motion Magic
     fun armMotionMagic (newArmState: String)
     {
         var targetPos = newArmState
@@ -107,10 +108,10 @@ public object Arm : Subsystem()
     }
 
     // Returning the state the arm is in 
-    fun returnArmState(): String { return armData.armState; }
+    fun returnArmState(): String = return armData.armState;
 
     // Functions for getting encoder values
-    fun getEncoderRawArm(): Double { return armMotor.getSelectedSensorPosition(0).toDouble(); }
+    fun getEncoderRawArm(): Double = return armMotor.getSelectedSensorPosition(0).toDouble();
 
     override val defaultCommand = ArmJoystick()
 }

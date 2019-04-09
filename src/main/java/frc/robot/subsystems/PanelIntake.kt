@@ -1,12 +1,15 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
-//import frc.robot.IDs
+// Miscellaneous Imports
 import frc.robot.data.PanelIntakeData
+
 
 public object PanelIntake: Subsystem()
 {
@@ -14,8 +17,9 @@ public object PanelIntake: Subsystem()
      var solenoidTop: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodTopInPort, panelIntakeData.soleniodTopOutPort)
      //var solenoidBottom: DoubleSolenoid = DoubleSolenoid(panelIntakeData.soleniodBottomInPort, panelIntakeData.soleniodBottomOutPort)
      
-     
-     fun panelIntake() { }
+     fun panelIntake()
+     { 
+     }
     
      fun deployIn()
      { 
@@ -44,5 +48,5 @@ public object PanelIntake: Subsystem()
           }
      }
 
-    fun getRBrakeStatus(): Boolean { return panelIntakeData.isDeployed; }
+    fun getRBrakeStatus(): Boolean = return panelIntakeData.isDeployed;
 }

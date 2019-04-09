@@ -1,27 +1,30 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+import edu.wpi.first.wpilibj.PIDController
+// Miscellaneous Imports
 import frc.robot.commands.Wrist.WristJoystick
 import frc.robot.data.WristData
-import edu.wpi.first.wpilibj.PIDController
+
 
 public object Wrist : Subsystem()
 {
     var wristData: WristData = WristData()
-    val wristMotor: WPI_TalonSRX = WPI_TalonSRX(wristData.motor) //temp    
+    val wristMotor: WPI_TalonSRX = WPI_TalonSRX(wristData.motor)    
     //var isHoldPosistion : Boolean = false
 
-    //PID LOOP
+    //PID Loop
     //var turnController: PIDController = PIDController(albanyTestFile.pidPWrist, albanyTestFile.pidIWrist, albanyTestFile.pidDWrist, albanyTestFile.pidFWrist, WristPidSource , WristPidWrite, 0.05)
 
-    //MotionMagic Joystick 
+    // Motion Magic Joystick 
 
     var joystickTarget = 0.0
-
 
     override fun onCreate()
     {
@@ -36,7 +39,7 @@ public object Wrist : Subsystem()
 		 */
         wristMotor.setSensorPhase(true)
         wristMotor.setInverted(false)
-        /* Set relevant frame periods to be at least as fast as periodic rate */
+        // Set relevant frame periods to be at least as fast as periodic rate
 		wristMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, wristData.kTimeoutMs);
 	    wristMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, wristData.kTimeoutMs);
         // Set the peak and nominal voltage outputs- requires adjustment
@@ -44,7 +47,7 @@ public object Wrist : Subsystem()
 		wristMotor.configNominalOutputReverse(0.0, wristData.kTimeoutMs);
 		wristMotor.configPeakOutputForward(1.0, wristData.kTimeoutMs);
 		wristMotor.configPeakOutputReverse(-1.0, wristData.kTimeoutMs);
-        /* Set Motion Magic gains in slot kSlotIdx */
+        // Set Motion Magic gains in slot kSlotIdx
 		wristMotor.selectProfileSlot(wristData.leftKSlotIdx, wristData.kPIDLoopIdx);
 		wristMotor.config_kF(wristData.leftKSlotIdx, wristData.kGainskF, wristData.kTimeoutMs);
 		wristMotor.config_kP(wristData.leftKSlotIdx, wristData.kGainskP, wristData.kTimeoutMs);
@@ -52,21 +55,19 @@ public object Wrist : Subsystem()
 		wristMotor.config_kD(wristData.leftKSlotIdx, wristData.kGainskD, wristData.kTimeoutMs);
         wristMotor.configMotionCruiseVelocity(wristData.cruiseVelocity)
         wristMotor.configMotionAcceleration(wristData.acceleration)
-        //current limiting
-        wristMotor.configContinuousCurrentLimit(10,0) // desired current after limit
-        wristMotor.configPeakCurrentLimit(15,0)//max current
-        wristMotor.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        // Current Limiting
+        wristMotor.configContinuousCurrentLimit(10,0) // Desired current after limit
+        wristMotor.configPeakCurrentLimit(15,0)// Max current
+        wristMotor.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         wristMotor.enableCurrentLimit(true) 
-        
         
         ResetEncoder()
     }
 
-    fun ResetEncoder(){ wristMotor.setSelectedSensorPosition(0, wristData.kPIDLoopIdx, wristData.kTimeoutMs) }
+    fun ResetEncoder() = wristMotor.setSelectedSensorPosition(0, wristData.kPIDLoopIdx, wristData.kTimeoutMs)
 
     fun Wrist()
     {
-        
     }
 
     fun move(speed: Double)
@@ -77,17 +78,16 @@ public object Wrist : Subsystem()
             wristMotor.set(ControlMode.MotionMagic, joystickTarget)
         }
         else
-        {
             wristMotor.set(ControlMode.PercentOutput, speed) 
-        }
     }
 
-    fun killMotors(){ wristMotor.set(0.0) }
+    fun killMotors() = wristMotor.set(0.0)
 
-    //elevator Motion Magic
+    // Wrist Motion Magic
     fun wristMotionMagic (newWristState: String)
     {
         var targetPos = newWristState
+
         when(targetPos)
         {
             "TopPanel" -> {
@@ -126,10 +126,10 @@ public object Wrist : Subsystem()
     }
 
     // Returning the state the arm is in 
-    fun returnWristState(): String { return wristData.wristState; }
+    fun returnWristState(): String = return wristData.wristState;
 
     // Functions for getting encoder values
-    fun getEncoderRawWrist(): Double { return (wristMotor.getSelectedSensorPosition(0)).toDouble(); }
+    fun getEncoderRawWrist(): Double = return (wristMotor.getSelectedSensorPosition(0)).toDouble();
 
     /* 
     fun brake(): Boolean
@@ -149,6 +149,5 @@ public object Wrist : Subsystem()
     }
     */
     
-
     override val defaultCommand = WristJoystick()
 }

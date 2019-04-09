@@ -1,5 +1,7 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
@@ -9,7 +11,7 @@ import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.PIDController
 import edu.wpi.first.wpilibj.PWM
-
+// Miscellaneous Imports
 import frc.robot.data.ElevatorData
 import frc.robot.commands.Elevator.ElevatorJoystick
 
@@ -17,34 +19,31 @@ import frc.robot.commands.Elevator.ElevatorJoystick
 public object Elevator : Subsystem()
  {
     val elevatorData: ElevatorData = ElevatorData()
-    //PID LOOP
+    // PID Loop
     //var turnController: PIDController = PIDController(elevatorData.pidP, elevatorData.pidI, elevatorData.pidD, elevatorData.pidF, ElevatorPidSource , ElevatorPidWrite , 0.05)
     
-    
-    //importing ids
     val elevatorLeft: WPI_TalonSRX = WPI_TalonSRX(elevatorData.leftMotor)  
     val elevatorRight: WPI_TalonSRX = WPI_TalonSRX(elevatorData.rightMotor)
 
-    //limitSwtiches
-
+    // Limit Switches
     var rightTopSwitch: PWM = PWM(elevatorData.rightTopSwitchPort)
     var leftTopSwitch: PWM = PWM(elevatorData.leftTopSwitchPort)
     var rightBottomSwitch: PWM = PWM(elevatorData.leftBottomSwitchPort)
     var leftBottomSwitch: PWM = PWM(elevatorData.rightBottomSwitchPort)
-    //setting controller deadzone
-    val deadzone: Double = 0.1
+    // Controller deadzone
+    val deadzone: Double = elevatorData.deadzone
 
-    // setting default command
+    // Setting default command
     override val defaultCommand = ElevatorJoystick()
 
-    //configuring motion magic
+    // Configuring motion magic
     val cruiseVelocity = elevatorData.cruiseVelocity.data.toInt()
     val acceleration = elevatorData.acceleration.data.toInt()
 
     var leftTarget: Double = 0.0
     var rightTarget: Double = 0.0
 
-    //configuring PID Loop for motion magic to do- move to IDS
+    // Configuring PID Loop for motion magic
     val kPIDLoopIdx: Int = 0
     val kTimeoutMs: Int = 0
     val rightKSlotIdx: Int = 0
@@ -57,19 +56,20 @@ public object Elevator : Subsystem()
     //var elevatorState: Boolean = true //elevator starts in down position
     var elevatorState: String = " "
 
-    //setting allowable leveling limit on the elevator
+    // Setting allowable leveling limit on the elevator
     var allowableLevelError: Double = 20.0
+
     override fun onCreate()
     {
-        //setting up talons to ensure no unexpected behavior
+        // Setting up talons to ensure no unexpected behavior
         elevatorLeft.configFactoryDefault()
         elevatorRight.configFactoryDefault()
         
-        //set up for encoders
+        // Set up for encoders
         elevatorLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs)
         elevatorRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kPIDLoopIdx, kTimeoutMs)
 
-        //sets Talons to hold posistion when pow = 0
+        // Sets Talons to hold posistion when pow = 0
         elevatorLeft.setNeutralMode(NeutralMode.Brake)
         elevatorRight.setNeutralMode(NeutralMode.Brake)
         /*
@@ -81,7 +81,7 @@ public object Elevator : Subsystem()
         elevatorRight.setSensorPhase(false)
         elevatorLeft.setInverted(false)
         elevatorRight.setInverted(true)
-        /* Set relevant frame periods to be at least as fast as periodic rate */
+        // Set relevant frame periods to be at least as fast as periodic rate
 		elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, kPIDLoopIdx, kTimeoutMs);
 	    elevatorLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, kPIDLoopIdx, kTimeoutMs);
 		elevatorRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, kPIDLoopIdx, kTimeoutMs);
@@ -96,17 +96,17 @@ public object Elevator : Subsystem()
 		elevatorLeft.configPeakOutputForward(12.0, kTimeoutMs);
 		elevatorLeft.configPeakOutputReverse(-12.0, kTimeoutMs);
 
-        // current limiting
-        elevatorLeft.configContinuousCurrentLimit(30,0) // desired current after limit
-        elevatorLeft.configPeakCurrentLimit(35,0)//max current
-        elevatorLeft.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        // Current Limiting
+        elevatorLeft.configContinuousCurrentLimit(30,0) // Desired current after limit
+        elevatorLeft.configPeakCurrentLimit(35,0)// Max current
+        elevatorLeft.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         elevatorLeft.enableCurrentLimit(true) 
-        elevatorRight.configContinuousCurrentLimit(30,0) // desired current after limit
-        elevatorRight.configPeakCurrentLimit(35,0)//max current
-        elevatorRight.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
+        elevatorRight.configContinuousCurrentLimit(30,0) // Desired current after limit
+        elevatorRight.configPeakCurrentLimit(35,0)// Max current
+        elevatorRight.configPeakCurrentDuration(100,0)  // How long after max current to be limited (ms)
         elevatorRight.enableCurrentLimit(true)  
 
-        /* Set Motion Magic gains in slot kSlotIdx */
+        // Set Motion Magic gains in slot kSlotIdx
 		elevatorRight.selectProfileSlot(kPIDLoopIdx, kPIDLoopIdx);
 		elevatorRight.config_kF(kPIDLoopIdx, kGainskF, kTimeoutMs);
 		elevatorRight.config_kP(kPIDLoopIdx, kGainskP, kTimeoutMs);
@@ -122,17 +122,14 @@ public object Elevator : Subsystem()
         elevatorRight.configMotionAcceleration(acceleration)
         elevatorLeft.configMotionAcceleration(acceleration)
 
-        //limit switches
+        // Limit switches
         elevatorLeft.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,1 ) 
         elevatorRight.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,1 ) 
-        
         elevatorLeft.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
         elevatorRight.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0 ) 
         
-
         //elevatorLeft.clearPositionOnLimitR()
         //elevatorRight.clearPositionOnLimitR()
-
 
         ResetEncoders()
     }
@@ -149,77 +146,53 @@ public object Elevator : Subsystem()
         elevatorLeft.configMotionAcceleration(0)
         elevatorLeft.set(ControlMode.MotionMagic, 0.0)
         elevatorRight.set(ControlMode.MotionMagic, 0.0)
-
     }
+
     fun elevator()
     {
 
     }
-    //lifting the elevator as a single entity
+
+    // Lifting both sides of the elevator off the same value
     fun lift(speed: Double) 
     {
-        /* 
-        val joystickElevatorDx = 1
+        /*val joystickElevatorDx = 1
       
-            leftTarget = %leftTarget + speedLeft * joystickElevatorDx
-            rightTarget = rightTarget + speedRight * joystickElevatorDx
-            elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
-            elevatorRight.set(ControlMode.MotionMagic, rightTarget)
-            */
-            var localSpeed = speed
-            if(speed>0 && checkBottomSwitches())
-            {
-                localSpeed = 0.0
-            }
-            if(speed<0 && checkTopSwitches())
-            {
-                localSpeed = -0.11
-            }
+        leftTarget = %leftTarget + speedLeft * joystickElevatorDx
+        rightTarget = rightTarget + speedRight * joystickElevatorDx
+        elevatorLeft.set(ControlMode.MotionMagic, leftTarget)
+        elevatorRight.set(ControlMode.MotionMagic, rightTarget)*/
+        var localSpeed = speed
         
+        if(speed > 0 && checkBottomSwitches())
+            localSpeed = 0.0
+        if(speed < 0 && checkTopSwitches())
+            localSpeed = -0.11        
 
-            elevatorLeft.set(ControlMode.PercentOutput, localSpeed)
-            elevatorRight.set(ControlMode.PercentOutput, localSpeed)
-            
-        
+        elevatorLeft.set(ControlMode.PercentOutput, localSpeed)
+        elevatorRight.set(ControlMode.PercentOutput, localSpeed)    
     }
     
-    //joystick input function
-    /*  fun manualLift(inputValue: Double)
-    {
-        lift(inputValue,inputValue)
-    }
-    */
     fun checkBottomSwitches(): Boolean
     {
         if(rightBottomSwitch.getRaw() > elevatorData.PWMCutoff  && leftBottomSwitch.getRaw() > elevatorData.PWMCutoff)
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
     }
+
     fun checkTopSwitches(): Boolean
     {
         if(rightTopSwitch.getRaw() > elevatorData.PWMCutoff && leftTopSwitch.getRaw() > elevatorData.PWMCutoff)
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
     }
-    //checking to see if the elevator is even or not- not yet implemented
-     // checking to see if elevator is moving due to Motion Magic-not implemented yet
+
+    // Checking to see if elevator is moving due to Motion Magic-not implemented yet
+    fun isElevatorInMM ():Boolean = return false;
     
-    fun isElevatorInMM ():Boolean 
-    {
-        return false
-    }
-    
-    //elevator Motion Magic
+    // Elevator Motion Magic
     fun elevatorMM (newElevatorState: String = "Null")
     {
         var targetPos = newElevatorState
@@ -227,9 +200,9 @@ public object Elevator : Subsystem()
         elevatorLeft.configMotionCruiseVelocity(cruiseVelocity)
         elevatorRight.configMotionAcceleration(acceleration)
         elevatorLeft.configMotionAcceleration(acceleration)
+        
         when(targetPos)
         {
-            
             "Top" -> {
                 elevatorLeft.set(ControlMode.MotionMagic, elevatorData.topHeight.data)
                 elevatorRight.set(ControlMode.MotionMagic, elevatorData.topHeight.data)
@@ -284,12 +257,13 @@ public object Elevator : Subsystem()
             else -> return;
         }           
     }
-    fun isElevatorLevel():Boolean
+
+    fun isElevatorLevel(): Boolean
     {
-        if (getElevatorError()>allowableLevelError){
-            return false
-        }
-        return true
+        if (getElevatorError()>allowableLevelError)
+            return false;
+
+        return true;
     }
 
     fun clearTalons()
@@ -299,7 +273,7 @@ public object Elevator : Subsystem()
     }
 
      //returning the state the elevator is in or was in last 
-    fun whatIsElevatorState ():String{return elevatorState}
+    fun whatIsElevatorState (): String = return elevatorState;
 
     fun setElevatorTargetNull() 
     { 
@@ -307,12 +281,12 @@ public object Elevator : Subsystem()
         elevatorState = " "    
     }
 
-    // finding the error in the elevator leveling pos->left is too high neg->right is to high
-    fun getElevatorError():Int{return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition()}
-    //functions for getting encoder values
+    // Finding the error in the elevator leveling pos->left is too high neg->right is to high
+    fun getElevatorError(): Int { return elevatorLeft.getSelectedSensorPosition()-elevatorRight.getSelectedSensorPosition(); }
+    // Functions for getting encoder values
     fun getEncoderRawLeftElevator(): Double { return (elevatorLeft.getSelectedSensorPosition(0)).toDouble(); }
     fun getEncoderRawRightElevator(): Double { return (elevatorRight.getSelectedSensorPosition(0)).toDouble(); }
-    fun getAverageEncoderPosistion(): Double { return ((getEncoderRawLeftElevator()-getEncoderRawLeftElevator())/2.0)}
+    fun getAverageEncoderPosistion(): Double { return ((getEncoderRawLeftElevator()-getEncoderRawLeftElevator())/2.0); }
 
     fun killMotors()
     {

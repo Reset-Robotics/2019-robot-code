@@ -1,10 +1,13 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+// Miscellaneous Imports
 import frc.robot.commands.Forklift.ForkliftJoystick
 import frc.robot.data.ForkliftData
 
@@ -17,14 +20,13 @@ public object Forklift : Subsystem()
 
     fun Forklift()
     {
-        //set Talon Mode
+        // Set Talon Mode
         forkliftLeft.setNeutralMode(NeutralMode.Brake)
         forkliftRight.setNeutralMode(NeutralMode.Brake)
     }
 
     override fun onCreate()
     {
-        
         // Setting up talons to ensure no unexpected behavior
         this.forkliftLeft.configFactoryDefault()
         this.forkliftRight.configFactoryDefault()
@@ -33,9 +35,7 @@ public object Forklift : Subsystem()
 		 * Configure Talon SRX Output and Sesnor direction accordingly
 		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
 		 * Phase sensor to have positive increment when driving Talon Forward (Green LED)
-		 */
-         
-        
+		 */ 
     }
 
     fun ResetEncoders()
@@ -53,7 +53,7 @@ public object Forklift : Subsystem()
         System.out.print(speed)
     }
 
-    fun manualLift(inputValue: Double) { lift(inputValue) }
+    fun manualLift(inputValue: Double) = lift(inputValue)
 
     fun deployForks()
     {
@@ -75,8 +75,8 @@ public object Forklift : Subsystem()
         }
     }*/
 
-    fun getEncoderRawLeftForklift(): Int { return forkliftLeft.getSelectedSensorPosition(0); }
-    fun getEncoderRawRightForklift(): Int { return forkliftRight.getSelectedSensorPosition(0); }
+    fun getEncoderRawLeftForklift(): Int = return forkliftLeft.getSelectedSensorPosition(0);
+    fun getEncoderRawRightForklift(): Int = return forkliftRight.getSelectedSensorPosition(0);
 
     override val defaultCommand = ForkliftJoystick()
 }
