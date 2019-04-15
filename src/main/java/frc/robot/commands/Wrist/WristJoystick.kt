@@ -1,7 +1,11 @@
+// Reset Robotics 2019
 package frc.robot.commands.Wrist
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.Wrist
+// Miscellaneous Imports
 import frc.robot.OI
 import frc.robot.data.WristData
 
@@ -9,21 +13,18 @@ import frc.robot.data.WristData
 public class WristJoystick : Command()
 {
     val wristData: WristData = WristData()
-    // Make sure we require any necessary objects/classes
-    init 
-    {
-        requires(Wrist)
-    }
 
+    init { requires(Wrist) }
 
-    // Run all our code here
     override fun execute(): Boolean
-    {              
-        var yDirection: Double = OI().xboxJoystickRight.getY()
+    {   
+        var throttle: Double = (((OI().joystickRight.getThrottle()*-1)+1)/2)
+        var yDirection: Double = OI().xboxController.getRawAxis(5)
 
-        if (Math.abs(yDirection) < wristData.deadzone) yDirection = 0.0
-
-        Wrist.move(yDirection)
+        if (Math.abs(yDirection) < wristData.deadzone) 
+            yDirection = 0.0
+        else 
+            Wrist.move(yDirection*throttle)
 
         return false;
     }

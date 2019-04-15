@@ -1,14 +1,18 @@
+// Reset Robotics 2019
 package frc.robot.commands.Drive
 
+// Libraries
 import org.sertain.command.Command
-import frc.robot.subsystems.Drivetrain
-import frc.robot.OI
 import edu.wpi.first.wpilibj.PIDController
 import edu.wpi.first.wpilibj.PIDOutput
+// Subsystems
+import frc.robot.subsystems.Drivetrain
+// Miscellaneous Imports
+import frc.robot.OI
 import frc.robot.Util.PIDSourceX
 import frc.robot.Util.PIDWriteX
 
-//public object distanceControllerX : PIDController(0.006, 0.0, 0.0, Drivetrain.navx, distanceControllerX, 0.50)
+
 public object distanceController
 {
     val pidValP: Double = 0.006

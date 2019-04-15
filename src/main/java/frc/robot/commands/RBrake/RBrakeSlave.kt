@@ -1,7 +1,11 @@
+// Reset Robotics 2019
 package frc.robot.commands.RBrake
 
+// Libraries
 import org.sertain.command.Command
+// Subsystems
 import frc.robot.subsystems.RBrake
+// Miscellaneous Imports
 import frc.robot.OI
 import frc.robot.data.RBrakeData
 
@@ -10,35 +14,30 @@ public class RBrakeSlave : Command()
 {
     var rBrakeData: RBrakeData = RBrakeData()
     
-    init 
-    {
-        requires(RBrake)
-    }
+    init { requires(RBrake) }
 
-
-    // run all our code here
     override fun execute(): Boolean
     {
-        // implement throttle slider
+        // TODO: implement throttle slider
                 
-        var yDirection: Double = OI().joystickRight.getY()
+        var yDirection: Double = OI().joystickLeft.getY()
+        var xDirection: Double = OI().joystickLeft.getX()
         
-        var throttle: Double = 1.0 // replace with slider throttle later
+        var throttle: Double = 1.0 // Replace with slider throttle later
 
         if (Math.abs(yDirection) < rBrakeData.deadzone)
-            {
-                yDirection = 0.0;
-            }
-        RBrake.driveRBrake(yDirection)
-       /*  if(!RBrake.isLimitSwitchTriggered())
+            yDirection = 0.0;
+
+        if (Math.abs(xDirection) > 0.1)
         {
             RBrake.killMotors()
+            RBrake.deployIn()
         }
-        */
-        return false;
-        
-    }
 
+        RBrake.driveRBrake(yDirection)
+
+        return false;
+    }
 
     // safely stop motors if the command is interrupted or destroyed
     override fun onDestroy() = RBrake.killMotors()

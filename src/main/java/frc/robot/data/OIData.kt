@@ -1,3 +1,4 @@
+// Reset Robotics 2019
 package frc.robot.data
 
 
@@ -36,6 +37,10 @@ public data class OIData(val isCteative: Boolean = true)
     val xboxYButton = NamedIDs("Xbox-Y-Button", 4)
     val xboxLeftBumper = NamedIDs("Xbox-Left-Bumper", 5)
     val xboxRightBumper = NamedIDs("Xbox-Right-Bumper", 6)
+    val xboxLeftBumperAxis = NamedIDs("Xbox-Left-Bumper-Axis", 2)
+    val xboxRightBumperAxis = NamedIDs("Xbox-Right-Bumper-Axis", 3)
+    var xboxLeftTriggerAxis = NamedIDs("Xbox-Left-Trigger-Axis", 3)
+    var xboxRightTriggerAxis = NamedIDs("Xbox-Right-Trigger-Axis", 2)
     val xboxBackButton = NamedIDs("Xbox-Back-Button", 7)
     val xboxLeftJoystickButton = NamedIDs("Xbox-Left-Joystick-Button", 8)
     val xboxRightJoystickButton = NamedIDs("Xbox-Right-Joystick-Button", 9) 

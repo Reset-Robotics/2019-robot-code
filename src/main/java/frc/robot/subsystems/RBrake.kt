@@ -1,5 +1,7 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
@@ -9,7 +11,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.DigitalInput
-import frc.robot.Mag
+// Robot Class
+import frc.robot.Orthus
+// Miscellaneous Imports
 import frc.robot.commands.RBrake.RBrakeSlave
 import frc.robot.OI
 import frc.robot.data.RBrakeData
@@ -26,17 +30,12 @@ public object RBrake : Subsystem()
     val deadzone: Double = 0.1
   
     override fun onCreate()
-    {
-        /*rBrakeMotor.configFactoryDefault()
-        rBrakeMotor.configContinuousCurrentLimit(40,0) // Desired current after limit
-		rBrakeMotor.configPeakCurrentLimit(35, 0) // Max current
-		rBrakeMotor.configPeakCurrentDuration(100, 0) // How long after max current to be limited (ms)
-		rBrakeMotor.enableCurrentLimit(true)*/
+    { 
     }
 
-    fun rBrake() { resetEncoders() }
+    fun rBrake() = resetEncoders()
 
-    fun driveRBrake(pow: Double) { rBrakeMotor.set(pow) }
+    fun driveRBrake(pow: Double) = rBrakeMotor.set(pow)
     
     fun deployIn()
     { 
@@ -70,6 +69,7 @@ public object RBrake : Subsystem()
         antiMode = true
         runAntilockMode()
     }
+
     fun antilockModeDisable(){ antiMode = false }
 
     fun runAntilockMode()
@@ -82,33 +82,24 @@ public object RBrake : Subsystem()
         when(antiMode)
         {
             true -> { driveRBrake(1.0)
-                if (System.currentTimeMillis() - startTime > 0.05 ) 
-                {// arbitrary delay; needs testing
+                if (System.currentTimeMillis() - startTime > 0.05 ) // arbitrary delay; needs testing
+                {
                     killMotors()
                 }
             }
         }
 
         if (antiMode == false)
-        {
             killMotors()
-        }
-    }
+    }  
 
-    /* fun isLimitSwitchTriggered(): Boolean
-    {
-        return limitSwitch.get()
-    }*/
-    
-
-    fun killMotors() { rBrakeMotor.set(0.0) }
-    fun resetMotorPositions() { rBrakeMotor.set(0.0) }
-    fun resetEncoders() { this.rBrakeMotor.setSelectedSensorPosition(0, 0, 0) }
-    fun getEncoder(): Int { return rBrakeMotor.getSelectedSensorPosition(0); }
-    fun getSpeed(): Double { return rBrakeMotor.get(); }
-    fun getAntilockMode(): Boolean { return antiMode }
-    fun getRBrakeStatus(): Boolean { return isDeployed }
-    
+    fun killMotors() = rBrakeMotor.set(0.0)
+    fun resetMotorPositions() = rBrakeMotor.set(0.0)
+    fun resetEncoders() = this.rBrakeMotor.setSelectedSensorPosition(0, 0, 0)
+    fun getEncoder(): Int = return rBrakeMotor.getSelectedSensorPosition(0);
+    fun getSpeed(): Double = return rBrakeMotor.get();
+    fun getAntilockMode(): Boolean = return antiMode;
+    fun getRBrakeStatus(): Boolean = return isDeployed;
     
     override val defaultCommand = RBrakeSlave()
 }

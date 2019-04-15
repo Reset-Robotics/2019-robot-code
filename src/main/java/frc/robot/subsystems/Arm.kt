@@ -1,10 +1,14 @@
+// Reset Robotics 2019
 package frc.robot.subsystems
 
+// Libraries
 import org.sertain.command.Subsystem
 import com.ctre.phoenix.motorcontrol.*
 import com.ctre.phoenix.motorcontrol.can.*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice.*
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+import edu.wpi.first.wpilibj.PIDController
+// Miscellaneous Imports
 import frc.robot.data.ArmData
 import frc.robot.commands.Arm.ArmJoystick
 
@@ -12,19 +16,20 @@ import frc.robot.commands.Arm.ArmJoystick
 public object Arm : Subsystem()
 { 
     val armData : ArmData = ArmData()
-    val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor)   
+    val armMotor: WPI_TalonSRX = WPI_TalonSRX(armData.motor) 
+    val intCruiseVelocity: Int = armData.cruiseVelocity.data.toInt()
+    val intAcceleration: Int = armData.acceleration.data.toInt()
+    //PID Loop
+    //var turnController: PIDController = PIDController(armData.pidP, armData.pidI, armData.pidD, armData.pidF, ArmPidSource , ArmPidWrite , 0.05)
 
+    // Motion Magic
+    var armTargetPosistionJoystick: Double = 0.0
     override fun onCreate()
     {
         armMotor.configFactoryDefault()
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, armData.kPIDLoopIdx, armData.kTimeoutMs)
 
         armMotor.setNeutralMode(NeutralMode.Brake)
-        /*
-		 * Configure Talon SRX Output and Sesnor direction accordingly
-		 * Invert Motor to have green LEDs when driving Talon Forward / Requesting Postiive Output
-		 * Phase sensor to have positive increment when driving Talon Forward (Green LED)
-		 */
         armMotor.setSensorPhase(true)
         armMotor.setInverted(false)
         /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -41,25 +46,39 @@ public object Arm : Subsystem()
 		armMotor.config_kP(armData.leftKSlotIdx, armData.kGainskP, armData.kTimeoutMs);
 		armMotor.config_kI(armData.leftKSlotIdx, armData.kGainskI, armData.kTimeoutMs);
 		armMotor.config_kD(armData.leftKSlotIdx, armData.kGainskD, armData.kTimeoutMs);
+        armMotor.configMotionCruiseVelocity(intCruiseVelocity)
+        armMotor.configMotionAcceleration(intAcceleration)
+        armMotor.configContinuousCurrentLimit(27, 27) // desired current after limit
+        armMotor.configPeakCurrentLimit(30, 27)//max current
+        armMotor.configPeakCurrentDuration(100,10)  // how long after max current to be limited (ms)
+        armMotor.enableCurrentLimit(true) 
         
         ResetEncoder()
     }
 
-    fun ResetEncoder(){ armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) }
+    fun ResetEncoder()
+    {
+         armMotor.setSelectedSensorPosition(0, armData.kPIDLoopIdx, armData.kTimeoutMs) 
+        //armMotor.set(ControlMode.MotionMagic, 0.0)
+    }
 
     fun Arm()
     {
-        //current limiting
-        armMotor.configContinuousCurrentLimit(40,0) // desired current after limit
-        armMotor.configPeakCurrentLimit(35,0)//max current
-        armMotor.configPeakCurrentDuration(100,0)  // how long after max current to be limited (ms)
-        armMotor.enableCurrentLimit(true) 
     }
 
-    fun move(speed: Double){ armMotor.set(ControlMode.PercentOutput, speed) }
-    fun killMotors(){ armMotor.set(0.0) }
+    fun move(speed: Double)
+    {
+        if (false)
+        {
+            armTargetPosistionJoystick = armTargetPosistionJoystick+speed* 100
+            armMotor.set(ControlMode.MotionMagic, armTargetPosistionJoystick)
+        }
+        else
+            armMotor.set(ControlMode.PercentOutput, speed) 
+    }
+    fun killMotors() = armMotor.set(0.0)
 
-    //elevator Motion Magic
+    // Arm Motion Magic
     fun armMotionMagic (newArmState: String)
     {
         var targetPos = newArmState
@@ -77,14 +96,22 @@ public object Arm : Subsystem()
                 armMotor.set(ControlMode.MotionMagic, armData.bottomHeight.data)
                 armData.armState = "Bottom"
             }
+            "ScoringUp" -> {
+                armMotor.set(ControlMode.MotionMagic, armData.scoringHeightUp.data) 
+                armData.armState = "ScoringUp"
+            }
+            "ScoringDown" -> {
+                armMotor.set(ControlMode.MotionMagic, armData.scoringHeightDown.data) 
+                armData.armState = "ScoringDown"
+            }
         } 
     }
 
     // Returning the state the arm is in 
-    fun returnArmState(): String { return armData.armState; }
+    fun returnArmState(): String = return armData.armState;
 
     // Functions for getting encoder values
-    fun getEncoderRawArm(): Int { return armMotor.getSelectedSensorPosition(0); }
+    fun getEncoderRawArm(): Double = return armMotor.getSelectedSensorPosition(0).toDouble();
 
     override val defaultCommand = ArmJoystick()
 }

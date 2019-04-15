@@ -1,18 +1,20 @@
+// Reset Robotics 2019
 package frc.robot.commands.Drive
 
+// Libraries
 import org.sertain.command.Command
-import frc.robot.Mag
+// Subsystems
 import frc.robot.subsystems.Drivetrain
+// Robot Class
+import frc.robot.Orthus
 
 
 public class ResetGyro : Command()
 {
-	
-
-	// Called just before this Command runs the first time
 	override fun execute(): Boolean
 	{
 		Drivetrain.resetGyro()
+
 		return true;
 	}
 }

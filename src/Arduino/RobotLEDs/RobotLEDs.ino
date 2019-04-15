@@ -1,17 +1,23 @@
+// Reset Robotics 2019
 #include "FAB_LED.h"
-#include "resetLEDs.h"
+#include "resetLEDs0.h"
+#include "resetLEDs1.h"
+#include "resetLEDs2.h"
+#include "resetLEDs3.h"
+#include "resetLEDs4.h"
+#include "resetLEDs5.h"
+#include "resetLEDs6.h"
+#include "resetLEDs7.h"
 #include "Arduino.h"
-#include <Wire.h>
+//#include <Wire.h>
 
-  
+
 grbw purple;  grbw reset_purple;  grbw white;  grbw off; uint8_t offsets[] = {0, 10, 20};
-//static sk6812<D, 1> LEDstrip1;
-//const unsigned char port = '6';
-//resetLEDs LED_strip(36, port);
-resetLEDs LED_strip(36);
+resetLEDs0 LED_strip(36);
+
 void setup() 
 {
-  Wire.begin(63);
+  //Wire.begin(63);
 
   // Decleration of colors and offset values
   purple.r = 55; purple.g = 0; purple.b = 55; purple.w = 0;
@@ -23,10 +29,9 @@ void setup()
   off.r = 0; off.g = 0; off.b = 0; off.w = 0;
 }
 
-
-
 void loop() 
 {
+  /*
   int input = 1;
 
   // I2C data from Rio
@@ -46,7 +51,7 @@ void loop()
        input |= (received << 8);
     }
   }
-
+` */
   // Decleration of colors and offset values
   /*
   grbw purple;
@@ -60,7 +65,7 @@ void loop()
   
   grbw off;
   off.r = 0; off.g = 0; off.b = 0; off.w = 0;
-  */
+  
   
   // Calling the desired method
   switch (input) {
@@ -78,6 +83,7 @@ void loop()
     LED_strip.strip_breathe(30, purple, 0, 1, 0.025);  
     //LED_strip.strip_breathe(30, purple, 0, 1, 0.025);
     break;
+    */
   }
   
   // Uncomment to clear the strip after each loop() iteration
