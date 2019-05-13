@@ -18,10 +18,15 @@ public class TankJoystickDrive : Command()
     override fun execute(): Boolean
     {
         // TODO: implement throttle slider
-		val left: Double = -OI().joystickLeft.getY()
+		var left: Double = -OI().joystickLeft.getY()
         //System.err.println("left joystick output number is " + left);
-		val right: Double = -OI().joystickRight.getY()
+		var right: Double = -OI().joystickRight.getY()
 		//System.err.println("right joystick output number is " + right);
+
+        // Deadzones
+        if (Math.abs(left) < 0.2) left = 0.0
+        if (Math.abs(right) < 0.2) right = 0.0
+
         Drivetrain.drive(left, right)
 
         return false;

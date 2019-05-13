@@ -28,12 +28,13 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     // drive motors
     // motor 0 is the climber
-    val frontLeft: WPI_TalonSRX = WPI_TalonSRX(7)
-	val leftDriveMaster: WPI_TalonSRX = WPI_TalonSRX(2);
-	val backLeft: WPI_VictorSPX = WPI_VictorSPX (9);
-	val frontRight: WPI_VictorSPX = WPI_VictorSPX(4);
-	val rightDriveMaster: WPI_TalonSRX = WPI_TalonSRX(3);
-    val backRight: WPI_VictorSPX = WPI_VictorSPX(8);
+    val leftMaster: WPI_TalonSRX = WPI_TalonSRX(11)
+	val leftSlaveTalon: WPI_TalonSRX = WPI_TalonSRX(12);
+	val leftSlaveVictor: WPI_VictorSPX = WPI_VictorSPX(18);
+
+	val rightMaster: WPI_TalonSRX = WPI_TalonSRX(13);
+	val rightSlaveTalon: WPI_TalonSRX = WPI_TalonSRX(10);
+    val rightSlaveVictor: WPI_VictorSPX = WPI_VictorSPX(17);
 
     // PID values for turning to angles; PIDF stored in IDs()
     val turnThreshold: Double = 2.0 // how many degrees the robot has to be within for it to stop looking for the required angle
@@ -50,33 +51,32 @@ public object Drivetrain : Subsystem(), PIDOutput
     override fun onCreate()
     {
         // Set Followers
-		this.backLeft.follow(leftDriveMaster)
-		this.frontLeft.follow(leftDriveMaster)
-		this.backRight.follow(rightDriveMaster)
-		this.frontRight.follow(rightDriveMaster)
+		this.leftSlaveTalon.follow(leftMaster)
+		this.leftSlaveVictor.follow(leftMaster)
+		this.rightSlaveVictor.follow(rightMaster)
+		this.rightSlaveTalon.follow(rightMaster)
 		// Set up Encoders
-		this.leftDriveMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-		this.rightDriveMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+		this.leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+		this.rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
 		// Inverse motors
-		this.rightDriveMaster.setInverted(true)
-		this.backRight.setInverted(true)
-		this.frontRight.setInverted(true)
-		this.leftDriveMaster.setInverted(false)
-		this.backLeft.setInverted(false)
-		this.frontLeft.setInverted(true)
-		this.rightDriveMaster.setSensorPhase(false)
+		this.rightMaster.setInverted(true)
+		this.rightSlaveTalon.setInverted(false)
+		this.rightSlaveVictor.setInverted(false)
+		this.leftMaster.setInverted(false)
+		this.leftSlaveTalon.setInverted(false)
+		this.leftSlaveVictor.setInverted(true)
 		// Set Talon Mode
-		this.leftDriveMaster.setNeutralMode(NeutralMode.Brake)
-        this.rightDriveMaster.setNeutralMode(NeutralMode.Brake)
+		this.leftMaster.setNeutralMode(NeutralMode.Brake)
+        this.rightMaster.setNeutralMode(NeutralMode.Brake)
 		// Current Limiting
-		this.leftDriveMaster.configContinuousCurrentLimit(40,0) // desired current after limit
-		this.leftDriveMaster.configPeakCurrentLimit(35, 0) // max current
-		this.leftDriveMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
-		this.leftDriveMaster.enableCurrentLimit(true)
-		this.rightDriveMaster.configContinuousCurrentLimit(40,0) // desired current after limit
-		this.rightDriveMaster.configPeakCurrentLimit(35, 0) // max current
-		this.rightDriveMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
-        this.rightDriveMaster.enableCurrentLimit(true)
+		this.leftMaster.configContinuousCurrentLimit(40,0) // desired current after limit
+		this.leftMaster.configPeakCurrentLimit(35, 0) // max current
+		this.leftMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+		this.leftMaster.enableCurrentLimit(true)
+		this.rightMaster.configContinuousCurrentLimit(40,0) // desired current after limit
+		this.rightMaster.configPeakCurrentLimit(35, 0) // max current
+		this.rightMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+        this.rightMaster.enableCurrentLimit(true)
 
         // zero gyro yaw
         resetGyro()
@@ -86,18 +86,18 @@ public object Drivetrain : Subsystem(), PIDOutput
     {
 
 		// Set Talon Mode
-		this.leftDriveMaster.setNeutralMode(NeutralMode.Brake)
-        this.rightDriveMaster.setNeutralMode(NeutralMode.Brake)
+		this.leftMaster.setNeutralMode(NeutralMode.Coast)
+        this.rightMaster.setNeutralMode(NeutralMode.Coast)
 
 		// Current Limiting
-		this.leftDriveMaster.configContinuousCurrentLimit(40,0) // desired current after limit
-		this.leftDriveMaster.configPeakCurrentLimit(35, 0) // max current
-		this.leftDriveMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
-		this.leftDriveMaster.enableCurrentLimit(true)
-		this.rightDriveMaster.configContinuousCurrentLimit(40,0) // desired current after limit
-		this.rightDriveMaster.configPeakCurrentLimit(35, 0) // max current
-		this.rightDriveMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
-        this.rightDriveMaster.enableCurrentLimit(true)
+		this.leftMaster.configContinuousCurrentLimit(40,0) // desired current after limit
+		this.leftMaster.configPeakCurrentLimit(35, 0) // max current
+		this.leftMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+		this.leftMaster.enableCurrentLimit(true)
+		this.rightMaster.configContinuousCurrentLimit(40,0) // desired current after limit
+		this.rightMaster.configPeakCurrentLimit(35, 0) // max current
+		this.rightMaster.configPeakCurrentDuration(100, 0) // how long after max current to be limited (ms)
+        this.rightMaster.enableCurrentLimit(true)
 
 		resetGyro()
         resetEncoders()
@@ -105,13 +105,13 @@ public object Drivetrain : Subsystem(), PIDOutput
 
 	fun drive(leftVal: Double, rightVal: Double) 
     {
-    	leftDriveMaster.set(leftVal)
-    	rightDriveMaster.set(rightVal)
+    	leftMaster.set(leftVal)
+    	rightMaster.set(rightVal)
     }
     fun killMotors() 
     {
-    	rightDriveMaster.set(0.0)
-    	leftDriveMaster.set(0.0)
+    	rightMaster.set(0.0)
+    	leftMaster.set(0.0)
     }
 
     fun resetGyro()
@@ -122,14 +122,14 @@ public object Drivetrain : Subsystem(), PIDOutput
 
     fun resetMotorPositions()
     {
-        rightDriveMaster.set(0.0)
-        leftDriveMaster.set(0.0)
+        rightMaster.set(0.0)
+        leftMaster.set(0.0)
     }
 
     fun resetEncoders()
     {
-        this.rightDriveMaster.setSelectedSensorPosition(0, 0, 0)
-        this.leftDriveMaster.setSelectedSensorPosition(0, 0, 0)
+        this.rightMaster.setSelectedSensorPosition(0, 0, 0)
+        this.leftMaster.setSelectedSensorPosition(0, 0, 0)
     }
 
     fun getAngle(): Float{ return navx.getYaw(); }
